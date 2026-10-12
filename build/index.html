@@ -660,140 +660,285 @@ function inspect(n,model,lang){
  }
 }
 
-/* ---------- intent table. keywords are per language, lowercased ---------- */
-var INTENTS=[
- {k:'promises', en:['promise','promised','commit','owe','due','overdue','said we'],
-  fa:['قول','تعهد','متعهد','موعد','سرموعد','گذشته']},
- {k:'clients', en:['client','customer','account','deal','sales','revenue'],
-  fa:['مشتری','حساب','قرارداد','فروش','درآمد']},
- {k:'queued', en:['waiting','queue','queued','blocked','depend','bottleneck','stuck'],
-  fa:['انتظار','منتظر','معطل','وابست','گلوگاه','بلوکه']},
- {k:'recurring', en:['recur','again','repeat','keeps','week','old','long','stale'],
-  fa:['تکرار','باز','هفته','قدیمی','طولانی','مدام']},
- {k:'coverage', en:["can't see",'cannot see','blind','coverage','missing','not record','unheard'],
-  fa:['نمی‌بین','نمی‌بینیم','پوشش','غایب','ضبط نمی','ناشنیده','کور']},
- {k:'converged', en:['convergen','corroborat','independent','threshold','confirmed','real'],
-  fa:['همگرایی','تأیید','مستقل','آستانه','واقعی']},
- {k:'priorities', en:['priorit','goal','strateg','quarter','plan','declared','focus'],
-  fa:['اولویت','هدف','استراتژ','فصل','برنامه','اعلام','تمرکز']},
- {k:'people', en:['who','person','people','role','team','everyone','staff'],
-  fa:['کی','چه کسی','نفر','نقش','تیم','افراد','کارمند']},
- {k:'risk', en:['risk','worst','urgent','worry','worried','attention','problem'],
-  fa:['ریسک','خطر','بدترین','فوری','نگران','توجه','مسئله']},
- {k:'help', en:['help','what can','example','how do','ask'],
-  fa:['کمک','چه می','نمونه','چطور','بپرس']},
-];
+/* ---------- vocabulary. per language, lowercased ---------- */
+var VOC = {
+ source:{
+  clients:{en:['client','customer','account','sales','deal','revenue','commercial'],
+           fa:['مشتری','حساب','فروش','قرارداد','درآمد','تجاری']},
+  people:{en:['who','person','people','role','team','staff','colleague','everyone'],
+          fa:['کی','چه کسی','نفر','نقش','تیم','کارمند','همکار','افراد']},
+  priorities:{en:['priorit','goal','strateg','quarter','objective','plan','focus'],
+              fa:['اولویت','هدف','استراتژ','فصل','برنامه','تمرکز']},
+  work:{en:['item','issue','problem','work','everything','all','thing','task'],
+        fa:['مورد','مسئله','مشکل','کار','همه','چیز','وظیفه']},
+  promises:{en:['promise','commit','owe','said we','pledge'],
+            fa:['قول','تعهد','متعهد','قرار شد']},
+  coverage:{en:['coverage','blind','cannot see',"can't see",'missing','unheard','hear'],
+            fa:['پوشش','کور','نمی‌بین','غایب','ناشنیده','می‌شنو']},
+ },
+ filter:{
+  overdue:{en:['overdue','past','late','expired','missed'],
+           fa:['گذشته','دیر','سرموعد','از موعد']},
+  recurring:{en:['recur','repeat','again','keeps','chronic','every week'],
+             fa:['تکرار','مدام','هر هفته','مزمن']},
+  corroborated:{en:['corroborat','independent','confirmed','threshold','real','verified'],
+                fa:['تأیید','مستقل','آستانه','واقعی','محقق']},
+  solo:{en:['one person','single','alone','only one','uncorroborat'],
+        fa:['یک نفر','تنها','یک‌نفره','تأییدنشده']},
+  risky:{en:['risk','worst','urgent','attention','worry','critical','bad'],
+         fa:['ریسک','خطر','بدترین','فوری','توجه','نگران','بحران']},
+  friction:{en:['problem','issue','trouble','wrong','broken','stuck'],
+            fa:['مسئله','مشکل','خراب','گیر','اشکال']},
+  open:{en:['open','still','outstanding','unresolved','pending'],
+        fa:['باز','هنوز','حل‌نشده','معلق']},
+  missing:{en:['missing','not record','silent','quiet','absent'],
+           fa:['غایب','ضبط نمی','ساکت','بی‌صدا']},
+ },
+ group:{
+  topic:{en:['by topic','per topic','topic'],fa:['موضوع','بر اساس موضوع']},
+  dept:{en:['by department','per department','by team','per team','department','team'],
+        fa:['دپارتمان','تیم','بر اساس دپارتمان']},
+  subject:{en:['by client','per client','by account','by subject'],
+           fa:['بر اساس مشتری','هر مشتری','سوژه']},
+ },
+ agg:{
+  count:{en:['how many','count','number of','total'],
+         fa:['چند','تعداد','شمار','جمع']},
+ },
+ build:{en:['build','make','create','show me','dashboard','report','give me'],
+        fa:['بساز','درست کن','نشانم','داشبورد','گزارش','بده']},
+};
 
-function intentOf(q){
- var s=(q||'').toLowerCase(),best=null,hits=0;
- INTENTS.forEach(function(it){
-  var n=0;
-  (it.en||[]).forEach(function(w){if(s.indexOf(w)>=0)n++});
-  (it.fa||[]).forEach(function(w){if(s.indexOf(w)>=0)n++});
-  if(n>hits){hits=n;best=it.k}});
- return hits?best:null;
-}
+function anyOf(s,set,lang){
+ var list=(set[lang]||[]).concat(set.en||[]);
+ for(var i=0;i<list.length;i++)if(s.indexOf(list[i])>=0)return true;
+ return false}
 
-/* ---------- answer rendering helpers ---------- */
-function A_rows(cols,rows){
+/* departments and topics named explicitly in the question */
+function namedDepts(s,lang){
+ var out=[];
+ Object.keys(DATA.dept).forEach(function(k){
+  var n=(DATA.dept[k][lang]||'').toLowerCase();
+  if(n&&s.indexOf(n)>=0)out.push(k);
+  var en=(DATA.dept[k].en||'').toLowerCase();
+  if(en&&s.indexOf(en)>=0&&out.indexOf(k)<0)out.push(k)});
+ return out}
+
+function daysThreshold(s){
+ var m=s.match(/(\d+)\s*(day|days|روز)/);
+ if(m)return parseInt(m[1],10);
+ if(/fortnight|two weeks|دو هفته/.test(s))return 14;
+ if(/month|ماه/.test(s))return 30;
+ if(/week|هفته/.test(s))return 7;
+ return null}
+
+/* ---------- the compiler ---------- */
+function parse(q,M){
+ var s=(q||'').toLowerCase().trim(),L=M.lang;
+ var spec={source:null,filters:[],groupBy:null,agg:null,
+           depts:namedDepts(s,L),days:daysThreshold(s),
+           wantsBuild:anyOf(s,VOC.build,L),raw:q};
+
+ Object.keys(VOC.source).forEach(function(k){
+  if(!spec.source&&anyOf(s,VOC.source[k],L))spec.source=k});
+ Object.keys(VOC.filter).forEach(function(k){
+  if(anyOf(s,VOC.filter[k],L))spec.filters.push(k)});
+ Object.keys(VOC.group).forEach(function(k){
+  if(!spec.groupBy&&anyOf(s,VOC.group[k],L))spec.groupBy=k});
+ Object.keys(VOC.agg).forEach(function(k){
+  if(anyOf(s,VOC.agg[k],L))spec.agg=k});
+
+ /* a department named but not recording is a coverage answer, not a failure */
+ if(!spec.source&&spec.depts.length===0){
+  var unknown=unknownDept(s,L);
+  if(unknown){spec.source='absent';spec.absent=unknown}
+ }
+ if(!spec.source&&spec.depts.length)spec.source='work';
+ if(!spec.source&&spec.filters.length)spec.source='work';
+ return spec}
+
+/* names of departments the product knows but this company isn't recording */
+function unknownDept(s,lang){
+ var all=Object.keys(DATA.dept),hit=null;
+ all.forEach(function(k){
+  var n=(DATA.dept[k][lang]||'').toLowerCase(),en=(DATA.dept[k].en||'').toLowerCase();
+  if((n&&s.indexOf(n)>=0)||(en&&s.indexOf(en)>=0))hit=k});
+ if(hit)return null;             /* it exists and is selected — handled above */
+ var EXTRA={marketing:{en:'Marketing',fa:'بازاریابی',
+             words:{en:['marketing','brand','campaign','advert'],
+                    fa:['بازاریابی','برند','کمپین','تبلیغ']}},
+            support:{en:'Support',fa:'پشتیبانی',
+             words:{en:['support','helpdesk','service desk'],
+                    fa:['پشتیبانی','خدمات مشتری']}},
+            legal:{en:'Legal',fa:'حقوقی',
+             words:{en:['legal','contract team','compliance'],
+                    fa:['حقوقی','انطباق']}}};
+ var found=null;
+ Object.keys(EXTRA).forEach(function(k){
+  if(anyOf(s,EXTRA[k].words,lang))found=EXTRA[k]});
+ return found}
+
+/* ---------- execution ---------- */
+function run(spec,M){
+ var L=M.lang,Q=QRY[L];
+ var ents=M.ents.slice(),people=M.people.slice();
+ var desc=[];
+
+ if(spec.source==='absent'){
+  return {kind:'absent',name:spec.absent[L]||spec.absent.en,
+          recording:M.depts.map(function(d){return DATA.dept[d][L]})}}
+
+ if(spec.source==='coverage'){
+  var miss={};ents.forEach(function(e){
+   (e.missing||[]).forEach(function(d){miss[d]=(miss[d]||0)+1})});
+  return {kind:'coverage',rows:Object.keys(miss).map(function(d){
+   return {k:d,n:miss[d]}}),
+   recording:M.depts.map(function(d){return DATA.dept[d][L]})}}
+
+ if(spec.source==='priorities'){
+  var rows=M.prio.slice();
+  if(spec.filters.indexOf('missing')>=0||spec.filters.indexOf('risky')>=0)
+   {rows=rows.filter(function(p){return p.status!=='tracked'});
+    desc.push(Q.d.notTracked)}
+  return {kind:'priorities',rows:rows,desc:desc}}
+
+ if(spec.source==='promises'){
+  var rows=M.promises.slice();
+  if(spec.filters.indexOf('overdue')>=0){
+   rows=rows.filter(function(p){return p.age>7});desc.push(Q.d.overdue)}
+  if(spec.days){rows=rows.filter(function(p){return p.age>spec.days});
+   desc.push(Q.d.olderThan(spec.days))}
+  rows.sort(function(a,b){return b.age-a.age});
+  return {kind:'promises',rows:rows,desc:desc}}
+
+ if(spec.source==='people'){
+  var rows=people;
+  if(spec.depts.length){rows=rows.filter(function(p){
+   return spec.depts.indexOf(p.dept)>=0});
+   desc.push(Q.d.inDept(spec.depts.map(function(d){return DATA.dept[d][L]})))}
+  if(spec.filters.indexOf('risky')>=0||spec.filters.indexOf('open')>=0)
+   {rows=rows.filter(function(p){return p.waiting>0});desc.push(Q.d.waiting)}
+  rows=rows.slice().sort(function(a,b){
+   return (b.waiting-a.waiting)||(b.notes.length-a.notes.length)});
+  return {kind:'people',rows:rows,desc:desc}}
+
+ /* default: work items, with filters composed */
+ var rows=ents;
+ if(spec.source==='clients'){
+  rows=rows.filter(function(e){return e.kind==='client'});
+  desc.push(Q.d.clientOnly)}
+ if(spec.depts.length){
+  rows=rows.filter(function(e){
+   return e.deptIds.some(function(d){return spec.depts.indexOf(d)>=0})});
+  desc.push(Q.d.touching(spec.depts.map(function(d){return DATA.dept[d][L]})))}
+ if(spec.filters.indexOf('friction')>=0||spec.filters.indexOf('open')>=0||
+    spec.filters.indexOf('risky')>=0){
+  rows=rows.filter(function(e){return e.friction});desc.push(Q.d.withProblem)}
+ if(spec.filters.indexOf('recurring')>=0){
+  rows=rows.filter(function(e){return e.weeks>2});desc.push(Q.d.recurring)}
+ if(spec.filters.indexOf('corroborated')>=0){
+  rows=rows.filter(function(e){return e.indep>=3});desc.push(Q.d.corroborated)}
+ if(spec.filters.indexOf('solo')>=0){
+  rows=rows.filter(function(e){return e.indep<2});desc.push(Q.d.solo)}
+ if(spec.filters.indexOf('missing')>=0){
+  rows=rows.filter(function(e){return (e.missing||[]).length>0});
+  desc.push(Q.d.teamMissing)}
+ if(spec.days){rows=rows.filter(function(e){return e.days>spec.days});
+  desc.push(Q.d.olderThan(spec.days))}
+
+ if(spec.filters.indexOf('risky')>=0)
+  rows.sort(function(a,b){return (b.indep*100+b.days)-(a.indep*100+a.days)});
+ else rows.sort(function(a,b){return b.days-a.days});
+
+ if(spec.groupBy){
+  var key=spec.groupBy==='dept'?null:spec.groupBy;
+  var g={};
+  rows.forEach(function(e){
+   var ks=spec.groupBy==='dept'?e.depts:[spec.groupBy==='topic'?e.topic:e.subject];
+   ks.forEach(function(k){g[k]=g[k]||{n:0,days:0};g[k].n++;
+    g[k].days=Math.max(g[k].days,e.days)})});
+  return {kind:'grouped',by:spec.groupBy,rows:Object.keys(g).map(function(k){
+   return {k:k,n:g[k].n,days:g[k].days}}).sort(function(a,b){return b.n-a.n}),
+   desc:desc,total:rows.length}}
+
+ return {kind:'items',rows:rows,desc:desc,agg:spec.agg}}
+
+/* ---------- rendering ---------- */
+function Q_tbl(cols,rows){
  if(!rows.length)return '';
  return '<div class="atw"><table class="at"><thead><tr>'+
   cols.map(function(c){return '<th>'+c+'</th>'}).join('')+'</tr></thead><tbody>'+
   rows.map(function(r){return '<tr>'+r.map(function(c){
-   return '<td>'+c+'</td>'}).join('')+'</tr>'}).join('')+
-  '</tbody></table></div>';
-}
-function A_n(v){return '<span class="num">'+v+'</span>'}
+   return '<td>'+c+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table></div>'}
+function Q_n(v){return '<span class="num">'+v+'</span>'}
 
-/* ---------- the engine. One function, so a server proxy can replace it ---- */
-function answer(q,M){
- var FA=M.lang==='fa',W=ASK[M.lang],k=intentOf(q);
- var cl=M.ents.filter(function(e){return e.kind==='client'});
+function render(res,spec,M){
+ var L=M.lang,Q=QRY[L],FA=L==='fa';
  var fa=function(t){return '<span class="'+(FA?'fa':'')+'">'+t+'</span>'};
  var join=function(a){return a.join(FA?'، ':', ')};
+ var ran=function(d){return d&&d.length?
+  '<div class="aq">'+Q.ran+' '+d.join(' · ')+'</div>':''};
 
- if(!k)return {text:W.unsure,rows:'',cite:W.citeNone,
-               chips:W.examples.slice(0,3)};
+ if(res.kind==='absent')
+  return {text:Q.absent(res.name),rows:'',
+    cite:Q.absentCite(join(res.recording)),chips:Q.chips};
 
- if(k==='help')
-  return {text:W.helpText,rows:'',cite:W.citeNone,chips:W.examples};
+ if(res.kind==='coverage')
+  return {text:Q.coverage(res.recording.length,res.rows.length),
+    rows:Q_tbl([Q.c.dept,Q.c.items],res.rows.map(function(r){
+     return [fa(r.k),Q_n(r.n)]})),
+    cite:Q.coverageCite};
 
- if(k==='promises'){
-  var over=M.promises.filter(function(p){return p.age>7});
-  return {text:W.promises(M.promises.length,over.length),
-    rows:A_rows([W.c.promised,W.c.subject,W.c.days],
-      M.promises.sort(function(a,b){return b.age-a.age}).map(function(p){
-       return [fa(p.what),fa(p.subject),A_n(p.age)]})),
-    cite:W.citeFrom(M.promises.length,W.src.promises)};
- }
- if(k==='clients'){
-  var solo=cl.filter(function(e){return e.indep<2});
-  return {text:W.clients(cl.length,solo.length),
-    rows:A_rows([W.c.subject,W.c.topic,W.c.indep,W.c.days],
-      cl.sort(function(a,b){return b.days-a.days}).map(function(e){
-       return [fa(e.subject),fa(e.topic),A_n(e.indep+'/'+e.reports),A_n(e.days)]})),
-    cite:W.citeFrom(cl.length,W.src.clients)};
- }
- if(k==='queued'){
-  var rows=M.people.filter(function(p){return p.waiting>0})
-    .sort(function(a,b){return b.waiting-a.waiting});
-  return {text:rows.length?W.queued(rows.length):W.queuedNone,
-    rows:A_rows([W.c.who,W.c.dept,W.c.queued],rows.map(function(p){
-     return [fa(p.name),fa(DATA.dept[p.dept][M.lang]),A_n(p.waiting)]})),
-    cite:W.structural};
- }
- if(k==='recurring'){
-  var rec=M.ents.filter(function(e){return e.friction&&e.weeks>2})
-    .sort(function(a,b){return b.weeks-a.weeks});
-  return {text:rec.length?W.recurring(rec.length):W.recurringNone,
-    rows:A_rows([W.c.item,W.c.topic,W.c.weeks,W.c.days],rec.map(function(e){
-     return [fa(e.label),fa(e.topic),A_n(e.weeks),A_n(e.days)]})),
-    cite:W.citeFrom(rec.length,W.src.recurring)};
- }
- if(k==='coverage'){
-  var miss={};M.ents.forEach(function(e){
-   (e.missing||[]).forEach(function(d){miss[d]=(miss[d]||0)+1})});
-  var rows=Object.keys(miss).map(function(d){return [fa(d),A_n(miss[d])]});
-  return {text:W.coverage(M.depts.length,rows.length),
-    rows:A_rows([W.c.dept,W.c.items],rows),
-    cite:W.coverageCite};
- }
- if(k==='converged'){
-  var conv=M.ents.filter(function(e){return e.fired});
-  return {text:conv.length?W.converged(conv.length):W.convergedNone,
-    rows:A_rows([W.c.topic,W.c.subject,W.c.indep,W.c.teams],
-      conv.map(function(e){return [fa(e.topic),fa(e.subject),
-       A_n(e.indep+'/'+e.reports),fa(join(e.depts))]})),
-    cite:W.convergedCite};
- }
- if(k==='priorities'){
-  var bad=M.prio.filter(function(p){return p.status!=='tracked'});
-  return {text:W.priorities(M.prio.length,bad.length),
-    rows:A_rows([W.c.prio,W.c.items,W.c.mentions,W.c.state],
-      M.prio.map(function(p){return [fa(p.name),A_n(p.items),A_n(p.mentions),
-       p.status==='tracked'?W.tracked:(p.status==='gap'?W.gap:W.blocked)]})),
-    cite:W.prioritiesCite};
- }
- if(k==='people'){
-  return {text:W.people(M.people.length,M.depts.length),
-    rows:A_rows([W.c.who,W.c.dept,W.c.notes,W.c.queued],
-      M.people.slice().sort(function(a,b){return b.notes.length-a.notes.length})
-       .map(function(p){return [fa(p.name),fa(DATA.dept[p.dept][M.lang]),
-        A_n(p.notes.length),A_n(p.waiting)]})),
-    cite:W.peopleCite};
- }
- if(k==='risk'){
-  var r=M.ents.filter(function(e){return e.friction})
-   .sort(function(a,b){return (b.indep*100+b.days)-(a.indep*100+a.days)})
-   .slice(0,6);
-  return {text:W.risk(r.length),
-    rows:A_rows([W.c.item,W.c.indep,W.c.days,W.c.teams],r.map(function(e){
-     return [fa(e.label),A_n(e.indep+'/'+e.reports),A_n(e.days),
-             fa(join(e.depts))]})),
-    cite:W.riskCite};
- }
- return {text:W.unsure,rows:'',cite:W.citeNone,chips:W.examples.slice(0,3)};
+ if(res.kind==='priorities')
+  return {text:Q.priorities(res.rows.length,
+     res.rows.filter(function(p){return p.status!=='tracked'}).length),
+    rows:ran(res.desc)+Q_tbl([Q.c.prio,Q.c.items,Q.c.mentions,Q.c.state],
+     res.rows.map(function(p){return [fa(p.name),Q_n(p.items),Q_n(p.mentions),
+      p.status==='tracked'?Q.tracked:(p.status==='gap'?Q.gap:Q.blocked)]})),
+    cite:Q.prioCite};
+
+ if(res.kind==='promises')
+  return {text:Q.promises(res.rows.length,
+     res.rows.filter(function(p){return p.age>7}).length),
+    rows:ran(res.desc)+Q_tbl([Q.c.promised,Q.c.subject,Q.c.days],
+     res.rows.map(function(p){return [fa(p.what),fa(p.subject),Q_n(p.age)]})),
+    cite:Q.citeFrom(res.rows.length,Q.src.promises)};
+
+ if(res.kind==='people')
+  return {text:Q.people(res.rows.length,
+     res.rows.filter(function(p){return p.waiting>0}).length),
+    rows:ran(res.desc)+Q_tbl([Q.c.who,Q.c.dept,Q.c.notes,Q.c.queued],
+     res.rows.map(function(p){return [fa(p.name),fa(DATA.dept[p.dept][L]),
+      Q_n(p.notes.length),Q_n(p.waiting)]})),
+    cite:Q.peopleCite};
+
+ if(res.kind==='grouped')
+  return {text:Q.grouped(res.total,res.rows.length,Q.by[res.by]),
+    rows:ran(res.desc)+Q_tbl([Q.by[res.by],Q.c.items,Q.c.days],
+     res.rows.map(function(r){return [fa(r.k),Q_n(r.n),Q_n(r.days)]})),
+    cite:Q.citeFrom(res.total,Q.src.items)};
+
+ /* items */
+ if(res.agg==='count')
+  return {text:Q.countOnly(res.rows.length),rows:ran(res.desc),
+    cite:Q.citeFrom(res.rows.length,Q.src.items)};
+ if(!res.rows.length)
+  return {text:Q.empty,rows:ran(res.desc),cite:'',chips:Q.chips};
+ return {text:Q.items(res.rows.length),
+   rows:ran(res.desc)+Q_tbl([Q.c.subject,Q.c.topic,Q.c.indep,Q.c.days,Q.c.teams],
+    res.rows.map(function(e){return [fa(e.subject||e.label),fa(e.topic),
+     Q_n(e.indep+'/'+e.reports),Q_n(e.days),fa(join(e.depts))]})),
+   cite:Q.citeFrom(res.rows.length,Q.src.items)};
 }
+
+/* the one entry point. A server-side model would replace parse(), never this. */
+function answer(q,M){
+ var spec=parse(q,M);
+ if(!spec.source)
+  return {text:QRY[M.lang].unsure,rows:'',cite:'',chips:QRY[M.lang].chips};
+ var out=render(run(spec,M),spec,M);
+ if(spec.wantsBuild&&!out.chips)out.cite=(out.cite||'')+' '+QRY[M.lang].builtNote;
+ return out}
 
 /* ---------- panel wiring ---------- */
 function askInit(getModel){
@@ -801,7 +946,7 @@ function askInit(getModel){
      inp=document.getElementById('askin'),
      btn=document.getElementById('asksend');
  if(!log||!inp)return;
- var W=ASK[getModel().lang];
+ var W=QRY[getModel().lang];
 
  function chips(list){
   return '<div class="achips">'+list.map(function(c){
@@ -830,35 +975,7 @@ function askInit(getModel){
  add('it','<div class="atext">'+W.hello+'</div>'+chips(W.examples));
 }
 
-var ASK={};ASK["en"]={"hello": "Ask about this company. I compute answers from its notes rather than generating them, so I can show you the rows — and I can't make something up.",
-"unsure": "I don't have a query for that. I answer from this company's own records, so I'm limited to what people actually recorded. Try one of these:",
-"helpText": "I can answer from what this company's people recorded. Things worth asking:",
-"examples": ["What's at risk right now?", "Which promises are past their date?", "Who is waiting on someone?", "What keeps recurring?", "What can't you see?", "What's actually corroborated?", "Are we working on our priorities?"],
-"promises": function(n, o){ return "" + n + " commitments were made in conversation and have no recorded resolution. " + o + " are past the date that was stated out loud. None of these exist in a ticket system — that's why they go missing."; },
-"clients": function(n, s){ return "" + n + " client-facing issues are open. " + s + " of them have been raised by only one person, which means under the exposure rule they never reach leadership until somebody independently says the same thing."; },
-"queued": function(n){ return "" + n + " people have requests waiting on them. This describes the shape of the work, not how fast anyone is — there is no field in this system that rates a person."; },
-"queuedNone": "Nobody has requests queued behind them in this configuration.",
-"recurring": function(n){ return "" + n + " problems have been coming back for more than two weeks. Recurrence is the signal a close-the-ticket workflow destroys: each instance looks resolved, and the pattern is invisible."; },
-"recurringNone": "Nothing has recurred beyond two weeks here.",
-"coverage": function(d, m){ return "Zharfex can hear " + d + " departments. " + m + " departments are referenced by issues but have nobody recording, so whatever they know about those issues is invisible. A quiet department is a gap in our vision, not a verdict on them."; },
-"coverageCite": "Computed from which departments each issue concerns, against which departments have anyone recording.",
-"converged": function(n){ return "" + n + " findings have independent corroboration — three or more people described them after discounting anyone who had already spoken to someone else on the list. These are the only claims the system stands behind."; },
-"convergedNone": "Nothing here reaches the threshold. Three independent reporters are required, and in a small configuration almost everyone has already spoken to almost everyone, so no independent trio exists. That is a real property of the mechanism, not a gap in the demo.",
-"convergedCite": "Computed with the same maximum-independent-set rule the product uses.",
-"priorities": function(n, b){ return "Of " + n + " declared priorities, " + b + " have thin or no trace in anyone's voice notes. That isn't proof they're neglected — but nobody is talking about them, and that is worth knowing before the quarter ends."; },
-"prioritiesCite": "The declared priorities measured against where attention actually went.",
-"people": function(p, d){ return "" + p + " people across " + d + " departments are recording. Click anyone in the graph to read their own words for the week."; },
-"peopleCite": "Note counts and dependency load. Nothing here is a performance measure.",
-"risk": function(n){ return "The " + n + " items I'd look at first, ranked by how many independent people raised them and how long they've been open. Independence matters more than volume: one loud account is not evidence."; },
-"riskCite": "Ranked by independent corroboration, then age.",
-"structural": "Dependency load is a structural fact about the work.",
-"citeNone": "",
-"citeFrom": function(n, s){ return "Computed from " + n + " " + s + "."; },
-"src": {"promises": "recorded commitments", "clients": "client-facing items", "recurring": "recurring items"},
-"tracked": "tracked",
-"gap": "thin",
-"blocked": "no trace",
-"c": {"promised": "Promised", "subject": "Subject", "days": "Days open", "topic": "Topic", "indep": "Independent", "item": "Item", "weeks": "Weeks", "dept": "Department", "items": "Issues", "who": "Who", "queued": "Queued", "notes": "Notes", "teams": "Teams", "prio": "Declared priority", "mentions": "Mentions", "state": "State"}};
+var QRY={};QRY["en"]={"hello": "Ask in your own words. I compile your question into a query over this company's notes and run it — so I show you the filter I used and the rows it returned. I compute; I don't generate.","unsure": "I couldn't find a dimension in that. I can filter this company's records by client, team, person, topic, priority, promise, how long something has been open, whether it recurs, and whether it is independently corroborated. For example:","chips": ["What's at risk right now?", "Client issues open more than 14 days", "Group problems by department", "How many issues recur?", "Who is waiting on someone?", "Which promises are overdue?", "What can't you see?", "Are we working on our priorities?"],"ran": "Query:","empty": "Nothing matches that filter. The query ran — there are simply no rows for it in this company.","builtNote": "You asked me to build a view: this is it, composed from your question. The dashboard tab above holds the full version.","items": function(n){ return "" + n + " items match."; },"countOnly": function(n){ return "" + n + "."; },"grouped": function(t, g, by){ return "" + t + " items across " + g + " " + by + ", most first."; },"promises": function(n, o){ return "" + n + " commitments were made in conversation with no recorded resolution, and " + o + " are past the date that was said out loud. None of these exist in a ticket system — that is why they go missing."; },"people": function(n, w){ return "" + n + " people, " + w + " of them with requests queued behind them. This describes the shape of the work, not how fast anyone is."; },"priorities": function(n, b){ return "" + n + " declared priorities, " + b + " with thin or no trace in anyone's notes."; },"coverage": function(d, m){ return "Zharfex can hear " + d + " departments, and " + m + " more are referenced by issues but have nobody recording. A quiet department is a gap in our vision, not a verdict on them."; },"absent": function(name){ return "There is no " + name + " department recording in this company, so I have nothing from them. That is not a missing feature — it is exactly what the coverage map reports. Add it in the controls above and ask again."; },"absentCite": function(rec){ return "Currently recording: " + rec + "."; },"coverageCite": "Computed from which departments each issue concerns, against which have anyone recording.","prioCite": "Declared priorities measured against where attention went.","peopleCite": "Note counts and dependency load. Nothing here rates a person.","citeFrom": function(n, s){ return "Computed from " + n + " " + s + "."; },"src": {"items": "records","promises": "recorded commitments"},"tracked": "tracked","gap": "thin","blocked": "no trace","by": {"topic": "topics","dept": "departments","subject": "subjects"},"d": {"clientOnly": "client-facing only","withProblem": "a problem was raised","recurring": "recurring over two weeks","corroborated": "three or more independent reporters","solo": "only one reporter","teamMissing": "a relevant team is not recording","overdue": "past the stated date","notTracked": "thin or no trace","waiting": "has requests queued","olderThan": function(d){ return "open more than " + d + " days"; },"inDept": function(ds){ return "in 9, 0, 0, 0, 0, 0, 0, 0, 1"; },"touching": function(ds){ return "touching 9, 0, 0, 0, 0, 0, 0, 0, 1"; }},"c": {"subject": "Subject","topic": "Topic","indep": "Independent","days": "Days open","teams": "Teams","dept": "Department","items": "Items","who": "Who","notes": "Notes","queued": "Queued","promised": "Promised","prio": "Declared priority","mentions": "Mentions","state": "State"}};
 var MARK={"person": "#3987e5", "quiet": "#5b6a85", "friction": "#d9703f", "fired": "#00a37d"}, DEPT_HUES=["#3987e5", "#d95926", "#199e70", "#c98500", "#d55181", "#9085e9"];
 var DATA={"names": [["مهدی", "Mehdi"], ["سارا", "Sara"], ["رضا", "Reza"], ["نازنین", "Nazanin"], ["امیر", "Amir"], ["داوود", "Davood"], ["کیان", "Kian"], ["مریم", "Maryam"], ["حسین", "Hossein"], ["لیلا", "Leila"], ["بابک", "Babak"], ["شیرین", "Shirin"], ["فرهاد", "Farhad"], ["الهام", "Elham"], ["نوید", "Navid"], ["پریسا", "Parisa"], ["کاوه", "Kaveh"], ["سمیرا", "Samira"], ["آرش", "Arash"], ["نگار", "Negar"]], "dept": {"ops": {"en": "Operations", "fa": "عملیات", "c": "#4d8eff"}, "wh": {"en": "Warehouse", "fa": "انبار", "c": "#4d8eff"}, "proc": {"en": "Procurement", "fa": "تدارکات", "c": "#a98bff"}, "fin": {"en": "Finance", "fa": "مالی", "c": "#f5a83c"}, "sales": {"en": "Sales", "fa": "فروش", "c": "#3ddc97"}, "eng": {"en": "Engineering", "fa": "فنی", "c": "#ff6b6b"}, "hr": {"en": "People", "fa": "منابع انسانی", "c": "#ff8fd0"}, "prod": {"en": "Production", "fa": "تولید", "c": "#4d8eff"}, "qa": {"en": "Quality", "fa": "کیفیت", "c": "#ff6b6b"}, "store": {"en": "Store floor", "fa": "فروشگاه", "c": "#3ddc97"}, "supply": {"en": "Supply", "fa": "تأمین", "c": "#a98bff"}, "deliv": {"en": "Delivery", "fa": "توزیع", "c": "#00e0b0"}, "client": {"en": "Client work", "fa": "پروژه‌ها", "c": "#4d8eff"}, "acct": {"en": "Accounts", "fa": "حساب‌ها", "c": "#f5a83c"}}, "bands": {"micro": {"per": 1}, "small": {"per": 2}, "mid": {"per": 3}, "large": {"per": 5}}, "instances": {"micro": 1, "small": 2, "mid": 3, "large": 4}, "pools": {"logistics": {"client": [{"en": "Shiraz", "fa": "شیراز"}, {"en": "Isfahan", "fa": "اصفهان"}, {"en": "Tabriz", "fa": "تبریز"}, {"en": "Mashhad", "fa": "مشهد"}, {"en": "Ahvaz", "fa": "اهواز"}, {"en": "Karaj", "fa": "کرج"}, {"en": "Qom", "fa": "قم"}, {"en": "Rasht", "fa": "رشت"}], "resource": [{"en": "bubble wrap", "fa": "بسته‌بندی حبابدار"}, {"en": "pallets", "fa": "پالت"}, {"en": "stretch film", "fa": "فیلم کشسان"}, {"en": "cold storage", "fa": "سردخانه"}, {"en": "the second truck", "fa": "کامیون دوم"}], "site": [{"en": "the Tabriz route", "fa": "مسیر تبریز"}, {"en": "the south depot", "fa": "انبار جنوب"}, {"en": "the Karaj hub", "fa": "هاب کرج"}]}, "manufacturing": {"client": [{"en": "the automotive order", "fa": "سفارش خودرویی"}, {"en": "the export batch", "fa": "محمولهٔ صادراتی"}, {"en": "the domestic contract", "fa": "قرارداد داخلی"}, {"en": "the spare-parts order", "fa": "سفارش قطعات"}], "resource": [{"en": "steel stock", "fa": "موجودی فولاد"}, {"en": "the coating line", "fa": "خط پوشش"}, {"en": "line two", "fa": "خط دو"}, {"en": "the press", "fa": "پرس"}, {"en": "the CNC cell", "fa": "سل CNC"}], "site": [{"en": "the main hall", "fa": "سالن اصلی"}, {"en": "the QC bench", "fa": "میز کنترل کیفیت"}]}, "retail": {"client": [{"en": "the top-selling line", "fa": "پرفروش‌ترین کالا"}, {"en": "the seasonal range", "fa": "کالای فصلی"}, {"en": "the premium tier", "fa": "ردهٔ پریمیوم"}, {"en": "the entry range", "fa": "ردهٔ اقتصادی"}], "resource": [{"en": "shelf space", "fa": "فضای قفسه"}, {"en": "the back room", "fa": "انبار پشتی"}, {"en": "the POS system", "fa": "سیستم فروش"}, {"en": "weekend cover", "fa": "پوشش آخر هفته"}], "site": [{"en": "the main store", "fa": "فروشگاه اصلی"}, {"en": "the north branch", "fa": "شعبهٔ شمال"}]}, "services": {"client": [{"en": "the main account", "fa": "حساب اصلی"}, {"en": "the retainer client", "fa": "مشتری قرارداد ماهانه"}, {"en": "the new engagement", "fa": "پروژهٔ جدید"}, {"en": "the renewal account", "fa": "حساب تمدیدی"}], "resource": [{"en": "the integration", "fa": "یکپارچه‌سازی"}, {"en": "the lead engineer", "fa": "مهندس ارشد"}, {"en": "the reporting build", "fa": "ساختِ گزارش‌ها"}, {"en": "senior review time", "fa": "زمانِ بازبینی ارشد"}], "site": [{"en": "the delivery team", "fa": "تیم اجرا"}]}}, "templates": {"logistics": [{"id": "blocked", "kind": "client", "slot": "client", "friction": true, "depts": ["wh", "proc", "deliv", "fin"], "coord": ["wh", "proc"], "title": {"en": "{x} shipment blocked", "fa": "محمولهٔ {x} متوقف شده"}, "topic": {"en": "packaging shortage", "fa": "کمبود بسته‌بندی"}, "promise": {"en": "an answer by Thursday", "fa": "جواب تا پنجشنبه"}, "notes": {"wh": {"en": "The {x} shipment still isn't packed — we're short on packaging. Asked procurement, nothing back yet.", "fa": "محمولهٔ {x} هنوز بسته‌بندی نشده — بسته‌بندی کم داریم. از تدارکات خواستم، هنوز جوابی نیامده."}, "proc": {"en": "Ordered more packaging for {x} but it lands next week. Using paper wrap for the small ones.", "fa": "برای {x} بسته‌بندی سفارش دادم ولی هفتهٔ بعد می‌رسد. برای کوچک‌ها کاغذ استفاده می‌کنیم."}, "deliv": {"en": "Two runs for {x} went out half-loaded. Drivers waited an hour.", "fa": "دو سرویس {x} نیمه‌بار رفت. راننده‌ها یک ساعت معطل شدند."}, "fin": {"en": "The {x} delay may trigger the penalty clause. Need to check the contract.", "fa": "تأخیر {x} ممکن است بندِ جریمه را فعال کند. باید قرارداد را بررسی کنم."}}}, {"id": "cap", "kind": "client", "slot": "client", "friction": true, "depts": ["sales", "wh", "fin"], "coord": ["sales", "wh"], "title": {"en": "{x} wants an annual contract", "fa": "{x} قرارداد سالانه می‌خواهد"}, "topic": {"en": "capacity confirmation", "fa": "تأیید ظرفیت"}, "promise": {"en": "capacity confirmed this week", "fa": "تأیید ظرفیت در همین هفته"}, "notes": {"sales": {"en": "{x} wants an annual deal, fifty tonnes a month. Someone has to confirm we have the space.", "fa": "{x} قرارداد سالانه می‌خواهد، ماهی پنجاه تن. کسی باید تأیید کند جا داریم."}, "wh": {"en": "Sales asked about capacity for {x}. Didn't get to it — buried in the packaging problem.", "fa": "فروش دربارهٔ ظرفیت {x} پرسید. نرسیدم — درگیر مسئلهٔ بسته‌بندی بودم."}, "fin": {"en": "If we sign {x} at that volume we need to re-forecast storage cost.", "fa": "اگر {x} را با آن حجم ببندیم، باید هزینهٔ انبارش را دوباره پیش‌بینی کنیم."}}}, {"id": "short", "kind": "internal", "slot": "resource", "friction": true, "depts": ["wh", "proc", "deliv"], "coord": ["proc", "deliv"], "title": {"en": "{x} running out", "fa": "{x} دارد تمام می‌شود"}, "topic": {"en": "supply shortfall", "fa": "کمبود تأمین"}, "promise": null, "notes": {"wh": {"en": "We're nearly out of {x}. Improvising for now.", "fa": "{x} تقریباً تمام شده. فعلاً سرهم‌بندی می‌کنیم."}, "proc": {"en": "Reorder on {x} keeps slipping because nobody flags it until it's gone.", "fa": "سفارش مجدد {x} مدام عقب می‌افتد چون تا تمام نشود کسی خبر نمی‌دهد."}, "deliv": {"en": "Without {x} we can't load properly. Two routes affected.", "fa": "بدون {x} نمی‌توانیم درست بارگیری کنیم. دو مسیر درگیر است."}}}, {"id": "route", "kind": "internal", "slot": "site", "friction": true, "depts": ["deliv", "wh", "sales"], "coord": ["deliv", "wh"], "title": {"en": "{x} keeps slipping", "fa": "{x} مدام عقب می‌افتد"}, "topic": {"en": "route reliability", "fa": "اطمینان‌پذیری مسیر"}, "promise": null, "notes": {"deliv": {"en": "{x} ran late three times this week. Same bottleneck each time.", "fa": "{x} این هفته سه بار دیر شد. هر بار همان گلوگاه."}, "wh": {"en": "Loading for {x} starts late because the paperwork arrives late.", "fa": "بارگیری {x} دیر شروع می‌شود چون مدارک دیر می‌رسد."}, "sales": {"en": "Clients on {x} have started asking why delivery windows move.", "fa": "مشتری‌های {x} شروع کرده‌اند بپرسند چرا زمان تحویل جابه‌جا می‌شود."}}}, {"id": "onboard", "kind": "people", "slot": "site", "friction": false, "depts": ["hr", "wh"], "coord": ["hr", "wh"], "title": {"en": "New hire for {x}", "fa": "نیروی جدید برای {x}"}, "topic": {"en": "onboarding", "fa": "آنبوردینگ"}, "promise": null, "notes": {"hr": {"en": "New person starts Monday on {x}. Needs access and someone to walk them through it.", "fa": "نیروی جدید دوشنبه روی {x} شروع می‌کند. دسترسی و کسی که راهش بیندازد لازم دارد."}, "wh": {"en": "I'm meant to show the new person {x} on Monday. Won't have time.", "fa": "قرار است دوشنبه {x} را به نیروی جدید نشان بدهم. وقت نمی‌کنم."}}}], "manufacturing": [{"id": "drift", "kind": "internal", "slot": "resource", "friction": true, "depts": ["prod", "qa", "eng"], "coord": ["prod", "eng"], "title": {"en": "{x} drifting out of tolerance", "fa": "{x} از تلورانس خارج می‌شود"}, "topic": {"en": "tolerance drift", "fa": "خروج از تلورانس"}, "promise": null, "notes": {"prod": {"en": "{x} drifts after about four hours. We reset and carry on; nobody logs it.", "fa": "{x} بعد از حدود چهار ساعت از تنظیم خارج می‌شود. ریست می‌کنیم و ادامه می‌دهیم؛ کسی ثبتش نمی‌کند."}, "qa": {"en": "Rejects traced to {x} are up again. Same dimension every time.", "fa": "ضایعاتِ مربوط به {x} باز بالا رفته. هر بار همان بُعد."}, "eng": {"en": "{x} needs recalibrating but stopping it costs a shift, so we defer.", "fa": "{x} باید کالیبره شود ولی خواباندنش یک شیفت هزینه دارد، پس عقب می‌اندازیم."}}}, {"id": "mat", "kind": "internal", "slot": "resource", "friction": true, "depts": ["supply", "prod", "fin"], "coord": ["supply", "prod"], "title": {"en": "{x} delayed", "fa": "{x} با تأخیر"}, "topic": {"en": "material delay", "fa": "تأخیر مواد"}, "promise": {"en": "delivery Thursday", "fa": "تحویل پنجشنبه"}, "notes": {"supply": {"en": "{x} slipped two weeks. Found a second source but it's dearer.", "fa": "{x} دو هفته عقب افتاد. منبع دوم پیدا کردم ولی گران‌تر است."}, "prod": {"en": "We run out of {x} on Thursday if nothing arrives.", "fa": "اگر چیزی نرسد، پنجشنبه {x} تمام می‌شود."}, "fin": {"en": "The alternative source for {x} is fifteen percent more. That breaks the material budget.", "fa": "منبع جایگزین {x} پانزده درصد گران‌تر است. بودجهٔ مواد را به‌هم می‌زند."}}}, {"id": "order", "kind": "client", "slot": "client", "friction": true, "depts": ["prod", "qa", "sales", "fin"], "coord": ["prod", "qa"], "title": {"en": "{x} at risk", "fa": "{x} در خطر"}, "topic": {"en": "delivery commitment", "fa": "تعهد تحویل"}, "promise": {"en": "ship by month end", "fa": "ارسال تا پایان ماه"}, "notes": {"prod": {"en": "{x} needs the line for three days we don't have.", "fa": "{x} سه روز خط می‌خواهد که نداریم."}, "qa": {"en": "{x} has a tighter spec than we usually run. Expect rework.", "fa": "{x} مشخصاتِ سخت‌تری از حدِ معمولِ ما دارد. انتظار دوباره‌کاری هست."}, "sales": {"en": "I promised {x} would ship by month end. Nobody checked capacity.", "fa": "قول دادم {x} تا پایان ماه ارسال شود. کسی ظرفیت را چک نکرد."}, "fin": {"en": "Late delivery on {x} costs us the early-payment discount.", "fa": "تأخیر در {x} تخفیفِ پرداخت زودهنگام را از ما می‌گیرد."}}}, {"id": "key", "kind": "people", "slot": "resource", "friction": true, "depts": ["eng", "prod", "hr"], "coord": ["eng", "prod"], "title": {"en": "Only one person can run {x}", "fa": "فقط یک نفر {x} را می‌تواند بچرخاند"}, "topic": {"en": "single point of dependency", "fa": "وابستگی به یک نفر"}, "promise": null, "notes": {"eng": {"en": "I'm the only one who knows {x} properly. None of it is written down.", "fa": "تنها کسی هستم که {x} را درست می‌شناسم. هیچ‌کدامش نوشته نشده."}, "prod": {"en": "Every question about {x} goes to one person. When he's off we stall.", "fa": "هر سؤالی دربارهٔ {x} به یک نفر می‌رسد. وقتی نیست، کار می‌خوابد."}, "hr": {"en": "He asked about three weeks' leave. I said it should be fine.", "fa": "دربارهٔ سه هفته مرخصی پرسید. گفتم مشکلی نیست."}}}], "retail": [{"id": "stockout", "kind": "client", "slot": "client", "friction": true, "depts": ["store", "supply", "sales"], "coord": ["store", "supply"], "title": {"en": "{x} out of stock again", "fa": "{x} باز تمام شد"}, "topic": {"en": "stockouts", "fa": "تمام‌شدن موجودی"}, "promise": null, "notes": {"store": {"en": "Ran out of {x} on Friday afternoon. People asked all weekend.", "fa": "جمعه بعدازظهر {x} تمام شد. تمام آخر هفته سراغش را می‌گرفتند."}, "supply": {"en": "Reorder for {x} goes in late because nobody tells me until the shelf is empty.", "fa": "سفارش {x} دیر ثبت می‌شود چون تا قفسه خالی نشود کسی نمی‌گوید."}, "sales": {"en": "We lost a dozen sales on {x} this week. Customers went elsewhere.", "fa": "این هفته ده‌دوازده فروش روی {x} از دست رفت. مشتری‌ها جای دیگر رفتند."}}}, {"id": "space", "kind": "internal", "slot": "resource", "friction": true, "depts": ["store", "supply"], "coord": ["store", "supply"], "title": {"en": "{x} is the constraint", "fa": "{x} محدودکننده است"}, "topic": {"en": "space and layout", "fa": "فضا و چیدمان"}, "promise": null, "notes": {"store": {"en": "{x} is full. New stock sits in the aisle.", "fa": "{x} پر است. کالای جدید در راهرو می‌ماند."}, "supply": {"en": "I keep ordering to a shelf plan that {x} can't actually hold.", "fa": "مدام بر اساس چیدمانی سفارش می‌دهم که {x} واقعاً جا نمی‌دهد."}}}, {"id": "shift", "kind": "people", "slot": "site", "friction": true, "depts": ["store", "hr", "sales"], "coord": ["store", "hr"], "title": {"en": "Weekend cover at {x}", "fa": "پوشش آخر هفته در {x}"}, "topic": {"en": "understaffing", "fa": "کمبود نیرو"}, "promise": null, "notes": {"store": {"en": "Two short at {x} on Friday evening again. Queues out the door.", "fa": "جمعه شب باز دو نفر در {x} کم بودیم. صف تا بیرون در."}, "hr": {"en": "Three people asked to drop weekend shifts this month. I approved them separately.", "fa": "این ماه سه نفر خواستند شیفت آخر هفته ندهند. جداگانه موافقت کردم."}, "sales": {"en": "Saturday conversion at {x} is visibly worse when we're short.", "fa": "تبدیلِ شنبه در {x} وقتی کم داریم محسوس بدتر است."}}}], "services": [{"id": "scope", "kind": "client", "slot": "client", "friction": true, "depts": ["client", "acct", "sales"], "coord": ["sales", "client"], "title": {"en": "{x} scope creeping", "fa": "گسترش دامنهٔ {x}"}, "topic": {"en": "scope creep", "fa": "گسترش دامنهٔ کار"}, "promise": {"en": "absorb the extra work", "fa": "جذب کار اضافه"}, "notes": {"client": {"en": "{x} keeps adding requests on calls. I've said yes to three things outside the statement of work.", "fa": "{x} مدام در تماس‌ها درخواست اضافه می‌کند. به سه چیز بیرون از شرح کار بله گفته‌ام."}, "acct": {"en": "Hours on {x} are forty percent over what we billed. No change order was raised.", "fa": "ساعت‌های {x} چهل درصد بیشتر از صورت‌حساب است. درخواست تغییری ثبت نشده."}, "sales": {"en": "I promised {x} we'd absorb it to keep the renewal. Didn't check with delivery.", "fa": "به {x} قول دادم جذبش کنیم تا تمدید بشود. با تیم اجرا هماهنگ نکردم."}}}, {"id": "key", "kind": "people", "slot": "resource", "friction": true, "depts": ["eng", "client", "hr"], "coord": ["eng", "client"], "title": {"en": "{x} is a single point of failure", "fa": "{x} تنها نقطهٔ شکست است"}, "topic": {"en": "key-person risk", "fa": "ریسکِ وابستگی به فرد"}, "promise": null, "notes": {"eng": {"en": "I'm the only one who understands {x}. I haven't written it down.", "fa": "تنها کسی هستم که {x} را می‌فهمم. جایی ننوشته‌ام."}, "client": {"en": "Every question about {x} goes to one person. When he's away we stall.", "fa": "هر سؤالی دربارهٔ {x} به یک نفر می‌رسد. وقتی نیست کار می‌خوابد."}, "hr": {"en": "He asked about taking three weeks in the spring. I said fine.", "fa": "پرسید بهار سه هفته مرخصی بگیرد. گفتم مشکلی نیست."}}}, {"id": "margin", "kind": "client", "slot": "client", "friction": true, "depts": ["acct", "client", "sales"], "coord": ["acct", "sales"], "title": {"en": "{x} margin slipping", "fa": "افتِ حاشیهٔ {x}"}, "topic": {"en": "margin erosion", "fa": "فرسایشِ حاشیهٔ سود"}, "promise": null, "notes": {"acct": {"en": "{x} is below target margin for the third month.", "fa": "{x} سه ماه است زیر حاشیهٔ هدف است."}, "client": {"en": "Most of the unbilled time on {x} is senior review nobody scoped.", "fa": "بیشترِ زمانِ صورت‌حساب‌نشدهٔ {x}، بازبینیِ ارشد است که کسی در دامنه حسابش نکرده."}, "sales": {"en": "We discounted {x} to win it and never revisited the rate.", "fa": "{x} را با تخفیف بردیم و نرخ را هرگز بازبینی نکردیم."}}}, {"id": "report", "kind": "internal", "slot": "resource", "friction": true, "depts": ["eng", "acct"], "coord": ["eng", "acct"], "title": {"en": "{x} always late", "fa": "{x} همیشه دیر"}, "topic": {"en": "reporting delay", "fa": "تأخیر گزارش‌دهی"}, "promise": {"en": "ready by Friday", "fa": "آماده تا جمعه"}, "notes": {"eng": {"en": "{x} takes a day of manual work every month. I keep deferring the fix.", "fa": "{x} هر ماه یک روز کارِ دستی می‌برد. مدام اصلاحش را عقب می‌اندازم."}, "acct": {"en": "I can't close the month until {x} lands, and it's always late.", "fa": "تا {x} نرسد نمی‌توانم ماه را ببندم، و همیشه دیر است."}}}]}, "priorities": {"logistics": [{"en": "Cut delivery time 20%", "fa": "کاهش ۲۰٪ زمان تحویل"}, {"en": "Win the annual contracts", "fa": "برندن قراردادهای سالانه"}, {"en": "Reduce packaging cost", "fa": "کاهش هزینهٔ بسته‌بندی"}], "manufacturing": [{"en": "Raise first-pass yield", "fa": "افزایش بازدهِ نوبت اول"}, {"en": "Second-source critical materials", "fa": "تأمین دومِ مواد حیاتی"}, {"en": "Cut unplanned downtime", "fa": "کاهش توقفِ برنامه‌ریزی‌نشده"}], "retail": [{"en": "Never stock out on the top ten", "fa": "تمام‌نشدن ده کالای اصلی"}, {"en": "Lift weekend conversion", "fa": "افزایش تبدیلِ آخر هفته"}, {"en": "Open the second location", "fa": "افتتاح شعبهٔ دوم"}], "services": [{"en": "Protect gross margin", "fa": "حفظ حاشیهٔ سود"}, {"en": "Renew the top three accounts", "fa": "تمدید سه حساب اصلی"}, {"en": "Reduce key-person risk", "fa": "کاهش ریسکِ وابستگی به فرد"}]}, "industries": {"logistics": {"depts": ["wh", "proc", "deliv", "sales", "fin", "hr"]}, "manufacturing": {"depts": ["prod", "qa", "supply", "eng", "fin", "hr"]}, "retail": {"depts": ["store", "supply", "sales", "fin", "hr"]}, "services": {"depts": ["client", "sales", "acct", "eng", "hr"]}}, "indNames": {"logistics": {"en": "Logistics & distribution", "fa": "لجستیک و پخش"}, "manufacturing": {"en": "Manufacturing", "fa": "تولید"}, "retail": {"en": "Retail & stores", "fa": "خرده‌فروشی"}, "services": {"en": "Professional services", "fa": "خدمات حرفه‌ای"}}, "bandLabels": {"micro": {"en": "1–9 people", "fa": "۱ تا ۹ نفر"}, "small": {"en": "10–29 people", "fa": "۱۰ تا ۲۹ نفر"}, "mid": {"en": "30–99 people", "fa": "۳۰ تا ۹۹ نفر"}, "large": {"en": "100+ people", "fa": "۱۰۰ نفر و بیشتر"}}}, LANG="en";
 var CFG={industry:Object.keys(DATA.industries)[0],band:'mid',depts:[],lang:LANG};
