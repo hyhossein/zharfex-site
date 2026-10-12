@@ -94,6 +94,30 @@ transition:transform .12s,opacity .12s}
 .btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--bd2)}
 .btn.ghost:hover{background:var(--sf2);opacity:1;border-color:var(--tl)}
 .btns{display:flex;gap:12px;flex-wrap:wrap}
+button.btn:disabled{opacity:.55;cursor:default;transform:none}
+
+/* access form */
+#access{scroll-margin-top:70px}
+.acc{max-width:430px;margin:0 auto;text-align:start}
+.acc .row{display:flex;gap:10px}
+.acc .row input{flex:1;min-width:0}
+.acc input{width:100%;box-sizing:border-box;background:var(--sf);
+border:1px solid var(--bd2);border-radius:8px;padding:12px 14px;
+color:var(--txb);font-size:15px;font-family:inherit;margin-bottom:10px;
+transition:border-color .15s}
+.acc input::placeholder{color:var(--txm)}
+.acc input:focus{outline:none;border-color:var(--tl)}
+.acc input[name="_gotcha"]{position:absolute;left:-9999px;width:1px;height:1px;
+opacity:0;margin:0}
+.acc button{width:100%;justify-content:center;margin-top:2px}
+.acc .msg{font-size:13.5px;line-height:1.7;margin-top:12px;min-height:1px}
+.acc .msg.ok{color:var(--tl)}
+.acc .msg.bad{color:var(--am)}
+.acc .msg a{color:var(--am)}
+.acc .note{font-size:12px;color:var(--txm);line-height:1.7;margin-top:14px}
+.acc .note a{color:var(--txm);text-decoration:underline;
+text-decoration-color:var(--bd2)}
+.acc .note a:hover{color:var(--tl)}
 
 /* sections — dense by default */
 .sec{padding:66px 0;border-top:1px solid var(--bd)}
@@ -125,6 +149,9 @@ footer{border-top:1px solid var(--bd);margin-top:10px;padding:34px 0 54px;
 font-size:12.5px;color:var(--txm)}
 footer .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
 footer .sp{margin-inline-start:auto}
+footer a{color:var(--txm);text-decoration:none;border-bottom:1px solid var(--bd);
+padding-bottom:1px;transition:color .15s,border-color .15s}
+footer a:hover{color:var(--tl);border-color:var(--tl)}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(14px);
@@ -260,7 +287,7 @@ line-height:1.85}
 <a class="brand" href="/"><b>ZHARFEX</b><i>ژرفکس</i></a>
 <a class="nl hide-s " href="/demo/">Demo</a><a class="nl hide-s on" href="/build/">Build yours</a><a class="nl hide-s " href="/dashboard/">Dashboard</a><a class="nl hide-s " href="/solutions/">Solutions</a><a class="nl hide-s " href="/writing/">Writing</a>
 <a class="lang" href="/fa/build/" hreflang="fa">فارسی</a>
-<a class="navcta" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex">Get access</a>
+<a class="navcta" href="#access">Get access</a>
 </div></nav>
 <section class="sec first" style="padding-top:58px">
 <div class="wrap">
@@ -306,14 +333,17 @@ line-height:1.85}
 <div class="note" id="floor" style="display:none"><b>Why nothing fires at this size</b>At this size, convergence mathematically cannot fire. Three independent reporters is the threshold, and in a small firm almost everyone has already talked to almost everyone — so there is no independent trio to find. That is a real property of the mechanism, not a gap in the demo. Below this size the product is the personal wiki and the coverage map; the organizational layer switches on when there are enough people to be independent of each other.</div>
 <div class="note"><b>What this is</b>This is a synthesis, not a prediction. The people, the notes and the numbers are assembled from templates for a business of your shape — nobody has looked at your data, and we could not. Your real graph would be built from your own voice, and it would surprise you in ways this cannot.</div>
 </div></section>
-<section class="sec"><div class="wrap" style="text-align:center">
+<section class="sec" id="access"><div class="wrap"
+ style="text-align:center">
 <h2 class="h-l rv">Start with your own voice.</h2>
 <p class="lead dim rv" style="margin:14px auto 26px;max-width:46ch">One person. One week. No rollout, no buy-in, nobody's permission.</p>
 <div class="rv" style="display:flex;justify-content:center">
 <a class="btn" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex%20access">Request access</a></div>
 </div></section>
 <footer><div class="wrap">
-<span>Built by AIACE · Toronto + Tehran</span><span class="sp">Voice first. Persian first. Self-hostable.</span>
+<span>Built by AIACE · Toronto + Tehran</span>
+<a href="/about/">About</a><a href="/privacy/">Privacy</a>
+<span class="sp">Voice first. Persian first. Self-hostable.</span>
 </div></footer>
 <script>
 var _o=new IntersectionObserver(function(e){e.forEach(function(x){

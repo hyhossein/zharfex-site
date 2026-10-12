@@ -94,6 +94,30 @@ transition:transform .12s,opacity .12s}
 .btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--bd2)}
 .btn.ghost:hover{background:var(--sf2);opacity:1;border-color:var(--tl)}
 .btns{display:flex;gap:12px;flex-wrap:wrap}
+button.btn:disabled{opacity:.55;cursor:default;transform:none}
+
+/* access form */
+#access{scroll-margin-top:70px}
+.acc{max-width:430px;margin:0 auto;text-align:start}
+.acc .row{display:flex;gap:10px}
+.acc .row input{flex:1;min-width:0}
+.acc input{width:100%;box-sizing:border-box;background:var(--sf);
+border:1px solid var(--bd2);border-radius:8px;padding:12px 14px;
+color:var(--txb);font-size:15px;font-family:inherit;margin-bottom:10px;
+transition:border-color .15s}
+.acc input::placeholder{color:var(--txm)}
+.acc input:focus{outline:none;border-color:var(--tl)}
+.acc input[name="_gotcha"]{position:absolute;left:-9999px;width:1px;height:1px;
+opacity:0;margin:0}
+.acc button{width:100%;justify-content:center;margin-top:2px}
+.acc .msg{font-size:13.5px;line-height:1.7;margin-top:12px;min-height:1px}
+.acc .msg.ok{color:var(--tl)}
+.acc .msg.bad{color:var(--am)}
+.acc .msg a{color:var(--am)}
+.acc .note{font-size:12px;color:var(--txm);line-height:1.7;margin-top:14px}
+.acc .note a{color:var(--txm);text-decoration:underline;
+text-decoration-color:var(--bd2)}
+.acc .note a:hover{color:var(--tl)}
 
 /* sections — dense by default */
 .sec{padding:66px 0;border-top:1px solid var(--bd)}
@@ -125,6 +149,9 @@ footer{border-top:1px solid var(--bd);margin-top:10px;padding:34px 0 54px;
 font-size:12.5px;color:var(--txm)}
 footer .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
 footer .sp{margin-inline-start:auto}
+footer a{color:var(--txm);text-decoration:none;border-bottom:1px solid var(--bd);
+padding-bottom:1px;transition:color .15s,border-color .15s}
+footer a:hover{color:var(--tl);border-color:var(--tl)}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(14px);
@@ -174,7 +201,7 @@ text-decoration:none}
 <a class="brand" href="/fa/"><b>ZHARFEX</b><i>ژرفکس</i></a>
 <a class="nl hide-s " href="/fa/demo/">دمو</a><a class="nl hide-s " href="/fa/build/">شرکت خودت</a><a class="nl hide-s " href="/fa/dashboard/">داشبورد</a><a class="nl hide-s " href="/fa/solutions/">کاربردها</a><a class="nl hide-s " href="/fa/writing/">نوشته‌ها</a>
 <a class="lang" href="/writing/subjective-objective/" hreflang="en">English</a>
-<a class="navcta" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex">درخواست دسترسی</a>
+<a class="navcta" href="#access">درخواست دسترسی</a>
 </div></nav>
 <article><div class="wrap">
 <div class="d mono">مهر ۱۴۰۵</div>
@@ -183,14 +210,17 @@ text-decoration:none}
 <p>هر مدخل در ویکی ژرفکس، روایت یک نفر از هفتهٔ خودش است. دادهٔ یک سنسور نیست. لاگ نیست. چیزی است که کسی در پایان روز انتخاب کرده بگوید؛ شکل‌گرفته از آنچه به یادش مانده، آنچه آزارش داده، و آنچه به نظرش مهم بوده.</p><p>واکنش طبیعی این است که آن را نقصی بدانیم که باید اصلاح شود — یکدست‌سازی، میانگین‌گیری، تمیزکردن تا شبیه «داده» شود. ما فکر می‌کنیم همین واکنش دقیقاً اشتباه است، و همین است که نرم‌افزار سازمانی را چهل سال ناامیدکننده نگه داشته.</p><h2>عینیت تولید می‌شود، جمع نمی‌شود</h2><p>در هیچ نقطه‌ای از یک سازمان، کسی نمی‌ایستد که سازمان را «همان‌طور که هست» ببیند. مدیری که در سالن قدم می‌زند، آن چیزی را می‌بیند که جلوی رویش است. داشبورد آن چیزی را می‌بیند که کسی تصمیم گرفته اندازه بگیرد. هر نگاه، از جایی است.</p><p>پس عینیت را نمی‌توان گرد آورد. باید ساخته شود، و تنها مادهٔ موجود روایت‌های ذهنی است. عینیت در لحظه‌ای پدیدار می‌شود که دو نفر، بی‌آنکه با هم مشورت کرده باشند، یک چیز را توصیف کنند. نه چون یکی از آن‌ها موثق است — چون توافق میانشان را با هیچ‌یک به‌تنهایی نمی‌توان توضیح داد.</p><blockquote><p>دو ناظر و یک جهانِ مشترک، کمینه‌شرطِ آن است که چیزی به‌طور عینی درست باشد.</p></blockquote><p>این ایدهٔ تازه‌ای نیست. دیویدسون آن را مثلث‌بندی می‌نامید. ویتگنشتاین همین را از سوی دیگر گفت: دفترِ یادداشتِ کاملاً خصوصی معیارِ درستی ندارد، چون بیرون از آن چیزی نیست که بتوان با آن اشتباه بود. و کُندُرسه حسابش را داد — گروه فقط وقتی به حقیقت نزدیک می‌شود که خطای اعضایش مستقل باشد.</p><h2>تفاوت‌ها خودِ اطلاعات‌اند</h2><p>اینجاست که بیشتر سیستم‌ها همان چیزی را نابود می‌کنند که برای یافتنش ساخته شده‌اند. انبار می‌گوید «تأخیر» و منظورش کمبود بسته‌بندی است. مالی می‌گوید «تأخیر» و منظورش جریمهٔ قراردادی است. فروش همین را می‌گوید و منظورش قولی به مشتری است که دارد می‌شکند.</p><p>یک واژگانِ مشترکِ واحد این سه را در یک سطر یکی می‌کند و نامش را «یکدستی» می‌گذارد. فضای برداری همین کار را بی‌صداتر و با حساب انجام می‌دهد. اما این سه معنا، رونوشت‌های نوفه‌دارِ یک واقعیت نیستند — سه تصویرِ یک وضعیت‌اند، از سه موضع، و شکلِ آن وضعیت را تنها از دلِ تفاوت‌ها می‌توان بازیافت.</p><p>پس ما ادغام نمی‌کنیم. یک گره چند معنای محلی را با خود دارد، هر یک متصل به شخص و کارکردی که آن را نگه داشته، به‌همراه این ادعا که همه به یک چیز اشاره دارند — ادعایی که می‌توان پسش گرفت. توافق روی همان معناها شمرده می‌شود. خودِ معناها هرگز بازنویسی نمی‌شوند.</p><blockquote><p>ذهنیت‌های متفاوت‌تر، عینیتِ بهتری می‌سازند. ذهنیت‌های کمتر و یکدست‌تر، توهّمِ تمیزتری می‌سازند.</p></blockquote><h2>چرا هماهنگی باعث تخفیف است</h2><p>اگر همهٔ ماجرا بر استقلال ایستاده، استقلال باید اندازه‌گیری شود، نه فرض. دو نفری که پیش از توصیفِ یک مسئله دربارهٔ آن حرف زده‌اند، یک تصویرند، نه دو. پس ژرفکس ثبت می‌کند چه کسی با چه کسی هماهنگ است و از شمردنِ دوبارهٔ آن‌ها امتناع می‌کند.</p><p>همین یک قاعده است که نتیجه را دستکاری‌ناپذیر می‌کند. هر کسی می‌تواند شکایتی ثبت کند. هیچ‌کس نمی‌تواند سه شاهدِ مستقل برای چیزی که رخ نداده بسازد.</p><h2>کجا می‌شکند</h2><p>استقلال به معیارِ ما، استقلال در واقعیت نیست. می‌توانیم ببینیم دو نفر حرف زده‌اند. نمی‌توانیم ببینیم سه نفر جداگانه از یک مدیر می‌ترسند و جداگانه یک چیز را نمی‌گویند. آن‌ها هیچ یالِ هماهنگی نمی‌سازند، به حسابِ ما کاملاً مستقل‌اند، و سکوتشان کاملاً هم‌بسته است.</p><p>کارمندبودن انگیزهٔ مشترک می‌سازد، و انگیزهٔ مشترک دقیقاً همان چیزی است که این روش نمی‌تواند تشخیص دهد. ما راه‌حلی نداریم. ابزاری داریم که گزارش می‌دهد چه را می‌پوشاند و چه را نمی‌پوشاند، و این انضباط را داریم که بگوییم — نه آنکه هفتهٔ ساکت را سالم جا بزنیم.</p><p>ویکی صادق است چون از آنِ خودت است. عینیت آن چیزی است که رخ می‌دهد وقتی روایت تو و روایت من، بی‌آنکه هیچ‌کدام ترتیبش را داده باشیم، با هم جور در بیایند.</p>
 <a class="back" href="/fa/writing/">→ همهٔ نوشته‌ها</a>
 </div></article>
-<section class="sec"><div class="wrap" style="text-align:center">
+<section class="sec" id="access"><div class="wrap"
+ style="text-align:center">
 <h2 class="h-l rv">با صدای خودت شروع کن.</h2>
 <p class="lead dim rv" style="margin:14px auto 26px;max-width:46ch">یک نفر. یک هفته. بدون استقرار سازمانی، بدون تأیید هیچ‌کس.</p>
 <div class="rv" style="display:flex;justify-content:center">
 <a class="btn" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex%20access">درخواست دسترسی</a></div>
 </div></section>
 <footer><div class="wrap">
-<span>ساختهٔ AIACE · تورنتو + تهران</span><span class="sp">اول صدا. اول فارسی. قابل استقرار روی سرور خودتان.</span>
+<span>ساختهٔ AIACE · تورنتو + تهران</span>
+<a href="/fa/about/">درباره</a><a href="/fa/privacy/">حریم خصوصی</a>
+<span class="sp">اول صدا. اول فارسی. قابل استقرار روی سرور خودتان.</span>
 </div></footer>
 <script>
 var _o=new IntersectionObserver(function(e){e.forEach(function(x){
