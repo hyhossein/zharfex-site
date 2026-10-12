@@ -327,8 +327,20 @@ font-size:13px;color:var(--txm);line-height:1.75}
  style="text-align:center">
 <h2 class="h-l rv">با صدای خودت شروع کن.</h2>
 <p class="lead dim rv" style="margin:14px auto 26px;max-width:46ch">یک نفر. یک هفته. بدون استقرار سازمانی، بدون تأیید هیچ‌کس.</p>
-<div class="rv" style="display:flex;justify-content:center">
-<a class="btn" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex%20access">درخواست دسترسی</a></div>
+<form class="acc rv" id="accform" action="https://formspree.io/f/mdealjda" method="POST" novalidate>
+<div class="row">
+<input name="name" type="text" autocomplete="name" placeholder="نام" required>
+<input name="email" type="email" autocomplete="email" placeholder="ایمیل" required>
+</div>
+<input name="company" type="text" autocomplete="organization" placeholder="شرکت (اختیاری)">
+<input type="text" name="_gotcha" tabindex="-1" aria-hidden="true">
+<input type="hidden" name="_subject" value="Zharfex access request (fa)">
+<input type="hidden" name="lang" value="fa">
+<button class="btn" type="submit">درخواست دسترسی</button>
+<div class="msg" role="status" aria-live="polite"></div>
+<p class="note">نشانی‌تان فقط برای پاسخ دادن به شما استفاده می‌شود. نه فهرست ایمیلی، نه ابزار تحلیلی — ببینید <a href="/fa/privacy/">حریم خصوصی</a>. یا بنویسید به
+<a href="mailto:hoseyn.yousefi@gmail.com">hoseyn.yousefi@gmail.com</a>.</p>
+</form>
 </div></section>
 <footer><div class="wrap">
 <span>ساختهٔ AIACE · تورنتو + تهران</span>
@@ -340,6 +352,22 @@ var _o=new IntersectionObserver(function(e){e.forEach(function(x){
 if(x.isIntersecting){x.target.classList.add('on');_o.unobserve(x.target)}})},
 {threshold:.15,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.rv').forEach(function(el){_o.observe(el)});
+
+(function(){var f=document.getElementById('accform');if(!f)return;
+var b=f.querySelector('button'),m=f.querySelector('.msg'),lbl=b.textContent;
+f.addEventListener('submit',function(e){e.preventDefault();
+if(!f.name.value.trim()||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.value)){
+ m.className='msg bad';m.textContent="یک نام و نشانی‌ای که بتوانم پاسخ بدهم.";return}
+b.disabled=true;b.textContent="در حال ارسال…";m.className='msg';m.textContent='';
+fetch(f.action,{method:'POST',body:new FormData(f),
+ headers:{'Accept':'application/json'}})
+.then(function(r){if(!r.ok)throw 0;
+ f.querySelector('.row').style.display='none';
+ f.company.style.display='none';b.style.display='none';
+ m.className='msg ok';m.textContent="رسید. هر کدام از این‌ها را خودم می‌خوانم و از نشانی خودم پاسخ می‌دهم."})
+.catch(function(){b.disabled=false;b.textContent=lbl;
+ m.className='msg bad';m.innerHTML="ارسال نشد. به <a href=\"mailto:hoseyn.yousefi@gmail.com\">hoseyn.yousefi@gmail.com</a> بنویسید تا ببینم."});
+});})();
 
 document.querySelectorAll('.lb').forEach(function(b){
  b.addEventListener('click',function(){

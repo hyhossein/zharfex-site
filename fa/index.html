@@ -272,8 +272,20 @@ html[lang="fa"] .pi p{line-height:1.95}
  style="text-align:center">
 <h2 class="h-l rv">با صدای خودت شروع کن.</h2>
 <p class="lead dim rv" style="margin:14px auto 26px;max-width:46ch">یک نفر. یک هفته. بدون استقرار سازمانی، بدون تأیید هیچ‌کس.</p>
-<div class="rv" style="display:flex;justify-content:center">
-<a class="btn" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex%20access">درخواست دسترسی</a></div>
+<form class="acc rv" id="accform" action="https://formspree.io/f/mdealjda" method="POST" novalidate>
+<div class="row">
+<input name="name" type="text" autocomplete="name" placeholder="نام" required>
+<input name="email" type="email" autocomplete="email" placeholder="ایمیل" required>
+</div>
+<input name="company" type="text" autocomplete="organization" placeholder="شرکت (اختیاری)">
+<input type="text" name="_gotcha" tabindex="-1" aria-hidden="true">
+<input type="hidden" name="_subject" value="Zharfex access request (fa)">
+<input type="hidden" name="lang" value="fa">
+<button class="btn" type="submit">درخواست دسترسی</button>
+<div class="msg" role="status" aria-live="polite"></div>
+<p class="note">نشانی‌تان فقط برای پاسخ دادن به شما استفاده می‌شود. نه فهرست ایمیلی، نه ابزار تحلیلی — ببینید <a href="/fa/privacy/">حریم خصوصی</a>. یا بنویسید به
+<a href="mailto:hoseyn.yousefi@gmail.com">hoseyn.yousefi@gmail.com</a>.</p>
+</form>
 </div></section>
 <footer><div class="wrap">
 <span>ساختهٔ AIACE · تورنتو + تهران</span>
@@ -285,6 +297,22 @@ var _o=new IntersectionObserver(function(e){e.forEach(function(x){
 if(x.isIntersecting){x.target.classList.add('on');_o.unobserve(x.target)}})},
 {threshold:.15,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.rv').forEach(function(el){_o.observe(el)});
+
+(function(){var f=document.getElementById('accform');if(!f)return;
+var b=f.querySelector('button'),m=f.querySelector('.msg'),lbl=b.textContent;
+f.addEventListener('submit',function(e){e.preventDefault();
+if(!f.name.value.trim()||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.value)){
+ m.className='msg bad';m.textContent="یک نام و نشانی‌ای که بتوانم پاسخ بدهم.";return}
+b.disabled=true;b.textContent="در حال ارسال…";m.className='msg';m.textContent='';
+fetch(f.action,{method:'POST',body:new FormData(f),
+ headers:{'Accept':'application/json'}})
+.then(function(r){if(!r.ok)throw 0;
+ f.querySelector('.row').style.display='none';
+ f.company.style.display='none';b.style.display='none';
+ m.className='msg ok';m.textContent="رسید. هر کدام از این‌ها را خودم می‌خوانم و از نشانی خودم پاسخ می‌دهم."})
+.catch(function(){b.disabled=false;b.textContent=lbl;
+ m.className='msg bad';m.innerHTML="ارسال نشد. به <a href=\"mailto:hoseyn.yousefi@gmail.com\">hoseyn.yousefi@gmail.com</a> بنویسید تا ببینم."});
+});})();
 
 var G={"nodes": [{"id": "p:مهدی", "c": "#4d8eff", "r": 10}, {"id": "p:سارا", "c": "#ec4899", "r": 10}, {"id": "p:داوود", "c": "#eab308", "r": 10}, {"id": "p:رضا", "c": "#9b7aff", "r": 10}, {"id": "p:نازنین", "c": "#2ec78a", "r": 10}, {"id": "p:امیر", "c": "#f97316", "r": 10}, {"id": "e:مشتری شیراز", "c": "#f0a030", "r": 4.5}, {"id": "e:محموله", "c": "#9b7aff", "r": 4.5}, {"id": "e:بسته بندی", "c": "#2ec78a", "r": 7.5}, {"id": "e:تدارکات", "c": "#2ec78a", "r": 4.5}, {"id": "e:پنجشنبه", "c": "#4d5c78", "r": 4.5}, {"id": "e:کیان", "c": "#4d8eff", "r": 4.5}, {"id": "e:هفته دیگه", "c": "#4d5c78", "r": 4.5}, {"id": "e:دسترسی سرور", "c": "#2ec78a", "r": 4.5}, {"id": "e:ویکی", "c": "#2ec78a", "r": 4.5}, {"id": "e:بودجه q3", "c": "#eab308", "r": 4.5}, {"id": "e:مهاجرت سرورها", "c": "#9b7aff", "r": 4.5}, {"id": "e:تا جمعه", "c": "#4d5c78", "r": 4.5}, {"id": "e:بودجه بازاریابی", "c": "#eab308", "r": 4.5}, {"id": "e:محموله شیراز", "c": "#00d4a8", "r": 4.5}, {"id": "e:بسته بندی حبابدار", "c": "#2ec78a", "r": 4.5}, {"id": "e:کاغذ مچاله", "c": "#2ec78a", "r": 4.5}, {"id": "e:هفته بعد", "c": "#4d5c78", "r": 4.5}, {"id": "e:مشتری اصفهان", "c": "#f0a030", "r": 4.5}, {"id": "e:ماهی 50 تن", "c": "#eab308", "r": 4.5}, {"id": "e:ظرفیت انبار", "c": "#2ec78a", "r": 4.5}, {"id": "e:جلسه فردا ساعت 10", "c": "#4d5c78", "r": 4.5}, {"id": "e:شیراز", "c": "#00d4a8", "r": 4.5}, {"id": "e:مهاجرت سرور", "c": "#9b7aff", "r": 4.5}, {"id": "e:80 درصد", "c": "#eab308", "r": 4.5}, {"id": "e:دیتابیس قدیمی", "c": "#2ec78a", "r": 4.5}, {"id": "e:بودجه اضافی", "c": "#2ec78a", "r": 4.5}, {"id": "e:سرور فعلی", "c": "#2ec78a", "r": 4.5}, {"id": "e:یکشنبه", "c": "#4d5c78", "r": 4.5}], "edges": [{"a": "p:مهدی", "b": "e:مشتری شیراز"}, {"a": "p:مهدی", "b": "e:محموله"}, {"a": "p:مهدی", "b": "e:بسته بندی"}, {"a": "p:مهدی", "b": "p:رضا"}, {"a": "p:مهدی", "b": "e:تدارکات"}, {"a": "p:مهدی", "b": "e:پنجشنبه"}, {"a": "p:سارا", "b": "e:کیان"}, {"a": "p:سارا", "b": "e:هفته دیگه"}, {"a": "p:سارا", "b": "e:دسترسی سرور"}, {"a": "p:سارا", "b": "e:ویکی"}, {"a": "p:سارا", "b": "p:امیر"}, {"a": "p:داوود", "b": "e:بودجه q3"}, {"a": "p:داوود", "b": "e:مهاجرت سرورها"}, {"a": "p:داوود", "b": "e:تا جمعه"}, {"a": "p:داوود", "b": "e:بودجه بازاریابی"}, {"a": "p:داوود", "b": "e:محموله شیراز"}, {"a": "p:داوود", "b": "e:بسته بندی"}, {"a": "p:رضا", "b": "e:بسته بندی حبابدار"}, {"a": "p:رضا", "b": "p:مهدی"}, {"a": "p:رضا", "b": "e:کاغذ مچاله"}, {"a": "p:رضا", "b": "e:هفته بعد"}, {"a": "p:نازنین", "b": "e:مشتری اصفهان"}, {"a": "p:نازنین", "b": "e:ماهی 50 تن"}, {"a": "p:نازنین", "b": "e:ظرفیت انبار"}, {"a": "p:نازنین", "b": "p:مهدی"}, {"a": "p:نازنین", "b": "e:جلسه فردا ساعت 10"}, {"a": "p:نازنین", "b": "e:بسته بندی"}, {"a": "p:نازنین", "b": "e:شیراز"}, {"a": "p:امیر", "b": "e:مهاجرت سرور"}, {"a": "p:امیر", "b": "e:80 درصد"}, {"a": "p:امیر", "b": "e:دیتابیس قدیمی"}, {"a": "p:امیر", "b": "p:داوود"}, {"a": "p:امیر", "b": "e:بودجه اضافی"}, {"a": "p:امیر", "b": "e:سرور فعلی"}, {"a": "p:امیر", "b": "e:یکشنبه"}]};
 (function(){
