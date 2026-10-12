@@ -183,9 +183,50 @@ margin-inline-end:5px;vertical-align:middle;text-decoration:none}
 .ghint{position:absolute;inset-inline-end:14px;top:12px;font-size:10.5px;
 color:var(--txm);pointer-events:none}
 
-.gcols{display:grid;grid-template-columns:1fr 320px;gap:16px;
+.gcols{display:grid;grid-template-columns:330px minmax(0,1fr) 300px;gap:14px;
 align-items:start;margin-top:16px}
-@media(max-width:1000px){.gcols{grid-template-columns:1fr}}
+@media(max-width:1180px){.gcols{grid-template-columns:330px minmax(0,1fr)}}
+@media(max-width:900px){.gcols{grid-template-columns:1fr}}
+
+/* ask panel */
+.ask{background:var(--sf);border:1px solid var(--bd);border-radius:13px;
+display:flex;flex-direction:column;height:620px;overflow:hidden}
+@media(max-width:900px){.ask{height:520px}}
+.ask-h{padding:14px 16px;border-bottom:1px solid var(--bd)}
+.ask-h b{font-size:13.5px;color:var(--txb);display:block}
+.ask-h span{font-size:11.5px;color:var(--txm);display:block;margin-top:3px;
+line-height:1.5}
+#asklog{flex:1;overflow-y:auto;padding:14px 16px;display:flex;
+flex-direction:column;gap:11px}
+.amsg{font-size:13px;line-height:1.72;border-radius:10px;padding:11px 13px}
+.amsg.me{background:var(--tld);border:1px solid var(--tl);color:var(--txb);
+align-self:flex-end;max-width:88%}
+.amsg.it{background:var(--bg2);border:1px solid var(--bd);color:var(--tx)}
+.atext{margin-bottom:2px}
+.acite{margin-top:9px;padding-top:8px;border-top:1px solid var(--bd);
+font-size:11px;color:var(--txm);line-height:1.55}
+.acite:empty{display:none;margin:0;padding:0;border:none}
+.atw{overflow-x:auto;margin:10px -2px 0}
+table.at{width:100%;border-collapse:collapse;font-size:11.5px;white-space:nowrap}
+table.at th{text-align:start;color:var(--txm);font-weight:600;font-size:10px;
+letter-spacing:.07em;text-transform:uppercase;padding:5px 7px;
+border-bottom:1px solid var(--bd)}
+table.at td{padding:5px 7px;border-bottom:1px solid var(--bd);color:var(--tx)}
+table.at tr:last-child td{border-bottom:none}
+.achips{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.achip{background:var(--sf2);border:1px solid var(--bd);border-radius:999px;
+color:var(--tx);font-family:inherit;font-size:11.5px;padding:6px 11px;
+cursor:pointer;text-align:start;line-height:1.4}
+.achip:hover{border-color:var(--tl);color:var(--txb)}
+.ask-f{border-top:1px solid var(--bd);padding:11px 12px;display:flex;gap:8px}
+#askin{flex:1;background:var(--bg2);border:1px solid var(--bd);
+border-radius:9px;color:var(--txb);font-family:inherit;font-size:13px;
+padding:10px 12px;resize:none;height:42px;line-height:1.4}
+#askin:focus{outline:none;border-color:var(--tl)}
+#asksend{background:var(--tl);color:#03120d;border:none;border-radius:9px;
+font-family:inherit;font-size:13px;font-weight:600;padding:0 15px;
+cursor:pointer}
+#asksend:hover{opacity:.88}
 #cginfo{background:var(--sf);border:1px solid var(--bd);border-radius:12px;
 padding:17px 19px;min-height:170px;font-size:13.5px}
 .gi-h{font-size:14.5px;color:var(--txb);margin-bottom:12px;
@@ -241,6 +282,12 @@ line-height:1.85}
 <a class="dashlink" id="dashlink" href="#">داشبورد کاملِ این شرکت را باز کن ←</a>
 
 <div class="gcols">
+<div class="ask">
+<div class="ask-h"><b>از دادهٔ این شرکت بپرس</b><span>پاسخ‌ها از یادداشت‌ها محاسبه می‌شوند، نه تولید — پس ردیفشان را ذکر می‌کنند و ساختنی نیستند.</span></div>
+<div id="asklog"></div>
+<div class="ask-f"><textarea id="askin" placeholder="هر چیزی دربارهٔ این شرکت بپرس…"></textarea>
+<button id="asksend">بپرس</button></div>
+</div>
 <div class="gwrap">
 <canvas id="cg"></canvas>
 <div class="ghint">گره را بکشید · برای جزئیات کلیک کنید</div>
@@ -613,6 +660,205 @@ function inspect(n,model,lang){
  }
 }
 
+/* ---------- intent table. keywords are per language, lowercased ---------- */
+var INTENTS=[
+ {k:'promises', en:['promise','promised','commit','owe','due','overdue','said we'],
+  fa:['قول','تعهد','متعهد','موعد','سرموعد','گذشته']},
+ {k:'clients', en:['client','customer','account','deal','sales','revenue'],
+  fa:['مشتری','حساب','قرارداد','فروش','درآمد']},
+ {k:'queued', en:['waiting','queue','queued','blocked','depend','bottleneck','stuck'],
+  fa:['انتظار','منتظر','معطل','وابست','گلوگاه','بلوکه']},
+ {k:'recurring', en:['recur','again','repeat','keeps','week','old','long','stale'],
+  fa:['تکرار','باز','هفته','قدیمی','طولانی','مدام']},
+ {k:'coverage', en:["can't see",'cannot see','blind','coverage','missing','not record','unheard'],
+  fa:['نمی‌بین','نمی‌بینیم','پوشش','غایب','ضبط نمی','ناشنیده','کور']},
+ {k:'converged', en:['convergen','corroborat','independent','threshold','confirmed','real'],
+  fa:['همگرایی','تأیید','مستقل','آستانه','واقعی']},
+ {k:'priorities', en:['priorit','goal','strateg','quarter','plan','declared','focus'],
+  fa:['اولویت','هدف','استراتژ','فصل','برنامه','اعلام','تمرکز']},
+ {k:'people', en:['who','person','people','role','team','everyone','staff'],
+  fa:['کی','چه کسی','نفر','نقش','تیم','افراد','کارمند']},
+ {k:'risk', en:['risk','worst','urgent','worry','worried','attention','problem'],
+  fa:['ریسک','خطر','بدترین','فوری','نگران','توجه','مسئله']},
+ {k:'help', en:['help','what can','example','how do','ask'],
+  fa:['کمک','چه می','نمونه','چطور','بپرس']},
+];
+
+function intentOf(q){
+ var s=(q||'').toLowerCase(),best=null,hits=0;
+ INTENTS.forEach(function(it){
+  var n=0;
+  (it.en||[]).forEach(function(w){if(s.indexOf(w)>=0)n++});
+  (it.fa||[]).forEach(function(w){if(s.indexOf(w)>=0)n++});
+  if(n>hits){hits=n;best=it.k}});
+ return hits?best:null;
+}
+
+/* ---------- answer rendering helpers ---------- */
+function A_rows(cols,rows){
+ if(!rows.length)return '';
+ return '<div class="atw"><table class="at"><thead><tr>'+
+  cols.map(function(c){return '<th>'+c+'</th>'}).join('')+'</tr></thead><tbody>'+
+  rows.map(function(r){return '<tr>'+r.map(function(c){
+   return '<td>'+c+'</td>'}).join('')+'</tr>'}).join('')+
+  '</tbody></table></div>';
+}
+function A_n(v){return '<span class="num">'+v+'</span>'}
+
+/* ---------- the engine. One function, so a server proxy can replace it ---- */
+function answer(q,M){
+ var FA=M.lang==='fa',W=ASK[M.lang],k=intentOf(q);
+ var cl=M.ents.filter(function(e){return e.kind==='client'});
+ var fa=function(t){return '<span class="'+(FA?'fa':'')+'">'+t+'</span>'};
+ var join=function(a){return a.join(FA?'، ':', ')};
+
+ if(!k)return {text:W.unsure,rows:'',cite:W.citeNone,
+               chips:W.examples.slice(0,3)};
+
+ if(k==='help')
+  return {text:W.helpText,rows:'',cite:W.citeNone,chips:W.examples};
+
+ if(k==='promises'){
+  var over=M.promises.filter(function(p){return p.age>7});
+  return {text:W.promises(M.promises.length,over.length),
+    rows:A_rows([W.c.promised,W.c.subject,W.c.days],
+      M.promises.sort(function(a,b){return b.age-a.age}).map(function(p){
+       return [fa(p.what),fa(p.subject),A_n(p.age)]})),
+    cite:W.citeFrom(M.promises.length,W.src.promises)};
+ }
+ if(k==='clients'){
+  var solo=cl.filter(function(e){return e.indep<2});
+  return {text:W.clients(cl.length,solo.length),
+    rows:A_rows([W.c.subject,W.c.topic,W.c.indep,W.c.days],
+      cl.sort(function(a,b){return b.days-a.days}).map(function(e){
+       return [fa(e.subject),fa(e.topic),A_n(e.indep+'/'+e.reports),A_n(e.days)]})),
+    cite:W.citeFrom(cl.length,W.src.clients)};
+ }
+ if(k==='queued'){
+  var rows=M.people.filter(function(p){return p.waiting>0})
+    .sort(function(a,b){return b.waiting-a.waiting});
+  return {text:rows.length?W.queued(rows.length):W.queuedNone,
+    rows:A_rows([W.c.who,W.c.dept,W.c.queued],rows.map(function(p){
+     return [fa(p.name),fa(DATA.dept[p.dept][M.lang]),A_n(p.waiting)]})),
+    cite:W.structural};
+ }
+ if(k==='recurring'){
+  var rec=M.ents.filter(function(e){return e.friction&&e.weeks>2})
+    .sort(function(a,b){return b.weeks-a.weeks});
+  return {text:rec.length?W.recurring(rec.length):W.recurringNone,
+    rows:A_rows([W.c.item,W.c.topic,W.c.weeks,W.c.days],rec.map(function(e){
+     return [fa(e.label),fa(e.topic),A_n(e.weeks),A_n(e.days)]})),
+    cite:W.citeFrom(rec.length,W.src.recurring)};
+ }
+ if(k==='coverage'){
+  var miss={};M.ents.forEach(function(e){
+   (e.missing||[]).forEach(function(d){miss[d]=(miss[d]||0)+1})});
+  var rows=Object.keys(miss).map(function(d){return [fa(d),A_n(miss[d])]});
+  return {text:W.coverage(M.depts.length,rows.length),
+    rows:A_rows([W.c.dept,W.c.items],rows),
+    cite:W.coverageCite};
+ }
+ if(k==='converged'){
+  var conv=M.ents.filter(function(e){return e.fired});
+  return {text:conv.length?W.converged(conv.length):W.convergedNone,
+    rows:A_rows([W.c.topic,W.c.subject,W.c.indep,W.c.teams],
+      conv.map(function(e){return [fa(e.topic),fa(e.subject),
+       A_n(e.indep+'/'+e.reports),fa(join(e.depts))]})),
+    cite:W.convergedCite};
+ }
+ if(k==='priorities'){
+  var bad=M.prio.filter(function(p){return p.status!=='tracked'});
+  return {text:W.priorities(M.prio.length,bad.length),
+    rows:A_rows([W.c.prio,W.c.items,W.c.mentions,W.c.state],
+      M.prio.map(function(p){return [fa(p.name),A_n(p.items),A_n(p.mentions),
+       p.status==='tracked'?W.tracked:(p.status==='gap'?W.gap:W.blocked)]})),
+    cite:W.prioritiesCite};
+ }
+ if(k==='people'){
+  return {text:W.people(M.people.length,M.depts.length),
+    rows:A_rows([W.c.who,W.c.dept,W.c.notes,W.c.queued],
+      M.people.slice().sort(function(a,b){return b.notes.length-a.notes.length})
+       .map(function(p){return [fa(p.name),fa(DATA.dept[p.dept][M.lang]),
+        A_n(p.notes.length),A_n(p.waiting)]})),
+    cite:W.peopleCite};
+ }
+ if(k==='risk'){
+  var r=M.ents.filter(function(e){return e.friction})
+   .sort(function(a,b){return (b.indep*100+b.days)-(a.indep*100+a.days)})
+   .slice(0,6);
+  return {text:W.risk(r.length),
+    rows:A_rows([W.c.item,W.c.indep,W.c.days,W.c.teams],r.map(function(e){
+     return [fa(e.label),A_n(e.indep+'/'+e.reports),A_n(e.days),
+             fa(join(e.depts))]})),
+    cite:W.riskCite};
+ }
+ return {text:W.unsure,rows:'',cite:W.citeNone,chips:W.examples.slice(0,3)};
+}
+
+/* ---------- panel wiring ---------- */
+function askInit(getModel){
+ var log=document.getElementById('asklog'),
+     inp=document.getElementById('askin'),
+     btn=document.getElementById('asksend');
+ if(!log||!inp)return;
+ var W=ASK[getModel().lang];
+
+ function chips(list){
+  return '<div class="achips">'+list.map(function(c){
+   return '<button class="achip" data-q="'+c.replace(/"/g,'&quot;')+'">'+c+
+    '</button>'}).join('')+'</div>'}
+
+ function bind(){
+  log.querySelectorAll('.achip').forEach(function(b){
+   b.onclick=function(){inp.value=b.dataset.q;send()}})}
+
+ function add(cls,html){
+  var d=document.createElement('div');d.className='amsg '+cls;d.innerHTML=html;
+  log.appendChild(d);log.scrollTop=log.scrollHeight;bind();return d}
+
+ function send(){
+  var q=(inp.value||'').trim();if(!q)return;
+  add('me',document.createTextNode?q.replace(/[<>&]/g,''):q);
+  inp.value='';
+  var a=answer(q,getModel());
+  add('it','<div class="atext">'+a.text+'</div>'+(a.rows||'')+
+      '<div class="acite">'+a.cite+'</div>'+(a.chips?chips(a.chips):''));
+ }
+ btn.onclick=send;
+ inp.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+ add('it','<div class="atext">'+W.hello+'</div>'+chips(W.examples));
+}
+
+var ASK={};ASK["fa"]={"hello": "دربارهٔ این شرکت بپرس. پاسخ‌ها را از یادداشت‌هایش محاسبه می‌کنم، نه تولید — پس می‌توانم ردیف‌ها را نشانت بدهم، و نمی‌توانم چیزی از خودم بسازم.",
+"unsure": "برای این پرسش جست‌وجویی ندارم. من از سوابقِ خودِ این شرکت پاسخ می‌دهم، پس محدودم به آنچه آدم‌ها واقعاً ضبط کرده‌اند. یکی از این‌ها را امتحان کن:",
+"helpText": "می‌توانم از آنچه آدم‌های این شرکت ضبط کرده‌اند پاسخ بدهم. چیزهایی که ارزش پرسیدن دارند:",
+"examples": ["الان چه چیزی در خطر است؟", "کدام قول‌ها از موعد گذشته‌اند؟", "کی منتظر کسی است؟", "چه چیزی مدام تکرار می‌شود؟", "چه چیزی را نمی‌بینی؟", "چه چیزی واقعاً تأیید شده؟", "آیا روی اولویت‌هایمان کار می‌کنیم؟"],
+"promises": function(n, o){ return "‏" + n + " تعهد در گفت‌وگو داده شده و نتیجه‌ای برایشان ثبت نشده. " + o + " مورد از موعدی که بلند گفته شده گذشته‌اند. هیچ‌کدام در سیستم تیکت نیستند — و همین است که گمشان می‌کند."; },
+"clients": function(n, s){ return "‏" + n + " مسئلهٔ مرتبط با مشتری باز است. " + s + " مورد را فقط یک نفر مطرح کرده، که یعنی بر اساس قاعدهٔ افشا تا کسی دیگر مستقل همان را نگوید، هرگز به مدیریت نمی‌رسد."; },
+"queued": function(n){ return "‏" + n + " نفر درخواست‌هایی در انتظار خود دارند. این شکلِ کار را توصیف می‌کند، نه سرعتِ کسی — در این سیستم هیچ فیلدی نیست که کسی را بسنجد."; },
+"queuedNone": "در این ترکیب، کسی درخواستی در انتظار خود ندارد.",
+"recurring": function(n){ return "‏" + n + " مسئله بیش از دو هفته است که برمی‌گردند. تکرار همان سیگنالی است که گردشِ «تیکت را ببند» نابود می‌کند: هر نوبت حل‌شده به نظر می‌رسد، و الگو نامرئی می‌ماند."; },
+"recurringNone": "اینجا چیزی بیش از دو هفته تکرار نشده.",
+"coverage": function(d, m){ return "ژرفکس " + d + " دپارتمان را می‌شنود. " + m + " دپارتمان در مسائل ارجاع داده شده‌اند ولی کسی در آن‌ها ضبط نمی‌کند، پس هرچه دربارهٔ آن مسائل می‌دانند نامرئی است. دپارتمانِ ساکت، کمبودِ دیدِ ماست، نه داوری دربارهٔ آن‌ها."; },
+"coverageCite": "محاسبه‌شده از اینکه هر مسئله به کدام دپارتمان‌ها مربوط است، در برابر اینکه در کدام‌ها کسی ضبط می‌کند.",
+"converged": function(n){ return "‏" + n + " یافته تأییدِ مستقل دارند — سه نفر یا بیشتر توصیفشان کرده‌اند، پس از کسرِ هر کسی که قبلاً با فردی از همان فهرست حرف زده بود. اینها تنها ادعاهایی هستند که سیستم پشتشان می‌ایستد."; },
+"convergedNone": "اینجا چیزی به آستانه نمی‌رسد. سه گزارشگر مستقل لازم است، و در ترکیبِ کوچک تقریباً همه با تقریباً همه حرف زده‌اند، پس سه‌نفرِ مستقلی وجود ندارد. این ویژگیِ واقعیِ سازوکار است، نه کمبودِ دمو.",
+"convergedCite": "با همان قاعدهٔ «مجموعهٔ مستقلِ بیشینه» که محصول استفاده می‌کند محاسبه شده.",
+"priorities": function(n, b){ return "از " + n + " اولویتِ اعلام‌شده، " + b + " مورد در یادداشت‌های کسی اثرِ کم یا هیچ اثری ندارند. این اثبات رهاشدنشان نیست — اما کسی دربارهٔ آن‌ها حرف نمی‌زند، و دانستنش پیش از پایان فصل ارزش دارد."; },
+"prioritiesCite": "اولویت‌های اعلام‌شده، سنجیده در برابر جایی که توجه واقعاً رفت.",
+"people": function(p, d){ return "‏" + p + " نفر در " + d + " دپارتمان ضبط می‌کنند. روی هر کسی در گراف کلیک کن تا حرفِ خودش دربارهٔ آن هفته را بخوانی."; },
+"peopleCite": "تعداد یادداشت و بارِ وابستگی. هیچ‌کدام سنجهٔ عملکرد نیست.",
+"risk": function(n){ return "‏" + n + " موردی که اول به آن‌ها نگاه می‌کردم، مرتب‌شده بر اساس تعدادِ افرادِ مستقلی که مطرحشان کرده‌اند و مدتی که باز بوده‌اند. استقلال از تعداد مهم‌تر است: یک حسابِ پرصدا شاهد نیست."; },
+"riskCite": "مرتب‌شده بر اساس تأییدِ مستقل، سپس قدمت.",
+"structural": "بارِ وابستگی یک واقعیتِ ساختاری دربارهٔ کار است.",
+"citeNone": "",
+"citeFrom": function(n, s){ return "محاسبه‌شده از " + n + " " + s + "."; },
+"src": {"promises": "تعهدِ ثبت‌شده", "clients": "موردِ مرتبط با مشتری", "recurring": "موردِ تکرارشده"},
+"tracked": "پیگیری‌شده",
+"gap": "کم‌رنگ",
+"blocked": "بی‌اثر",
+"c": {"promised": "چه قولی", "subject": "سوژه", "days": "روز باز", "topic": "موضوع", "indep": "مستقل", "item": "مورد", "weeks": "هفته", "dept": "دپارتمان", "items": "مسئله", "who": "کی", "queued": "در انتظار", "notes": "یادداشت", "teams": "تیم‌ها", "prio": "اولویتِ اعلام‌شده", "mentions": "ارجاع", "state": "وضعیت"}};
 var MARK={"person": "#3987e5", "quiet": "#5b6a85", "friction": "#d9703f", "fired": "#00a37d"}, DEPT_HUES=["#3987e5", "#d95926", "#199e70", "#c98500", "#d55181", "#9085e9"];
 var DATA={"names": [["مهدی", "Mehdi"], ["سارا", "Sara"], ["رضا", "Reza"], ["نازنین", "Nazanin"], ["امیر", "Amir"], ["داوود", "Davood"], ["کیان", "Kian"], ["مریم", "Maryam"], ["حسین", "Hossein"], ["لیلا", "Leila"], ["بابک", "Babak"], ["شیرین", "Shirin"], ["فرهاد", "Farhad"], ["الهام", "Elham"], ["نوید", "Navid"], ["پریسا", "Parisa"], ["کاوه", "Kaveh"], ["سمیرا", "Samira"], ["آرش", "Arash"], ["نگار", "Negar"]], "dept": {"ops": {"en": "Operations", "fa": "عملیات", "c": "#4d8eff"}, "wh": {"en": "Warehouse", "fa": "انبار", "c": "#4d8eff"}, "proc": {"en": "Procurement", "fa": "تدارکات", "c": "#a98bff"}, "fin": {"en": "Finance", "fa": "مالی", "c": "#f5a83c"}, "sales": {"en": "Sales", "fa": "فروش", "c": "#3ddc97"}, "eng": {"en": "Engineering", "fa": "فنی", "c": "#ff6b6b"}, "hr": {"en": "People", "fa": "منابع انسانی", "c": "#ff8fd0"}, "prod": {"en": "Production", "fa": "تولید", "c": "#4d8eff"}, "qa": {"en": "Quality", "fa": "کیفیت", "c": "#ff6b6b"}, "store": {"en": "Store floor", "fa": "فروشگاه", "c": "#3ddc97"}, "supply": {"en": "Supply", "fa": "تأمین", "c": "#a98bff"}, "deliv": {"en": "Delivery", "fa": "توزیع", "c": "#00e0b0"}, "client": {"en": "Client work", "fa": "پروژه‌ها", "c": "#4d8eff"}, "acct": {"en": "Accounts", "fa": "حساب‌ها", "c": "#f5a83c"}}, "bands": {"micro": {"per": 1}, "small": {"per": 2}, "mid": {"per": 3}, "large": {"per": 5}}, "instances": {"micro": 1, "small": 2, "mid": 3, "large": 4}, "pools": {"logistics": {"client": [{"en": "Shiraz", "fa": "شیراز"}, {"en": "Isfahan", "fa": "اصفهان"}, {"en": "Tabriz", "fa": "تبریز"}, {"en": "Mashhad", "fa": "مشهد"}, {"en": "Ahvaz", "fa": "اهواز"}, {"en": "Karaj", "fa": "کرج"}, {"en": "Qom", "fa": "قم"}, {"en": "Rasht", "fa": "رشت"}], "resource": [{"en": "bubble wrap", "fa": "بسته‌بندی حبابدار"}, {"en": "pallets", "fa": "پالت"}, {"en": "stretch film", "fa": "فیلم کشسان"}, {"en": "cold storage", "fa": "سردخانه"}, {"en": "the second truck", "fa": "کامیون دوم"}], "site": [{"en": "the Tabriz route", "fa": "مسیر تبریز"}, {"en": "the south depot", "fa": "انبار جنوب"}, {"en": "the Karaj hub", "fa": "هاب کرج"}]}, "manufacturing": {"client": [{"en": "the automotive order", "fa": "سفارش خودرویی"}, {"en": "the export batch", "fa": "محمولهٔ صادراتی"}, {"en": "the domestic contract", "fa": "قرارداد داخلی"}, {"en": "the spare-parts order", "fa": "سفارش قطعات"}], "resource": [{"en": "steel stock", "fa": "موجودی فولاد"}, {"en": "the coating line", "fa": "خط پوشش"}, {"en": "line two", "fa": "خط دو"}, {"en": "the press", "fa": "پرس"}, {"en": "the CNC cell", "fa": "سل CNC"}], "site": [{"en": "the main hall", "fa": "سالن اصلی"}, {"en": "the QC bench", "fa": "میز کنترل کیفیت"}]}, "retail": {"client": [{"en": "the top-selling line", "fa": "پرفروش‌ترین کالا"}, {"en": "the seasonal range", "fa": "کالای فصلی"}, {"en": "the premium tier", "fa": "ردهٔ پریمیوم"}, {"en": "the entry range", "fa": "ردهٔ اقتصادی"}], "resource": [{"en": "shelf space", "fa": "فضای قفسه"}, {"en": "the back room", "fa": "انبار پشتی"}, {"en": "the POS system", "fa": "سیستم فروش"}, {"en": "weekend cover", "fa": "پوشش آخر هفته"}], "site": [{"en": "the main store", "fa": "فروشگاه اصلی"}, {"en": "the north branch", "fa": "شعبهٔ شمال"}]}, "services": {"client": [{"en": "the main account", "fa": "حساب اصلی"}, {"en": "the retainer client", "fa": "مشتری قرارداد ماهانه"}, {"en": "the new engagement", "fa": "پروژهٔ جدید"}, {"en": "the renewal account", "fa": "حساب تمدیدی"}], "resource": [{"en": "the integration", "fa": "یکپارچه‌سازی"}, {"en": "the lead engineer", "fa": "مهندس ارشد"}, {"en": "the reporting build", "fa": "ساختِ گزارش‌ها"}, {"en": "senior review time", "fa": "زمانِ بازبینی ارشد"}], "site": [{"en": "the delivery team", "fa": "تیم اجرا"}]}}, "templates": {"logistics": [{"id": "blocked", "kind": "client", "slot": "client", "friction": true, "depts": ["wh", "proc", "deliv", "fin"], "coord": ["wh", "proc"], "title": {"en": "{x} shipment blocked", "fa": "محمولهٔ {x} متوقف شده"}, "topic": {"en": "packaging shortage", "fa": "کمبود بسته‌بندی"}, "promise": {"en": "an answer by Thursday", "fa": "جواب تا پنجشنبه"}, "notes": {"wh": {"en": "The {x} shipment still isn't packed — we're short on packaging. Asked procurement, nothing back yet.", "fa": "محمولهٔ {x} هنوز بسته‌بندی نشده — بسته‌بندی کم داریم. از تدارکات خواستم، هنوز جوابی نیامده."}, "proc": {"en": "Ordered more packaging for {x} but it lands next week. Using paper wrap for the small ones.", "fa": "برای {x} بسته‌بندی سفارش دادم ولی هفتهٔ بعد می‌رسد. برای کوچک‌ها کاغذ استفاده می‌کنیم."}, "deliv": {"en": "Two runs for {x} went out half-loaded. Drivers waited an hour.", "fa": "دو سرویس {x} نیمه‌بار رفت. راننده‌ها یک ساعت معطل شدند."}, "fin": {"en": "The {x} delay may trigger the penalty clause. Need to check the contract.", "fa": "تأخیر {x} ممکن است بندِ جریمه را فعال کند. باید قرارداد را بررسی کنم."}}}, {"id": "cap", "kind": "client", "slot": "client", "friction": true, "depts": ["sales", "wh", "fin"], "coord": ["sales", "wh"], "title": {"en": "{x} wants an annual contract", "fa": "{x} قرارداد سالانه می‌خواهد"}, "topic": {"en": "capacity confirmation", "fa": "تأیید ظرفیت"}, "promise": {"en": "capacity confirmed this week", "fa": "تأیید ظرفیت در همین هفته"}, "notes": {"sales": {"en": "{x} wants an annual deal, fifty tonnes a month. Someone has to confirm we have the space.", "fa": "{x} قرارداد سالانه می‌خواهد، ماهی پنجاه تن. کسی باید تأیید کند جا داریم."}, "wh": {"en": "Sales asked about capacity for {x}. Didn't get to it — buried in the packaging problem.", "fa": "فروش دربارهٔ ظرفیت {x} پرسید. نرسیدم — درگیر مسئلهٔ بسته‌بندی بودم."}, "fin": {"en": "If we sign {x} at that volume we need to re-forecast storage cost.", "fa": "اگر {x} را با آن حجم ببندیم، باید هزینهٔ انبارش را دوباره پیش‌بینی کنیم."}}}, {"id": "short", "kind": "internal", "slot": "resource", "friction": true, "depts": ["wh", "proc", "deliv"], "coord": ["proc", "deliv"], "title": {"en": "{x} running out", "fa": "{x} دارد تمام می‌شود"}, "topic": {"en": "supply shortfall", "fa": "کمبود تأمین"}, "promise": null, "notes": {"wh": {"en": "We're nearly out of {x}. Improvising for now.", "fa": "{x} تقریباً تمام شده. فعلاً سرهم‌بندی می‌کنیم."}, "proc": {"en": "Reorder on {x} keeps slipping because nobody flags it until it's gone.", "fa": "سفارش مجدد {x} مدام عقب می‌افتد چون تا تمام نشود کسی خبر نمی‌دهد."}, "deliv": {"en": "Without {x} we can't load properly. Two routes affected.", "fa": "بدون {x} نمی‌توانیم درست بارگیری کنیم. دو مسیر درگیر است."}}}, {"id": "route", "kind": "internal", "slot": "site", "friction": true, "depts": ["deliv", "wh", "sales"], "coord": ["deliv", "wh"], "title": {"en": "{x} keeps slipping", "fa": "{x} مدام عقب می‌افتد"}, "topic": {"en": "route reliability", "fa": "اطمینان‌پذیری مسیر"}, "promise": null, "notes": {"deliv": {"en": "{x} ran late three times this week. Same bottleneck each time.", "fa": "{x} این هفته سه بار دیر شد. هر بار همان گلوگاه."}, "wh": {"en": "Loading for {x} starts late because the paperwork arrives late.", "fa": "بارگیری {x} دیر شروع می‌شود چون مدارک دیر می‌رسد."}, "sales": {"en": "Clients on {x} have started asking why delivery windows move.", "fa": "مشتری‌های {x} شروع کرده‌اند بپرسند چرا زمان تحویل جابه‌جا می‌شود."}}}, {"id": "onboard", "kind": "people", "slot": "site", "friction": false, "depts": ["hr", "wh"], "coord": ["hr", "wh"], "title": {"en": "New hire for {x}", "fa": "نیروی جدید برای {x}"}, "topic": {"en": "onboarding", "fa": "آنبوردینگ"}, "promise": null, "notes": {"hr": {"en": "New person starts Monday on {x}. Needs access and someone to walk them through it.", "fa": "نیروی جدید دوشنبه روی {x} شروع می‌کند. دسترسی و کسی که راهش بیندازد لازم دارد."}, "wh": {"en": "I'm meant to show the new person {x} on Monday. Won't have time.", "fa": "قرار است دوشنبه {x} را به نیروی جدید نشان بدهم. وقت نمی‌کنم."}}}], "manufacturing": [{"id": "drift", "kind": "internal", "slot": "resource", "friction": true, "depts": ["prod", "qa", "eng"], "coord": ["prod", "eng"], "title": {"en": "{x} drifting out of tolerance", "fa": "{x} از تلورانس خارج می‌شود"}, "topic": {"en": "tolerance drift", "fa": "خروج از تلورانس"}, "promise": null, "notes": {"prod": {"en": "{x} drifts after about four hours. We reset and carry on; nobody logs it.", "fa": "{x} بعد از حدود چهار ساعت از تنظیم خارج می‌شود. ریست می‌کنیم و ادامه می‌دهیم؛ کسی ثبتش نمی‌کند."}, "qa": {"en": "Rejects traced to {x} are up again. Same dimension every time.", "fa": "ضایعاتِ مربوط به {x} باز بالا رفته. هر بار همان بُعد."}, "eng": {"en": "{x} needs recalibrating but stopping it costs a shift, so we defer.", "fa": "{x} باید کالیبره شود ولی خواباندنش یک شیفت هزینه دارد، پس عقب می‌اندازیم."}}}, {"id": "mat", "kind": "internal", "slot": "resource", "friction": true, "depts": ["supply", "prod", "fin"], "coord": ["supply", "prod"], "title": {"en": "{x} delayed", "fa": "{x} با تأخیر"}, "topic": {"en": "material delay", "fa": "تأخیر مواد"}, "promise": {"en": "delivery Thursday", "fa": "تحویل پنجشنبه"}, "notes": {"supply": {"en": "{x} slipped two weeks. Found a second source but it's dearer.", "fa": "{x} دو هفته عقب افتاد. منبع دوم پیدا کردم ولی گران‌تر است."}, "prod": {"en": "We run out of {x} on Thursday if nothing arrives.", "fa": "اگر چیزی نرسد، پنجشنبه {x} تمام می‌شود."}, "fin": {"en": "The alternative source for {x} is fifteen percent more. That breaks the material budget.", "fa": "منبع جایگزین {x} پانزده درصد گران‌تر است. بودجهٔ مواد را به‌هم می‌زند."}}}, {"id": "order", "kind": "client", "slot": "client", "friction": true, "depts": ["prod", "qa", "sales", "fin"], "coord": ["prod", "qa"], "title": {"en": "{x} at risk", "fa": "{x} در خطر"}, "topic": {"en": "delivery commitment", "fa": "تعهد تحویل"}, "promise": {"en": "ship by month end", "fa": "ارسال تا پایان ماه"}, "notes": {"prod": {"en": "{x} needs the line for three days we don't have.", "fa": "{x} سه روز خط می‌خواهد که نداریم."}, "qa": {"en": "{x} has a tighter spec than we usually run. Expect rework.", "fa": "{x} مشخصاتِ سخت‌تری از حدِ معمولِ ما دارد. انتظار دوباره‌کاری هست."}, "sales": {"en": "I promised {x} would ship by month end. Nobody checked capacity.", "fa": "قول دادم {x} تا پایان ماه ارسال شود. کسی ظرفیت را چک نکرد."}, "fin": {"en": "Late delivery on {x} costs us the early-payment discount.", "fa": "تأخیر در {x} تخفیفِ پرداخت زودهنگام را از ما می‌گیرد."}}}, {"id": "key", "kind": "people", "slot": "resource", "friction": true, "depts": ["eng", "prod", "hr"], "coord": ["eng", "prod"], "title": {"en": "Only one person can run {x}", "fa": "فقط یک نفر {x} را می‌تواند بچرخاند"}, "topic": {"en": "single point of dependency", "fa": "وابستگی به یک نفر"}, "promise": null, "notes": {"eng": {"en": "I'm the only one who knows {x} properly. None of it is written down.", "fa": "تنها کسی هستم که {x} را درست می‌شناسم. هیچ‌کدامش نوشته نشده."}, "prod": {"en": "Every question about {x} goes to one person. When he's off we stall.", "fa": "هر سؤالی دربارهٔ {x} به یک نفر می‌رسد. وقتی نیست، کار می‌خوابد."}, "hr": {"en": "He asked about three weeks' leave. I said it should be fine.", "fa": "دربارهٔ سه هفته مرخصی پرسید. گفتم مشکلی نیست."}}}], "retail": [{"id": "stockout", "kind": "client", "slot": "client", "friction": true, "depts": ["store", "supply", "sales"], "coord": ["store", "supply"], "title": {"en": "{x} out of stock again", "fa": "{x} باز تمام شد"}, "topic": {"en": "stockouts", "fa": "تمام‌شدن موجودی"}, "promise": null, "notes": {"store": {"en": "Ran out of {x} on Friday afternoon. People asked all weekend.", "fa": "جمعه بعدازظهر {x} تمام شد. تمام آخر هفته سراغش را می‌گرفتند."}, "supply": {"en": "Reorder for {x} goes in late because nobody tells me until the shelf is empty.", "fa": "سفارش {x} دیر ثبت می‌شود چون تا قفسه خالی نشود کسی نمی‌گوید."}, "sales": {"en": "We lost a dozen sales on {x} this week. Customers went elsewhere.", "fa": "این هفته ده‌دوازده فروش روی {x} از دست رفت. مشتری‌ها جای دیگر رفتند."}}}, {"id": "space", "kind": "internal", "slot": "resource", "friction": true, "depts": ["store", "supply"], "coord": ["store", "supply"], "title": {"en": "{x} is the constraint", "fa": "{x} محدودکننده است"}, "topic": {"en": "space and layout", "fa": "فضا و چیدمان"}, "promise": null, "notes": {"store": {"en": "{x} is full. New stock sits in the aisle.", "fa": "{x} پر است. کالای جدید در راهرو می‌ماند."}, "supply": {"en": "I keep ordering to a shelf plan that {x} can't actually hold.", "fa": "مدام بر اساس چیدمانی سفارش می‌دهم که {x} واقعاً جا نمی‌دهد."}}}, {"id": "shift", "kind": "people", "slot": "site", "friction": true, "depts": ["store", "hr", "sales"], "coord": ["store", "hr"], "title": {"en": "Weekend cover at {x}", "fa": "پوشش آخر هفته در {x}"}, "topic": {"en": "understaffing", "fa": "کمبود نیرو"}, "promise": null, "notes": {"store": {"en": "Two short at {x} on Friday evening again. Queues out the door.", "fa": "جمعه شب باز دو نفر در {x} کم بودیم. صف تا بیرون در."}, "hr": {"en": "Three people asked to drop weekend shifts this month. I approved them separately.", "fa": "این ماه سه نفر خواستند شیفت آخر هفته ندهند. جداگانه موافقت کردم."}, "sales": {"en": "Saturday conversion at {x} is visibly worse when we're short.", "fa": "تبدیلِ شنبه در {x} وقتی کم داریم محسوس بدتر است."}}}], "services": [{"id": "scope", "kind": "client", "slot": "client", "friction": true, "depts": ["client", "acct", "sales"], "coord": ["sales", "client"], "title": {"en": "{x} scope creeping", "fa": "گسترش دامنهٔ {x}"}, "topic": {"en": "scope creep", "fa": "گسترش دامنهٔ کار"}, "promise": {"en": "absorb the extra work", "fa": "جذب کار اضافه"}, "notes": {"client": {"en": "{x} keeps adding requests on calls. I've said yes to three things outside the statement of work.", "fa": "{x} مدام در تماس‌ها درخواست اضافه می‌کند. به سه چیز بیرون از شرح کار بله گفته‌ام."}, "acct": {"en": "Hours on {x} are forty percent over what we billed. No change order was raised.", "fa": "ساعت‌های {x} چهل درصد بیشتر از صورت‌حساب است. درخواست تغییری ثبت نشده."}, "sales": {"en": "I promised {x} we'd absorb it to keep the renewal. Didn't check with delivery.", "fa": "به {x} قول دادم جذبش کنیم تا تمدید بشود. با تیم اجرا هماهنگ نکردم."}}}, {"id": "key", "kind": "people", "slot": "resource", "friction": true, "depts": ["eng", "client", "hr"], "coord": ["eng", "client"], "title": {"en": "{x} is a single point of failure", "fa": "{x} تنها نقطهٔ شکست است"}, "topic": {"en": "key-person risk", "fa": "ریسکِ وابستگی به فرد"}, "promise": null, "notes": {"eng": {"en": "I'm the only one who understands {x}. I haven't written it down.", "fa": "تنها کسی هستم که {x} را می‌فهمم. جایی ننوشته‌ام."}, "client": {"en": "Every question about {x} goes to one person. When he's away we stall.", "fa": "هر سؤالی دربارهٔ {x} به یک نفر می‌رسد. وقتی نیست کار می‌خوابد."}, "hr": {"en": "He asked about taking three weeks in the spring. I said fine.", "fa": "پرسید بهار سه هفته مرخصی بگیرد. گفتم مشکلی نیست."}}}, {"id": "margin", "kind": "client", "slot": "client", "friction": true, "depts": ["acct", "client", "sales"], "coord": ["acct", "sales"], "title": {"en": "{x} margin slipping", "fa": "افتِ حاشیهٔ {x}"}, "topic": {"en": "margin erosion", "fa": "فرسایشِ حاشیهٔ سود"}, "promise": null, "notes": {"acct": {"en": "{x} is below target margin for the third month.", "fa": "{x} سه ماه است زیر حاشیهٔ هدف است."}, "client": {"en": "Most of the unbilled time on {x} is senior review nobody scoped.", "fa": "بیشترِ زمانِ صورت‌حساب‌نشدهٔ {x}، بازبینیِ ارشد است که کسی در دامنه حسابش نکرده."}, "sales": {"en": "We discounted {x} to win it and never revisited the rate.", "fa": "{x} را با تخفیف بردیم و نرخ را هرگز بازبینی نکردیم."}}}, {"id": "report", "kind": "internal", "slot": "resource", "friction": true, "depts": ["eng", "acct"], "coord": ["eng", "acct"], "title": {"en": "{x} always late", "fa": "{x} همیشه دیر"}, "topic": {"en": "reporting delay", "fa": "تأخیر گزارش‌دهی"}, "promise": {"en": "ready by Friday", "fa": "آماده تا جمعه"}, "notes": {"eng": {"en": "{x} takes a day of manual work every month. I keep deferring the fix.", "fa": "{x} هر ماه یک روز کارِ دستی می‌برد. مدام اصلاحش را عقب می‌اندازم."}, "acct": {"en": "I can't close the month until {x} lands, and it's always late.", "fa": "تا {x} نرسد نمی‌توانم ماه را ببندم، و همیشه دیر است."}}}]}, "priorities": {"logistics": [{"en": "Cut delivery time 20%", "fa": "کاهش ۲۰٪ زمان تحویل"}, {"en": "Win the annual contracts", "fa": "برندن قراردادهای سالانه"}, {"en": "Reduce packaging cost", "fa": "کاهش هزینهٔ بسته‌بندی"}], "manufacturing": [{"en": "Raise first-pass yield", "fa": "افزایش بازدهِ نوبت اول"}, {"en": "Second-source critical materials", "fa": "تأمین دومِ مواد حیاتی"}, {"en": "Cut unplanned downtime", "fa": "کاهش توقفِ برنامه‌ریزی‌نشده"}], "retail": [{"en": "Never stock out on the top ten", "fa": "تمام‌نشدن ده کالای اصلی"}, {"en": "Lift weekend conversion", "fa": "افزایش تبدیلِ آخر هفته"}, {"en": "Open the second location", "fa": "افتتاح شعبهٔ دوم"}], "services": [{"en": "Protect gross margin", "fa": "حفظ حاشیهٔ سود"}, {"en": "Renew the top three accounts", "fa": "تمدید سه حساب اصلی"}, {"en": "Reduce key-person risk", "fa": "کاهش ریسکِ وابستگی به فرد"}]}, "industries": {"logistics": {"depts": ["wh", "proc", "deliv", "sales", "fin", "hr"]}, "manufacturing": {"depts": ["prod", "qa", "supply", "eng", "fin", "hr"]}, "retail": {"depts": ["store", "supply", "sales", "fin", "hr"]}, "services": {"depts": ["client", "sales", "acct", "eng", "hr"]}}, "indNames": {"logistics": {"en": "Logistics & distribution", "fa": "لجستیک و پخش"}, "manufacturing": {"en": "Manufacturing", "fa": "تولید"}, "retail": {"en": "Retail & stores", "fa": "خرده‌فروشی"}, "services": {"en": "Professional services", "fa": "خدمات حرفه‌ای"}}, "bandLabels": {"micro": {"en": "1–9 people", "fa": "۱ تا ۹ نفر"}, "small": {"en": "10–29 people", "fa": "۱۰ تا ۲۹ نفر"}, "mid": {"en": "30–99 people", "fa": "۳۰ تا ۹۹ نفر"}, "large": {"en": "100+ people", "fa": "۱۰۰ نفر و بیشتر"}}}, LANG="fa";
 var CFG={industry:Object.keys(DATA.industries)[0],band:'mid',depts:[],lang:LANG};
@@ -710,5 +956,6 @@ function syncLink(){
 })();
 
 deptButtons();render();
+askInit(function(){return MODEL});
 </script>
 </body></html>
