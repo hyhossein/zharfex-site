@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>داشبورد — ژرفکس</title>
+<meta name="description" content="شرکتِ ساخته‌شدهٔ شما">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#07090f">
+<link rel="canonical" href="https://zharfex.com/fa/dashboard/">
+<link rel="alternate" hreflang="en" href="https://zharfex.com/dashboard/">
+<meta property="og:title" content="داشبورد — ژرفکس"><meta property="og:description" content="شرکتِ ساخته‌شدهٔ شما">
+<meta property="og:url" content="https://zharfex.com/fa/dashboard/"><meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{
+--bg:#07090f; --bg2:#0a0d15; --sf:#0e131c; --sf2:#141a26; --sf3:#1b2433;
+--bd:#1b2433; --bd2:#283346;
+--tx:#9aa7bd; --txb:#eef2f9; --txm:#5b6a85;
+--tl:#00e0b0; --tld:rgba(0,224,176,.09); --tl2:#00b894;
+--am:#f5a83c; --amd:rgba(245,168,60,.10);
+--bl:#5b9bff; --rd:#ff6b6b; --pu:#a98bff; --gn:#3ddc97;
+--w:1120px; --prose:680px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-size:16px;line-height:1.7;
+-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+overflow-x:hidden}
+html[lang="en"] body{font-family:'IBM Plex Sans',system-ui,-apple-system,sans-serif}
+html[lang="fa"] body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;
+line-height:1.95}
+.fa{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;direction:rtl;
+unicode-bidi:isolate}
+.en{font-family:'IBM Plex Sans',system-ui,sans-serif;direction:ltr;
+unicode-bidi:isolate}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;
+font-variant-numeric:tabular-nums}
+/* Latin digits inside RTL text get reordered by the bidi algorithm —
+   "1 / 8" renders as "8 / 1". Any run of numerals or mixed numeric text must
+   be isolated LTR regardless of document direction. */
+.num{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 28px}
+.prose{max-width:var(--prose)}
+@media(max-width:640px){.wrap{padding:0 18px}body{font-size:15.5px}}
+
+a{color:inherit}
+h1,h2,h3,h4{color:var(--txb);font-weight:600;letter-spacing:-.018em;
+line-height:1.18}
+html[lang="fa"] h1,html[lang="fa"] h2,html[lang="fa"] h3{letter-spacing:0;
+line-height:1.45;font-weight:600}
+.h-xl{font-size:clamp(34px,5.4vw,62px);font-weight:300;line-height:1.08}
+html[lang="fa"] .h-xl{font-size:clamp(28px,4.6vw,52px);line-height:1.38;
+font-weight:400}
+.h-l{font-size:clamp(24px,3vw,36px);font-weight:300;line-height:1.2}
+html[lang="fa"] .h-l{line-height:1.5;font-weight:500}
+.h-m{font-size:clamp(19px,2.1vw,24px);font-weight:600}
+em{font-style:normal;color:var(--tl);font-weight:400}
+html[lang="fa"] em{font-weight:500}
+.kick{font-size:11px;font-weight:600;letter-spacing:.16em;
+text-transform:uppercase;color:var(--txm)}
+html[lang="fa"] .kick{letter-spacing:.04em;font-size:12px}
+.lead{font-size:18px;line-height:1.68;color:var(--tx)}
+html[lang="fa"] .lead{font-size:17px;line-height:2}
+.dim{color:var(--txm)}
+.sm{font-size:13.5px}
+.xs{font-size:12px;color:var(--txm);line-height:1.65}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(7,9,15,.82);
+backdrop-filter:blur(14px) saturate(160%);border-bottom:1px solid var(--bd)}
+nav .wrap{display:flex;align-items:center;gap:26px;height:62px}
+.brand{display:flex;align-items:baseline;gap:9px;text-decoration:none;
+margin-inline-end:auto}
+.brand b{font-family:'IBM Plex Sans',sans-serif;font-size:14.5px;
+font-weight:700;letter-spacing:.11em;color:var(--txb)}
+.brand i{font-style:normal;font-size:19px;color:var(--tl);
+font-family:'Vazirmatn',Tahoma,sans-serif}
+.nl{color:var(--txm);text-decoration:none;font-size:14px;font-weight:500;
+white-space:nowrap}
+.nl:hover{color:var(--tx)}
+.nl.on{color:var(--tl)}
+.lang{border:1px solid var(--bd2);border-radius:7px;padding:6px 13px;
+font-size:13px;color:var(--tx);text-decoration:none;white-space:nowrap}
+.lang:hover{border-color:var(--tl);color:var(--tl)}
+.navcta{background:var(--tl);color:#03120d;border-radius:7px;padding:8px 16px;
+font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap}
+.navcta:hover{opacity:.88}
+@media(max-width:820px){.nl.hide-s{display:none}nav .wrap{gap:14px}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:9px;background:var(--tl);
+color:#03120d;border:none;border-radius:8px;padding:14px 24px;font-size:15px;
+font-weight:600;cursor:pointer;text-decoration:none;font-family:inherit;
+transition:transform .12s,opacity .12s}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--bd2)}
+.btn.ghost:hover{background:var(--sf2);opacity:1;border-color:var(--tl)}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+
+/* sections — dense by default */
+.sec{padding:66px 0;border-top:1px solid var(--bd)}
+.sec.first{border-top:none}
+.sec.tight{padding:44px 0}
+@media(max-width:640px){.sec{padding:46px 0}}
+
+/* numbered argument rows */
+.arg{display:grid;grid-template-columns:76px minmax(0,1fr) minmax(0,1.05fr);
+gap:30px;align-items:start}
+.arg+.arg{margin-top:46px;padding-top:46px;border-top:1px solid var(--bd)}
+.arg .n{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--tl);
+padding-top:6px}
+@media(max-width:860px){.arg{grid-template-columns:1fr;gap:12px}
+.arg+.arg{margin-top:34px;padding-top:34px}}
+
+/* cards */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:11px;
+padding:20px 22px}
+.card.tl{border-color:var(--tl);background:linear-gradient(160deg,var(--tld),transparent 60%)}
+.card.am{border-inline-start:3px solid var(--am)}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:820px){.g2,.g3{grid-template-columns:1fr}}
+
+/* footer */
+footer{border-top:1px solid var(--bd);margin-top:10px;padding:34px 0 54px;
+font-size:12.5px;color:var(--txm)}
+footer .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+footer .sp{margin-inline-start:auto}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);
+transition:opacity .5s ease-out,transform .5s ease-out}
+.rv.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;
+transition:none}html{scroll-behavior:auto}}
+
+.dh{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.dh .co{font-size:13px;color:var(--txm)}
+.dh .co b{color:var(--txb)}
+.lay{display:flex;gap:7px;flex-wrap:wrap;margin:26px 0 0}
+.ly{background:var(--bg2);border:1px solid var(--bd);border-radius:999px;
+color:var(--txm);font-family:inherit;font-size:13px;padding:8px 16px;cursor:pointer}
+.ly:hover{color:var(--tx);border-color:var(--bd2)}
+.ly.on{border-color:var(--tl);color:var(--txb);background:var(--tld)}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;
+margin-top:14px}
+@media(max-width:760px){.tiles{grid-template-columns:1fr}}
+.tile{background:var(--sf);border:1px solid var(--bd);border-radius:12px;
+padding:18px 20px}
+.tile .v{font-size:38px;font-weight:300;color:var(--txb);line-height:1;
+font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.tile .l{font-size:12.5px;color:var(--tx);margin-top:10px;line-height:1.5}
+.tile .s{font-size:11.5px;color:var(--txm);margin-top:5px;line-height:1.55}
+
+.panel{background:var(--sf);border:1px solid var(--bd);border-radius:13px;
+padding:20px 22px;margin-top:14px}
+.panel h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.panel .ph{font-size:12px;color:var(--txm);margin-bottom:18px;line-height:1.6}
+.rows{display:grid;gap:13px}
+.row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:13px;
+align-items:center}
+@media(max-width:620px){.row{grid-template-columns:1fr;gap:5px}}
+.row .nm{font-size:13px;color:var(--tx)}
+.bar{height:9px;background:var(--bg2);border-radius:5px;overflow:hidden;
+display:flex}
+.bar i{display:block;height:9px;border-radius:5px}
+.row .vl{font-size:12.5px;color:var(--txb);font-weight:600;
+font-variant-numeric:tabular-nums;min-width:28px;text-align:end}
+
+.tw{overflow-x:auto;margin:0 -4px;padding:0 4px}
+table{width:100%;border-collapse:collapse;margin-top:2px;font-size:13px;
+white-space:nowrap}
+tbody tr:hover{background:var(--bg2)}
+td.r,th.r{text-align:end;font-variant-numeric:tabular-nums}
+.pl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;
+text-transform:uppercase;padding:2px 8px;border-radius:5px;white-space:nowrap}
+html[lang="fa"] .pl{letter-spacing:0;font-size:11px}
+.pl.ok{background:rgba(0,163,125,.17);color:#2fd7a9}
+.pl.warn{background:rgba(217,112,63,.17);color:#f0995f}
+.pl.bad{background:rgba(208,59,59,.17);color:#f08080}
+.pl.mute{background:var(--sf3);color:var(--txm)}
+.empty{font-size:13px;color:var(--txm);padding:14px 0}
+th,td{text-align:start;padding:9px 10px;border-bottom:1px solid var(--bd)}
+th{font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+color:var(--txm);font-weight:700}
+html[lang="fa"] th{letter-spacing:.02em;font-size:12px}
+td{color:var(--tx)}
+td b{color:var(--txb)}
+details.tbl{margin-top:16px}
+details.tbl summary{font-size:12.5px;color:var(--tl);cursor:pointer;
+font-weight:600;padding:6px 0}
+.back{display:inline-block;margin-top:30px;font-size:13.5px;color:var(--txm);
+text-decoration:none}
+.back:hover{color:var(--tl)}
+.caveat{background:var(--sf);border:1px dashed var(--bd2);border-radius:12px;
+padding:17px 19px;margin-top:16px;font-size:13px;color:var(--txm);
+line-height:1.85}
+.caveat b{color:var(--tx);display:block;margin-bottom:5px;font-size:13.5px}
+</style></head><body>
+<nav><div class="wrap">
+<a class="brand" href="/fa/"><b>ZHARFEX</b><i>ژرفکس</i></a>
+<a class="nl hide-s " href="/fa/build/">شرکت خودت</a><a class="nl hide-s " href="/fa/demo/">دمو</a><a class="nl hide-s " href="/fa/solutions/">کاربردها</a><a class="nl hide-s " href="/fa/writing/">نوشته‌ها</a>
+<a class="lang" href="/dashboard/" hreflang="en">English</a>
+<a class="navcta" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex">درخواست دسترسی</a>
+</div></nav>
+<section class="sec first" style="padding-top:58px">
+<div class="wrap">
+<div class="kick">داشبورد</div>
+<div class="dh"><h1 class="h-l" style="margin:14px 0 6px">شرکتِ ساخته‌شدهٔ شما</h1></div>
+<div class="co" id="cohead"></div>
+<div class="lay" id="layers"></div>
+<div class="tiles" id="tiles"></div>
+<div id="panel"></div>
+<div class="caveat"><b>این اعداد چه هستند</b>از الگوهایی برای کسب‌وکاری با این شکل ساخته شده و از همان تنظیماتِ موجود در نوار آدرس بازتولید می‌شود — پس این صفحه بازتولیدپذیر و قابلِ اشتراک است. هر عدد، کار یا ساختار را توصیف می‌کند. هیچ‌کدام کسی را نمی‌سنجد، و در سیستم هیچ فیلدی نیست که بتواند.</div>
+<a class="back" id="back" href="#">→ تغییر شرکت</a>
+</div></section>
+<section class="sec"><div class="wrap" style="text-align:center">
+<h2 class="h-l rv">با صدای خودت شروع کن.</h2>
+<p class="lead dim rv" style="margin:14px auto 26px;max-width:46ch">یک نفر. یک هفته. بدون استقرار سازمانی، بدون تأیید هیچ‌کس.</p>
+<div class="rv" style="display:flex;justify-content:center">
+<a class="btn" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex%20access">درخواست دسترسی</a></div>
+</div></section>
+<footer><div class="wrap">
+<span>ساختهٔ AIACE · تورنتو + تهران</span><span class="sp">اول صدا. اول فارسی. قابل استقرار روی سرور خودتان.</span>
+</div></footer>
+<script>
+var _o=new IntersectionObserver(function(e){e.forEach(function(x){
+if(x.isIntersecting){x.target.classList.add('on');_o.unobserve(x.target)}})},
+{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(function(el){_o.observe(el)});
+
+/* deterministic PRNG: a given company must synthesise identically every time,
+   or the demo feels like a slot machine */
+function rng(seed){var s=seed>>>0||1;return function(){
+ s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296}}
+function hash(str){var h=2166136261;for(var i=0;i<str.length;i++){
+ h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+
+/* the product's own rule: "three reporters with no coordination edge between
+   them" is a maximum-independent-set query, not a cluster count */
+function maxIndep(nodes,adj){
+ var best=[];nodes=nodes.slice().sort();
+ (function go(i,ch,ban){
+  if(ch.length+(nodes.length-i)<=best.length)return;
+  if(i===nodes.length){if(ch.length>best.length)best=ch.slice();return}
+  var v=nodes[i];
+  if(ban.indexOf(v)<0)go(i+1,ch.concat([v]),ban.concat(adj[v]||[]));
+  go(i+1,ch,ban);
+ })(0,[],[]);
+ return best;
+}
+
+function synth(cfg){
+ var tpls=DATA.templates[cfg.industry]||[],pools=DATA.pools[cfg.industry]||{},
+     band=DATA.bands[cfg.band],inst=DATA.instances[cfg.band]||2,L=cfg.lang;
+ var rand=rng(hash(cfg.industry+cfg.band+cfg.depts.join(',')));
+ var picked=cfg.depts.slice();
+
+ /* roster */
+ var people=[],ni=Math.floor(rand()*DATA.names.length);
+ picked.forEach(function(d,di){
+  for(var i=0;i<band.per;i++){
+   var nm=DATA.names[ni++%DATA.names.length];
+   people.push({id:'p:'+d+i,name:nm[L==='fa'?0:1],dept:d,di:di,
+                notes:[],waiting:0})}});
+ /* Members per department. The reporter rotates across them, so every
+    person actually records something — previously all notes landed on the
+    first member of each department and everyone else was empty when clicked. */
+ var members={};people.forEach(function(p){
+  (members[p.dept]=members[p.dept]||[]).push(p)});
+ function repOf(d,i){var m=members[d]||[];return m[i%m.length]}
+
+ /* items: every template instantiated across the subject pool */
+ var ents=[],edges=[],seen=0;
+ tpls.forEach(function(tp,ti){
+  var covered=tp.depts.filter(function(d){return picked.indexOf(d)>=0});
+  if(covered.length<2)return;
+  var pool=pools[tp.slot]||[];
+  for(var k=0;k<inst&&k<pool.length;k++){
+   var subj=pool[(ti*2+k)%pool.length][L];
+   var fill=function(t){return (t||'').replace(/\{x\}/g,subj)};
+   var eid='e:'+tp.id+':'+k;
+   var first=1+Math.floor(rand()*5),age=2+Math.floor(rand()*26);
+   var ent={id:eid,label:fill(tp.title[L]),subject:subj,topic:tp.topic[L],
+            kind:tp.kind,friction:tp.friction,
+            weeks:1+Math.floor(rand()*6),
+            promise:tp.promise?fill(tp.promise[L]):null,
+            firstDay:first,days:age,
+            people:[],depts:[],deptIds:[],mentions:0};
+   var rot=ti*3+k;
+   covered.forEach(function(d){
+    var pp=repOf(d,rot);if(!pp)return;
+    pp.notes.push({text:fill(tp.notes[d]?tp.notes[d][L]:''),
+                   item:ent.label,topic:ent.topic,friction:tp.friction});
+    ent.mentions++;ent.people.push(pp.name);
+    ent.depts.push(DATA.dept[d][L]);ent.deptIds.push(d);
+    edges.push({a:pp.id,b:eid,friction:tp.friction})});
+   var adj={},pairs=[];
+   if(tp.coord&&covered.indexOf(tp.coord[0])>=0&&covered.indexOf(tp.coord[1])>=0){
+    var pa=repOf(tp.coord[0],rot),pb=repOf(tp.coord[1],rot);
+    (adj[pa.id]=adj[pa.id]||[]).push(pb.id);
+    (adj[pb.id]=adj[pb.id]||[]).push(pa.id);
+    pairs.push([pa.name,pb.name]);
+    edges.push({a:pa.id,b:pb.id,coord:true});
+    pb.waiting++}
+   var reps=covered.map(function(d){return repOf(d,rot).id});
+   var indep=maxIndep(reps,adj);
+   ent.missing=tp.depts.filter(function(d){return picked.indexOf(d)<0})
+     .map(function(d){return DATA.dept[d]?DATA.dept[d][L]:d});
+   ent.reports=reps.length;ent.indep=indep.length;ent.pairs=pairs;
+   ent.fired=tp.friction&&indep.length>=3;
+   ents.push(ent);seen++}
+ });
+
+ /* findings = the friction items, newest-risk first */
+ var findings=ents.filter(function(e){return e.friction}).map(function(e){
+  return {topic:e.topic,entity:e.label,reports:e.reports,indep:e.indep,
+          fired:e.fired,days:e.days,depts:e.depts.slice(),pairs:e.pairs}});
+
+ /* the slow graph: declared priorities, and whether voice went there */
+ var prio=(DATA.priorities[cfg.industry]||[]).map(function(pr,i){
+  var hit=ents.filter(function(e){return e.kind===(
+   i===0?'internal':(i===1?'client':'people'))});
+  var mentions=hit.reduce(function(a,e){return a+e.mentions},0);
+  return {name:pr[L],items:hit.length,mentions:mentions,
+          status:hit.length===0?'blocked':(mentions<3?'gap':'tracked')}});
+
+ /* commitments made in conversation, no recorded resolution */
+ var promises=ents.filter(function(e){return e.promise}).map(function(e){
+  return {what:e.promise,subject:e.subject,item:e.label,day:e.firstDay,
+          age:e.days,depts:e.depts.slice(),topic:e.topic}});
+
+ return {people:people,ents:ents,edges:edges,findings:findings,prio:prio,
+         promises:promises,depts:picked,band:band,lang:L,
+         industry:cfg.industry};
+}
+
+/* ---------- metrics: every one is a fact about work or structure ---------- */
+function metrics(m){
+ var L=m.lang;
+ var shared=m.ents.filter(function(e){return e.depts.length>1}).length;
+ var maxWait=0,waitWho='—';
+ m.people.forEach(function(p){
+  if(p.waiting>maxWait){maxWait=p.waiting;waitWho=DATA.dept[p.dept][L]}});
+ var fired=m.ents.filter(function(e){return e.fired}).length;
+ var prob=m.ents.filter(function(e){return e.friction}).length;
+ var oldest=m.ents.reduce(function(a,e){
+  return e.friction&&e.days>a?e.days:a},0);
+ var recording=m.depts.length;
+ return {
+  people:[
+   {n:m.people.length,k:'rolesRec'},
+   {n:maxWait,k:'queued',sub:waitWho},
+   {n:shared,k:'crossDep'}],
+  teams:[
+   {n:recording,k:'deptsRec'},
+   {n:m.people.length,k:'contributors'},
+   {n:shared,k:'sharedItems'}],
+  work:[
+   {n:m.ents.length,k:'items'},
+   {n:prob,k:'withProblem'},
+   {n:oldest,k:'oldestDays'}],
+  topics:[
+   {n:m.ents.length,k:'topics'},
+   {n:shared,k:'recurring'},
+   {n:fired,k:'corroborated'}],
+ };
+}
+
+/* ---------- graph ---------- */
+var GFX={raf:0,hover:null,drag:null,layer:'work',ready:false};
+
+function drawGraph(model,lang){
+ var cv=document.getElementById('cg');if(!cv)return;
+ var cx=cv.getContext('2d'),W=0,H=0,DPR=1,ND=model.depts.length;
+ var nd=[],ix={};
+ model.people.forEach(function(p){
+  nd.push({id:p.id,label:p.name,kind:'person',dept:p.dept,di:p.di,
+           waiting:p.waiting,r:11,x:0,y:0,vx:0,vy:0})});
+ model.ents.forEach(function(e){
+  nd.push({id:e.id,label:e.label,kind:'item',fired:e.fired,
+           friction:e.friction,r:e.fired?10:7.5,x:0,y:0,vx:0,vy:0})});
+ nd.forEach(function(n,i){ix[n.id]=i});
+ var ed=model.edges.filter(function(e){return ix[e.a]!=null&&ix[e.b]!=null});
+ var nbr={};ed.forEach(function(e){
+  (nbr[e.a]=nbr[e.a]||[]).push(e.b);(nbr[e.b]=nbr[e.b]||[]).push(e.a)});
+
+ function col(n){
+  if(n.kind==='person')return MARK.person;
+  if(n.fired)return MARK.fired;
+  if(n.friction)return MARK.friction;
+  return MARK.quiet}
+
+ function size(){
+  DPR=Math.min(2,devicePixelRatio||1);
+  var r=cv.getBoundingClientRect();W=r.width;H=r.height;
+  cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0);
+  nd.forEach(function(n,i){if(n.x)return;
+   var a=(n.kind==='person'?n.di/Math.max(1,ND):i/nd.length)*6.2832-1.57;
+   var R=Math.min(W,H)*(n.kind==='person'?.32:.15);
+   n.x=W/2+Math.cos(a)*R+(i%5-2)*4;n.y=H/2+Math.sin(a)*R+(i%3-1)*4})}
+
+ function sector(di){
+  var a=(di/Math.max(1,ND))*6.2832-1.57;
+  return [a,W/2+Math.cos(a)*Math.min(W,H)*.34,
+             H/2+Math.sin(a)*Math.min(W,H)*.34]}
+
+ function step(){
+  for(var i=0;i<nd.length;i++){var A=nd[i];
+   for(var j=i+1;j<nd.length;j++){var B=nd[j];
+    var dx=B.x-A.x,dy=B.y-A.y,d2=dx*dx+dy*dy||1,d=Math.sqrt(d2);
+    if(d>250)continue;
+    var f=2500/d2,ux=dx/d,uy=dy/d;
+    A.vx-=ux*f;A.vy-=uy*f;B.vx+=ux*f;B.vy+=uy*f}}
+  ed.forEach(function(e){
+   var A=nd[ix[e.a]],B=nd[ix[e.b]],dx=B.x-A.x,dy=B.y-A.y,
+       d=Math.sqrt(dx*dx+dy*dy)||1,rest=e.coord?72:116,
+       f=(d-rest)*(e.coord?.016:.011),ux=dx/d,uy=dy/d;
+   A.vx+=ux*f;A.vy+=uy*f;B.vx-=ux*f;B.vy-=uy*f});
+  nd.forEach(function(n){
+   if(n.kind==='person'){var s=sector(n.di);
+    n.vx+=(s[1]-n.x)*.013;n.vy+=(s[2]-n.y)*.013}
+   else{n.vx+=(W/2-n.x)*.0042;n.vy+=(H/2-n.y)*.0042}
+   n.vx*=.84;n.vy*=.84;
+   if(n!==GFX.drag){n.x+=n.vx;n.y+=n.vy}
+   var m=n.r+14;
+   n.x=Math.max(m,Math.min(W-m,n.x));n.y=Math.max(m,Math.min(H-m,n.y))})}
+
+ function lit(id){
+  if(!GFX.hover)return true;
+  return id===GFX.hover.id||(nbr[GFX.hover.id]||[]).indexOf(id)>=0}
+ function dim(n){
+  /* the active layer decides what recedes; nothing is hidden outright */
+  if(GFX.layer==='people'||GFX.layer==='teams')return n.kind!=='person';
+  if(GFX.layer==='work'||GFX.layer==='topics')return n.kind!=='item';
+  return false}
+
+ function draw(){
+  cx.clearRect(0,0,W,H);
+  /* department sectors — identity by position and label, not hue */
+  if(GFX.ready){
+   model.depts.forEach(function(d,di){
+    var s=sector(di),lab=DATA.dept[d][lang];
+    cx.font='600 10.5px '+(lang==='fa'?'Vazirmatn, Tahoma, sans-serif'
+      :'"IBM Plex Sans", system-ui, sans-serif');
+    cx.textAlign='center';cx.textBaseline='middle';
+    var tw=cx.measureText(lab).width,
+        lx=W/2+Math.cos(s[0])*Math.min(W,H)*.455,
+        ly=H/2+Math.sin(s[0])*Math.min(W,H)*.455;
+    lx=Math.max(tw/2+10,Math.min(W-tw/2-10,lx));
+    ly=Math.max(14,Math.min(H-12,ly));
+    cx.fillStyle='rgba(14,19,28,.85)';
+    cx.fillRect(lx-tw/2-7,ly-9,tw+14,18);
+    cx.strokeStyle='rgba(40,51,70,.9)';cx.lineWidth=1;
+    cx.strokeRect(lx-tw/2-7,ly-9,tw+14,18);
+    cx.fillStyle=DEPT_HUES[di%DEPT_HUES.length];
+    cx.fillRect(lx-tw/2-7,ly-9,2.5,18);
+    cx.fillStyle='#9aa7bd';cx.fillText(lab,lx+1,ly)})}
+  ed.forEach(function(e){
+   var A=nd[ix[e.a]],B=nd[ix[e.b]],
+       on=lit(e.a)&&lit(e.b)&&!(dim(A)&&dim(B)),
+       mx=(A.x+B.x)/2,my=(A.y+B.y)/2,
+       nx=-(B.y-A.y)*.07,ny=(B.x-A.x)*.07;
+   cx.beginPath();cx.moveTo(A.x,A.y);cx.quadraticCurveTo(mx+nx,my+ny,B.x,B.y);
+   cx.lineWidth=e.coord?1.7:1.1;cx.setLineDash(e.coord?[3,3]:[]);
+   cx.strokeStyle=e.coord?'rgba(144,133,233,'+(on?.65:.08)+')'
+     :(e.friction?'rgba(217,112,63,'+(on?.6:.07)+')'
+                 :'rgba(130,155,195,'+(on?.4:.06)+')');
+   cx.stroke();cx.setLineDash([])});
+  nd.forEach(function(n){
+   var on=lit(n.id)&&!dim(n),a=on?1:(dim(n)?.14:.22);
+   if(n.fired){cx.beginPath();cx.arc(n.x,n.y,n.r+9,0,6.2832);
+    cx.fillStyle='rgba(0,163,125,'+(on?.15:.04)+')';cx.fill()}
+   cx.globalAlpha=a;
+   cx.beginPath();cx.arc(n.x,n.y,n.r,0,6.2832);
+   cx.fillStyle=col(n);cx.fill();
+   /* 2px surface ring so overlapping marks stay separable */
+   cx.lineWidth=2;cx.strokeStyle='#0a0d15';cx.stroke();
+   if(n.fired){cx.lineWidth=2;cx.strokeStyle=MARK.fired;
+    cx.beginPath();cx.arc(n.x,n.y,n.r+4.5,0,6.2832);cx.stroke()}
+   cx.globalAlpha=1});
+  if(GFX.ready){
+   nd.forEach(function(n){
+    var show=n.kind==='person'||n.fired||
+             (GFX.hover&&lit(n.id));
+    if(!show||dim(n))return;
+    var on=lit(n.id);
+    cx.font=(n.kind==='person'?'600 12.5px ':'500 11.5px ')+
+     (lang==='fa'?'Vazirmatn, Tahoma, sans-serif'
+                :'"IBM Plex Sans", system-ui, sans-serif');
+    cx.textAlign='center';cx.textBaseline='bottom';
+    var tw=cx.measureText(n.label).width;
+    cx.globalAlpha=on?1:.3;
+    cx.fillStyle='rgba(10,13,21,.82)';
+    cx.fillRect(n.x-tw/2-5,n.y-n.r-21,tw+10,17);
+    cx.fillStyle=n.kind==='person'?'#eef2f9':'#9aa7bd';
+    cx.fillText(n.label,n.x,n.y-n.r-7);
+    cx.globalAlpha=1})}}
+
+ var frames=0,running=true;
+ function loop(){step();draw();
+  if(++frames<780||GFX.drag)GFX.raf=requestAnimationFrame(loop);else running=false}
+ GFX.kick=function(){frames=Math.min(frames,640);
+  if(!running){running=true;loop()}};
+
+ function at(ev){
+  var r=cv.getBoundingClientRect(),
+      mx=(ev.touches?ev.touches[0].clientX:ev.clientX)-r.left,
+      my=(ev.touches?ev.touches[0].clientY:ev.clientY)-r.top,hit=null;
+  nd.forEach(function(n){var dx=n.x-mx,dy=n.y-my;
+   if(dx*dx+dy*dy<(n.r+10)*(n.r+10))hit=n});
+  return hit}
+ cv.onmousemove=function(e){
+  if(GFX.drag){var r=cv.getBoundingClientRect();
+   GFX.drag.x=e.clientX-r.left;GFX.drag.y=e.clientY-r.top;
+   GFX.drag.vx=GFX.drag.vy=0;GFX.kick();return}
+  var h=at(e);
+  if(h!==GFX.hover){GFX.hover=h;cv.style.cursor=h?'pointer':'grab';
+   if(h)inspect(h,model,lang);GFX.kick()}};
+ cv.onmouseleave=function(){GFX.hover=null;GFX.drag=null;GFX.kick()};
+ cv.onmousedown=function(e){var h=at(e);GFX.drag=h;
+  if(h){GFX.hover=h;inspect(h,model,lang)}GFX.kick()};
+ window.addEventListener('mouseup',function(){GFX.drag=null});
+ cv.ontouchstart=function(e){var h=at(e);
+  if(h){GFX.hover=h;GFX.drag=h;inspect(h,model,lang);GFX.kick()}};
+ addEventListener('resize',function(){size();GFX.kick()});
+ cancelAnimationFrame(GFX.raf);size();
+ /* canvas does not wait for webfonts; drawing text first renders Persian in
+    a fallback face, which is what looked wrong before */
+ if(document.fonts&&document.fonts.ready)
+  document.fonts.ready.then(function(){GFX.ready=true;GFX.kick()});
+ else GFX.ready=true;
+ loop();
+}
+
+function inspect(n,model,lang){
+ var box=document.getElementById('cginfo');if(!box)return;
+ var fa=lang==='fa',F=fa?'fa':'';
+ if(n.kind==='person'){
+  var p=model.people.filter(function(x){return x.id===n.id})[0];
+  var notes=p.notes.map(function(t){
+   return '<div class="gn"><div class="gnt '+F+'">'+t.text+'</div></div>'}).join('');
+  box.innerHTML='<div class="gi-h"><b class="'+F+'">'+p.name+'</b> · '+
+   DATA.dept[p.dept][lang]+'</div>'+
+   '<div class="gi-r"><span>'+(fa?'یادداشت این هفته':'notes this week')+
+   '</span><span class="num">'+p.notes.length+'</span></div>'+
+   '<div class="gi-r"><span>'+(fa?'در انتظارِ این نقش':'queued behind this role')+
+   '</span><span class="num">'+p.waiting+'</span></div>'+
+   '<div class="xs" style="margin:10px 0 9px">'+
+   (fa?'حرف خودش، این هفته:':'their own words, this week:')+'</div>'+notes;
+ }else{
+  var e=model.ents.filter(function(x){return x.id===n.id})[0];
+  box.innerHTML='<div class="gi-h"><b class="'+F+'">'+e.label+'</b> · <span class="'+
+   F+'">'+e.topic+'</span></div>'+
+   '<div class="gi-r"><span>'+(fa?'گزارش':'reports')+'</span><span class="num">'+
+   e.reports+'</span></div>'+
+   '<div class="gi-r"><span>'+(fa?'مستقل':'independent')+'</span><span class="num">'+
+   e.indep+'</span></div>'+
+   '<div class="gi-r"><span>'+(fa?'دپارتمان درگیر':'departments involved')+
+   '</span><span class="num">'+e.depts.length+'</span></div>'+
+   '<div class="gi-r"><span>'+(fa?'روز از نخستین طرح':'days since first raised')+
+   '</span><span class="num">'+e.days+'</span></div>'+
+   '<div class="gi-r"><span>'+(fa?'وضعیت':'status')+'</span><span>'+
+   (e.fired?(fa?'آستانه برآورده شد':'threshold met')
+           :(fa?'زیر آستانه':'below threshold'))+'</span></div>'+
+   '<div class="xs" style="margin-top:9px">'+(fa?'توصیف‌شده توسط: ':'described by: ')+
+   '<span class="'+F+'">'+e.people.join(fa?'، ':', ')+'</span></div>';
+ }
+}
+
+var MARK={"person": "#3987e5", "quiet": "#5b6a85", "friction": "#d9703f", "fired": "#00a37d"}, DEPT_HUES=["#3987e5", "#d95926", "#199e70", "#c98500", "#d55181", "#9085e9"], DATA={"names": [["مهدی", "Mehdi"], ["سارا", "Sara"], ["رضا", "Reza"], ["نازنین", "Nazanin"], ["امیر", "Amir"], ["داوود", "Davood"], ["کیان", "Kian"], ["مریم", "Maryam"], ["حسین", "Hossein"], ["لیلا", "Leila"], ["بابک", "Babak"], ["شیرین", "Shirin"], ["فرهاد", "Farhad"], ["الهام", "Elham"], ["نوید", "Navid"], ["پریسا", "Parisa"], ["کاوه", "Kaveh"], ["سمیرا", "Samira"], ["آرش", "Arash"], ["نگار", "Negar"]], "dept": {"ops": {"en": "Operations", "fa": "عملیات", "c": "#4d8eff"}, "wh": {"en": "Warehouse", "fa": "انبار", "c": "#4d8eff"}, "proc": {"en": "Procurement", "fa": "تدارکات", "c": "#a98bff"}, "fin": {"en": "Finance", "fa": "مالی", "c": "#f5a83c"}, "sales": {"en": "Sales", "fa": "فروش", "c": "#3ddc97"}, "eng": {"en": "Engineering", "fa": "فنی", "c": "#ff6b6b"}, "hr": {"en": "People", "fa": "منابع انسانی", "c": "#ff8fd0"}, "prod": {"en": "Production", "fa": "تولید", "c": "#4d8eff"}, "qa": {"en": "Quality", "fa": "کیفیت", "c": "#ff6b6b"}, "store": {"en": "Store floor", "fa": "فروشگاه", "c": "#3ddc97"}, "supply": {"en": "Supply", "fa": "تأمین", "c": "#a98bff"}, "deliv": {"en": "Delivery", "fa": "توزیع", "c": "#00e0b0"}, "client": {"en": "Client work", "fa": "پروژه‌ها", "c": "#4d8eff"}, "acct": {"en": "Accounts", "fa": "حساب‌ها", "c": "#f5a83c"}}, "bands": {"micro": {"per": 1}, "small": {"per": 2}, "mid": {"per": 3}, "large": {"per": 5}}, "instances": {"micro": 1, "small": 2, "mid": 3, "large": 4}, "pools": {"logistics": {"client": [{"en": "Shiraz", "fa": "شیراز"}, {"en": "Isfahan", "fa": "اصفهان"}, {"en": "Tabriz", "fa": "تبریز"}, {"en": "Mashhad", "fa": "مشهد"}, {"en": "Ahvaz", "fa": "اهواز"}, {"en": "Karaj", "fa": "کرج"}, {"en": "Qom", "fa": "قم"}, {"en": "Rasht", "fa": "رشت"}], "resource": [{"en": "bubble wrap", "fa": "بسته‌بندی حبابدار"}, {"en": "pallets", "fa": "پالت"}, {"en": "stretch film", "fa": "فیلم کشسان"}, {"en": "cold storage", "fa": "سردخانه"}, {"en": "the second truck", "fa": "کامیون دوم"}], "site": [{"en": "the Tabriz route", "fa": "مسیر تبریز"}, {"en": "the south depot", "fa": "انبار جنوب"}, {"en": "the Karaj hub", "fa": "هاب کرج"}]}, "manufacturing": {"client": [{"en": "the automotive order", "fa": "سفارش خودرویی"}, {"en": "the export batch", "fa": "محمولهٔ صادراتی"}, {"en": "the domestic contract", "fa": "قرارداد داخلی"}, {"en": "the spare-parts order", "fa": "سفارش قطعات"}], "resource": [{"en": "steel stock", "fa": "موجودی فولاد"}, {"en": "the coating line", "fa": "خط پوشش"}, {"en": "line two", "fa": "خط دو"}, {"en": "the press", "fa": "پرس"}, {"en": "the CNC cell", "fa": "سل CNC"}], "site": [{"en": "the main hall", "fa": "سالن اصلی"}, {"en": "the QC bench", "fa": "میز کنترل کیفیت"}]}, "retail": {"client": [{"en": "the top-selling line", "fa": "پرفروش‌ترین کالا"}, {"en": "the seasonal range", "fa": "کالای فصلی"}, {"en": "the premium tier", "fa": "ردهٔ پریمیوم"}, {"en": "the entry range", "fa": "ردهٔ اقتصادی"}], "resource": [{"en": "shelf space", "fa": "فضای قفسه"}, {"en": "the back room", "fa": "انبار پشتی"}, {"en": "the POS system", "fa": "سیستم فروش"}, {"en": "weekend cover", "fa": "پوشش آخر هفته"}], "site": [{"en": "the main store", "fa": "فروشگاه اصلی"}, {"en": "the north branch", "fa": "شعبهٔ شمال"}]}, "services": {"client": [{"en": "the main account", "fa": "حساب اصلی"}, {"en": "the retainer client", "fa": "مشتری قرارداد ماهانه"}, {"en": "the new engagement", "fa": "پروژهٔ جدید"}, {"en": "the renewal account", "fa": "حساب تمدیدی"}], "resource": [{"en": "the integration", "fa": "یکپارچه‌سازی"}, {"en": "the lead engineer", "fa": "مهندس ارشد"}, {"en": "the reporting build", "fa": "ساختِ گزارش‌ها"}, {"en": "senior review time", "fa": "زمانِ بازبینی ارشد"}], "site": [{"en": "the delivery team", "fa": "تیم اجرا"}]}}, "templates": {"logistics": [{"id": "blocked", "kind": "client", "slot": "client", "friction": true, "depts": ["wh", "proc", "deliv", "fin"], "coord": ["wh", "proc"], "title": {"en": "{x} shipment blocked", "fa": "محمولهٔ {x} متوقف شده"}, "topic": {"en": "packaging shortage", "fa": "کمبود بسته‌بندی"}, "promise": {"en": "an answer by Thursday", "fa": "جواب تا پنجشنبه"}, "notes": {"wh": {"en": "The {x} shipment still isn't packed — we're short on packaging. Asked procurement, nothing back yet.", "fa": "محمولهٔ {x} هنوز بسته‌بندی نشده — بسته‌بندی کم داریم. از تدارکات خواستم، هنوز جوابی نیامده."}, "proc": {"en": "Ordered more packaging for {x} but it lands next week. Using paper wrap for the small ones.", "fa": "برای {x} بسته‌بندی سفارش دادم ولی هفتهٔ بعد می‌رسد. برای کوچک‌ها کاغذ استفاده می‌کنیم."}, "deliv": {"en": "Two runs for {x} went out half-loaded. Drivers waited an hour.", "fa": "دو سرویس {x} نیمه‌بار رفت. راننده‌ها یک ساعت معطل شدند."}, "fin": {"en": "The {x} delay may trigger the penalty clause. Need to check the contract.", "fa": "تأخیر {x} ممکن است بندِ جریمه را فعال کند. باید قرارداد را بررسی کنم."}}}, {"id": "cap", "kind": "client", "slot": "client", "friction": true, "depts": ["sales", "wh", "fin"], "coord": ["sales", "wh"], "title": {"en": "{x} wants an annual contract", "fa": "{x} قرارداد سالانه می‌خواهد"}, "topic": {"en": "capacity confirmation", "fa": "تأیید ظرفیت"}, "promise": {"en": "capacity confirmed this week", "fa": "تأیید ظرفیت در همین هفته"}, "notes": {"sales": {"en": "{x} wants an annual deal, fifty tonnes a month. Someone has to confirm we have the space.", "fa": "{x} قرارداد سالانه می‌خواهد، ماهی پنجاه تن. کسی باید تأیید کند جا داریم."}, "wh": {"en": "Sales asked about capacity for {x}. Didn't get to it — buried in the packaging problem.", "fa": "فروش دربارهٔ ظرفیت {x} پرسید. نرسیدم — درگیر مسئلهٔ بسته‌بندی بودم."}, "fin": {"en": "If we sign {x} at that volume we need to re-forecast storage cost.", "fa": "اگر {x} را با آن حجم ببندیم، باید هزینهٔ انبارش را دوباره پیش‌بینی کنیم."}}}, {"id": "short", "kind": "internal", "slot": "resource", "friction": true, "depts": ["wh", "proc", "deliv"], "coord": ["proc", "deliv"], "title": {"en": "{x} running out", "fa": "{x} دارد تمام می‌شود"}, "topic": {"en": "supply shortfall", "fa": "کمبود تأمین"}, "promise": null, "notes": {"wh": {"en": "We're nearly out of {x}. Improvising for now.", "fa": "{x} تقریباً تمام شده. فعلاً سرهم‌بندی می‌کنیم."}, "proc": {"en": "Reorder on {x} keeps slipping because nobody flags it until it's gone.", "fa": "سفارش مجدد {x} مدام عقب می‌افتد چون تا تمام نشود کسی خبر نمی‌دهد."}, "deliv": {"en": "Without {x} we can't load properly. Two routes affected.", "fa": "بدون {x} نمی‌توانیم درست بارگیری کنیم. دو مسیر درگیر است."}}}, {"id": "route", "kind": "internal", "slot": "site", "friction": true, "depts": ["deliv", "wh", "sales"], "coord": ["deliv", "wh"], "title": {"en": "{x} keeps slipping", "fa": "{x} مدام عقب می‌افتد"}, "topic": {"en": "route reliability", "fa": "اطمینان‌پذیری مسیر"}, "promise": null, "notes": {"deliv": {"en": "{x} ran late three times this week. Same bottleneck each time.", "fa": "{x} این هفته سه بار دیر شد. هر بار همان گلوگاه."}, "wh": {"en": "Loading for {x} starts late because the paperwork arrives late.", "fa": "بارگیری {x} دیر شروع می‌شود چون مدارک دیر می‌رسد."}, "sales": {"en": "Clients on {x} have started asking why delivery windows move.", "fa": "مشتری‌های {x} شروع کرده‌اند بپرسند چرا زمان تحویل جابه‌جا می‌شود."}}}, {"id": "onboard", "kind": "people", "slot": "site", "friction": false, "depts": ["hr", "wh"], "coord": ["hr", "wh"], "title": {"en": "New hire for {x}", "fa": "نیروی جدید برای {x}"}, "topic": {"en": "onboarding", "fa": "آنبوردینگ"}, "promise": null, "notes": {"hr": {"en": "New person starts Monday on {x}. Needs access and someone to walk them through it.", "fa": "نیروی جدید دوشنبه روی {x} شروع می‌کند. دسترسی و کسی که راهش بیندازد لازم دارد."}, "wh": {"en": "I'm meant to show the new person {x} on Monday. Won't have time.", "fa": "قرار است دوشنبه {x} را به نیروی جدید نشان بدهم. وقت نمی‌کنم."}}}], "manufacturing": [{"id": "drift", "kind": "internal", "slot": "resource", "friction": true, "depts": ["prod", "qa", "eng"], "coord": ["prod", "eng"], "title": {"en": "{x} drifting out of tolerance", "fa": "{x} از تلورانس خارج می‌شود"}, "topic": {"en": "tolerance drift", "fa": "خروج از تلورانس"}, "promise": null, "notes": {"prod": {"en": "{x} drifts after about four hours. We reset and carry on; nobody logs it.", "fa": "{x} بعد از حدود چهار ساعت از تنظیم خارج می‌شود. ریست می‌کنیم و ادامه می‌دهیم؛ کسی ثبتش نمی‌کند."}, "qa": {"en": "Rejects traced to {x} are up again. Same dimension every time.", "fa": "ضایعاتِ مربوط به {x} باز بالا رفته. هر بار همان بُعد."}, "eng": {"en": "{x} needs recalibrating but stopping it costs a shift, so we defer.", "fa": "{x} باید کالیبره شود ولی خواباندنش یک شیفت هزینه دارد، پس عقب می‌اندازیم."}}}, {"id": "mat", "kind": "internal", "slot": "resource", "friction": true, "depts": ["supply", "prod", "fin"], "coord": ["supply", "prod"], "title": {"en": "{x} delayed", "fa": "{x} با تأخیر"}, "topic": {"en": "material delay", "fa": "تأخیر مواد"}, "promise": {"en": "delivery Thursday", "fa": "تحویل پنجشنبه"}, "notes": {"supply": {"en": "{x} slipped two weeks. Found a second source but it's dearer.", "fa": "{x} دو هفته عقب افتاد. منبع دوم پیدا کردم ولی گران‌تر است."}, "prod": {"en": "We run out of {x} on Thursday if nothing arrives.", "fa": "اگر چیزی نرسد، پنجشنبه {x} تمام می‌شود."}, "fin": {"en": "The alternative source for {x} is fifteen percent more. That breaks the material budget.", "fa": "منبع جایگزین {x} پانزده درصد گران‌تر است. بودجهٔ مواد را به‌هم می‌زند."}}}, {"id": "order", "kind": "client", "slot": "client", "friction": true, "depts": ["prod", "qa", "sales", "fin"], "coord": ["prod", "qa"], "title": {"en": "{x} at risk", "fa": "{x} در خطر"}, "topic": {"en": "delivery commitment", "fa": "تعهد تحویل"}, "promise": {"en": "ship by month end", "fa": "ارسال تا پایان ماه"}, "notes": {"prod": {"en": "{x} needs the line for three days we don't have.", "fa": "{x} سه روز خط می‌خواهد که نداریم."}, "qa": {"en": "{x} has a tighter spec than we usually run. Expect rework.", "fa": "{x} مشخصاتِ سخت‌تری از حدِ معمولِ ما دارد. انتظار دوباره‌کاری هست."}, "sales": {"en": "I promised {x} would ship by month end. Nobody checked capacity.", "fa": "قول دادم {x} تا پایان ماه ارسال شود. کسی ظرفیت را چک نکرد."}, "fin": {"en": "Late delivery on {x} costs us the early-payment discount.", "fa": "تأخیر در {x} تخفیفِ پرداخت زودهنگام را از ما می‌گیرد."}}}, {"id": "key", "kind": "people", "slot": "resource", "friction": true, "depts": ["eng", "prod", "hr"], "coord": ["eng", "prod"], "title": {"en": "Only one person can run {x}", "fa": "فقط یک نفر {x} را می‌تواند بچرخاند"}, "topic": {"en": "single point of dependency", "fa": "وابستگی به یک نفر"}, "promise": null, "notes": {"eng": {"en": "I'm the only one who knows {x} properly. None of it is written down.", "fa": "تنها کسی هستم که {x} را درست می‌شناسم. هیچ‌کدامش نوشته نشده."}, "prod": {"en": "Every question about {x} goes to one person. When he's off we stall.", "fa": "هر سؤالی دربارهٔ {x} به یک نفر می‌رسد. وقتی نیست، کار می‌خوابد."}, "hr": {"en": "He asked about three weeks' leave. I said it should be fine.", "fa": "دربارهٔ سه هفته مرخصی پرسید. گفتم مشکلی نیست."}}}], "retail": [{"id": "stockout", "kind": "client", "slot": "client", "friction": true, "depts": ["store", "supply", "sales"], "coord": ["store", "supply"], "title": {"en": "{x} out of stock again", "fa": "{x} باز تمام شد"}, "topic": {"en": "stockouts", "fa": "تمام‌شدن موجودی"}, "promise": null, "notes": {"store": {"en": "Ran out of {x} on Friday afternoon. People asked all weekend.", "fa": "جمعه بعدازظهر {x} تمام شد. تمام آخر هفته سراغش را می‌گرفتند."}, "supply": {"en": "Reorder for {x} goes in late because nobody tells me until the shelf is empty.", "fa": "سفارش {x} دیر ثبت می‌شود چون تا قفسه خالی نشود کسی نمی‌گوید."}, "sales": {"en": "We lost a dozen sales on {x} this week. Customers went elsewhere.", "fa": "این هفته ده‌دوازده فروش روی {x} از دست رفت. مشتری‌ها جای دیگر رفتند."}}}, {"id": "space", "kind": "internal", "slot": "resource", "friction": true, "depts": ["store", "supply"], "coord": ["store", "supply"], "title": {"en": "{x} is the constraint", "fa": "{x} محدودکننده است"}, "topic": {"en": "space and layout", "fa": "فضا و چیدمان"}, "promise": null, "notes": {"store": {"en": "{x} is full. New stock sits in the aisle.", "fa": "{x} پر است. کالای جدید در راهرو می‌ماند."}, "supply": {"en": "I keep ordering to a shelf plan that {x} can't actually hold.", "fa": "مدام بر اساس چیدمانی سفارش می‌دهم که {x} واقعاً جا نمی‌دهد."}}}, {"id": "shift", "kind": "people", "slot": "site", "friction": true, "depts": ["store", "hr", "sales"], "coord": ["store", "hr"], "title": {"en": "Weekend cover at {x}", "fa": "پوشش آخر هفته در {x}"}, "topic": {"en": "understaffing", "fa": "کمبود نیرو"}, "promise": null, "notes": {"store": {"en": "Two short at {x} on Friday evening again. Queues out the door.", "fa": "جمعه شب باز دو نفر در {x} کم بودیم. صف تا بیرون در."}, "hr": {"en": "Three people asked to drop weekend shifts this month. I approved them separately.", "fa": "این ماه سه نفر خواستند شیفت آخر هفته ندهند. جداگانه موافقت کردم."}, "sales": {"en": "Saturday conversion at {x} is visibly worse when we're short.", "fa": "تبدیلِ شنبه در {x} وقتی کم داریم محسوس بدتر است."}}}], "services": [{"id": "scope", "kind": "client", "slot": "client", "friction": true, "depts": ["client", "acct", "sales"], "coord": ["sales", "client"], "title": {"en": "{x} scope creeping", "fa": "گسترش دامنهٔ {x}"}, "topic": {"en": "scope creep", "fa": "گسترش دامنهٔ کار"}, "promise": {"en": "absorb the extra work", "fa": "جذب کار اضافه"}, "notes": {"client": {"en": "{x} keeps adding requests on calls. I've said yes to three things outside the statement of work.", "fa": "{x} مدام در تماس‌ها درخواست اضافه می‌کند. به سه چیز بیرون از شرح کار بله گفته‌ام."}, "acct": {"en": "Hours on {x} are forty percent over what we billed. No change order was raised.", "fa": "ساعت‌های {x} چهل درصد بیشتر از صورت‌حساب است. درخواست تغییری ثبت نشده."}, "sales": {"en": "I promised {x} we'd absorb it to keep the renewal. Didn't check with delivery.", "fa": "به {x} قول دادم جذبش کنیم تا تمدید بشود. با تیم اجرا هماهنگ نکردم."}}}, {"id": "key", "kind": "people", "slot": "resource", "friction": true, "depts": ["eng", "client", "hr"], "coord": ["eng", "client"], "title": {"en": "{x} is a single point of failure", "fa": "{x} تنها نقطهٔ شکست است"}, "topic": {"en": "key-person risk", "fa": "ریسکِ وابستگی به فرد"}, "promise": null, "notes": {"eng": {"en": "I'm the only one who understands {x}. I haven't written it down.", "fa": "تنها کسی هستم که {x} را می‌فهمم. جایی ننوشته‌ام."}, "client": {"en": "Every question about {x} goes to one person. When he's away we stall.", "fa": "هر سؤالی دربارهٔ {x} به یک نفر می‌رسد. وقتی نیست کار می‌خوابد."}, "hr": {"en": "He asked about taking three weeks in the spring. I said fine.", "fa": "پرسید بهار سه هفته مرخصی بگیرد. گفتم مشکلی نیست."}}}, {"id": "margin", "kind": "client", "slot": "client", "friction": true, "depts": ["acct", "client", "sales"], "coord": ["acct", "sales"], "title": {"en": "{x} margin slipping", "fa": "افتِ حاشیهٔ {x}"}, "topic": {"en": "margin erosion", "fa": "فرسایشِ حاشیهٔ سود"}, "promise": null, "notes": {"acct": {"en": "{x} is below target margin for the third month.", "fa": "{x} سه ماه است زیر حاشیهٔ هدف است."}, "client": {"en": "Most of the unbilled time on {x} is senior review nobody scoped.", "fa": "بیشترِ زمانِ صورت‌حساب‌نشدهٔ {x}، بازبینیِ ارشد است که کسی در دامنه حسابش نکرده."}, "sales": {"en": "We discounted {x} to win it and never revisited the rate.", "fa": "{x} را با تخفیف بردیم و نرخ را هرگز بازبینی نکردیم."}}}, {"id": "report", "kind": "internal", "slot": "resource", "friction": true, "depts": ["eng", "acct"], "coord": ["eng", "acct"], "title": {"en": "{x} always late", "fa": "{x} همیشه دیر"}, "topic": {"en": "reporting delay", "fa": "تأخیر گزارش‌دهی"}, "promise": {"en": "ready by Friday", "fa": "آماده تا جمعه"}, "notes": {"eng": {"en": "{x} takes a day of manual work every month. I keep deferring the fix.", "fa": "{x} هر ماه یک روز کارِ دستی می‌برد. مدام اصلاحش را عقب می‌اندازم."}, "acct": {"en": "I can't close the month until {x} lands, and it's always late.", "fa": "تا {x} نرسد نمی‌توانم ماه را ببندم، و همیشه دیر است."}}}]}, "priorities": {"logistics": [{"en": "Cut delivery time 20%", "fa": "کاهش ۲۰٪ زمان تحویل"}, {"en": "Win the annual contracts", "fa": "برندن قراردادهای سالانه"}, {"en": "Reduce packaging cost", "fa": "کاهش هزینهٔ بسته‌بندی"}], "manufacturing": [{"en": "Raise first-pass yield", "fa": "افزایش بازدهِ نوبت اول"}, {"en": "Second-source critical materials", "fa": "تأمین دومِ مواد حیاتی"}, {"en": "Cut unplanned downtime", "fa": "کاهش توقفِ برنامه‌ریزی‌نشده"}], "retail": [{"en": "Never stock out on the top ten", "fa": "تمام‌نشدن ده کالای اصلی"}, {"en": "Lift weekend conversion", "fa": "افزایش تبدیلِ آخر هفته"}, {"en": "Open the second location", "fa": "افتتاح شعبهٔ دوم"}], "services": [{"en": "Protect gross margin", "fa": "حفظ حاشیهٔ سود"}, {"en": "Renew the top three accounts", "fa": "تمدید سه حساب اصلی"}, {"en": "Reduce key-person risk", "fa": "کاهش ریسکِ وابستگی به فرد"}]}, "industries": {"logistics": {"depts": ["wh", "proc", "deliv", "sales", "fin", "hr"]}, "manufacturing": {"depts": ["prod", "qa", "supply", "eng", "fin", "hr"]}, "retail": {"depts": ["store", "supply", "sales", "fin", "hr"]}, "services": {"depts": ["client", "sales", "acct", "eng", "hr"]}}, "indNames": {"logistics": {"en": "Logistics & distribution", "fa": "لجستیک و پخش"}, "manufacturing": {"en": "Manufacturing", "fa": "تولید"}, "retail": {"en": "Retail & stores", "fa": "خرده‌فروشی"}, "services": {"en": "Professional services", "fa": "خدمات حرفه‌ای"}}, "bandLabels": {"micro": {"en": "1–9 people", "fa": "۱ تا ۹ نفر"}, "small": {"en": "10–29 people", "fa": "۱۰ تا ۲۹ نفر"}, "mid": {"en": "30–99 people", "fa": "۳۰ تا ۹۹ نفر"}, "large": {"en": "100+ people", "fa": "۱۰۰ نفر و بیشتر"}}}, LANG="fa", T={"items": "کار", "contrib": "مشارکت‌کننده", "none": "در این نما چیزی نیست.", "day": "روز", "met": "تأییدشده", "near": "۲ از ۳", "single": "روایت یک‌نفره", "tracked": "پیگیری‌شده", "gap": "کم‌رنگ", "blocked": "بی‌اثر", "prioGap": "اولویتِ اعلام‌شده با اثرِ کم یا بی‌اثر در صداها", "prioGapS": "آنچه مدیریت گفت فصل دربارهٔ آن است، در برابر جایی که توجه رفت", "convFind": "یافته با تأییدِ مستقل", "convFindS": "سه نفر، که هیچ‌کدام با هم حرف نزده بودند", "deptHeard": "دپارتمانی که ژرفکس می‌شنود", "oldest": "روز از نخستین بارِ مطرح‌شدنِ قدیمی‌ترین مسئلهٔ باز", "openClient": "مسئلهٔ بازِ مرتبط با مشتری", "promUn": "تعهدِ داده‌شده در گفت‌وگو / گذشته از موعدِ گفته‌شده", "promOverdue": "این‌ها در هیچ تیکت و هیچ CRM نیستند", "soloRaised": "حسابی که فقط یک نفر مطرحش کرده", "soloRaisedS": "کسی تأییدش نکرده، پس کسی در بالا اقدامی نمی‌کند", "teamMissing": "مسئلهٔ مشتری با تیمی که ضبط نمی‌کند", "teamMissingS": "نمی‌دانیم آن تیم دربارهٔ این حساب‌ها چه می‌داند", "past": "گذشته", "within": "در موعد", "multiTeam": "حسابی که بیش از یک تیم توصیفش کرده", "oldestClient": "روزِ بازبودنِ قدیمی‌ترین مسئلهٔ مشتری", "withProb": "موردی که مسئله‌ای علیهش مطرح شده", "recur2": "تکرارشده بیش از دو هفته", "queued": "درخواست در انتظار یک نقش", "queuedS": "سنگین‌ترین در", "recur3": "تکرارشده بیش از سه هفته بدون حل‌شدن", "recur3S": "همان‌هایی که سیستم تیکت تا حالا بسته بود", "keyRisk": "موردی که به یک نفر بسته است", "cross3": "موردی که سه تیم یا بیشتر را درگیر کرده", "internUn": "مسئلهٔ داخلیِ هنوز باز", "f": {"exec": "مدیریت", "sales": "فروش و مشتری", "ops": "عملیات", "tech": "فنی و محصول"}, "t": {"prio": "اولویتِ اعلام‌شده در برابر جایی که توجه واقعاً رفت", "conv": "یافته‌های با تأییدِ مستقل", "cov": "پوشش به تفکیک دپارتمان", "prom": "تعهداتِ داده‌شده در گفت‌وگو", "cl": "مسائلِ مرتبط با مشتری", "solo": "حساب‌هایی که فقط یک نفر مطرح کرده", "quiet": "حساب‌های بازِ بیش از دو هفته", "open": "موارد باز", "load": "بارِ وابستگی به تفکیک دپارتمان", "rec": "تکرار بدون حل‌شدن", "key": "وابستگی به یک نفر"}, "h": {"prio": "گرافِ کند در برابر گرافِ تند. اولویتی که در یادداشت‌های کسی اثری ندارد لزوماً رها نشده — اما کسی دربارهٔ آن حرف نمی‌زند، و دانستنش ارزش دارد.", "conv": "سه نفر یا بیشتر این را مستقل توصیف کرده‌اند، پس از کسرِ هر کسی که قبلاً با فردی از همین فهرست حرف زده بود. اینها تنها ادعاهایی هستند که سیستم پشتشان می‌ایستد.", "cov": "جایی که ژرفکس می‌شنود و جایی که نمی‌شنود. دپارتمانی بدون یادداشت، کمبودِ دیدِ ماست، نه داوری دربارهٔ آن‌ها.", "prom": "قول‌هایی که در تماس و راهرو داده می‌شود. در هیچ سیستم تیکتی نیستند، و دقیقاً همین است که گمشان می‌کند.", "cl": "مسائلی که به مشتری یا یک حساب مربوط‌اند، قدیمی‌ترین نخست. «غایب» تیمی است که مسئله به او مربوط است ولی کسی در آن ضبط نمی‌کند — پس نمی‌دانیم چه می‌داند.", "solo": "یک حساب، یک صدا. بر اساس قاعدهٔ افشا، روایتِ یک‌نفره هرگز به مدیریت نمی‌رسد، پس این‌ها تا کسی دیگر مستقل همان را نگوید، از بالا نامرئی‌اند.", "quiet": "دو هفته یا بیشتر از نخستین طرح باز مانده‌اند. لزوماً متوقف نیستند — اما کسی بلند نگفته که بسته شد.", "open": "هر چیزی که مسئله‌ای علیهش مطرح شده، قدیمی‌ترین نخست. «نخستین طرح» یعنی وقتی کسی اولین بار بلند گفتش — معمولاً خیلی پیش از آنکه تیکتی ثبت شود.", "load": "چند درخواست در انتظار هر دپارتمان است. واقعیتی دربارهٔ شکلِ کار، نه سرعتِ کسی در آن.", "rec": "مسائلی که مدام برمی‌گردند. تکرار همان سیگنالی است که گردشِ «تیکت را ببند» نابودش می‌کند.", "key": "کاری که دانشش نزد یک نفر است و جای دیگری نیست."}, "c": {"prio": "اولویتِ اعلام‌شده", "items": "مورد", "mentions": "ارجاع", "state": "وضعیت", "topic": "موضوع", "subject": "سوژه", "indep": "مستقل", "teams": "تیم‌ها", "days": "روز باز", "dept": "دپارتمان", "people": "نفر", "notes": "یادداشت", "promised": "چه قولی", "made": "داده‌شده", "reports": "گزارش", "item": "مورد", "first": "نخستین طرح", "queued": "در انتظار", "weeks": "هفته", "missing": "تیمِ غایب", "who": "مطرح‌کننده"}};
+var CFG={industry:Object.keys(DATA.industries)[0],band:'mid',depts:[],lang:LANG};
+var FUNC='exec';
+var FA=LANG==='fa';
+
+(function(){
+ var h=location.hash.replace(/^#/,''),q={};
+ h.split('&').forEach(function(kv){var p=kv.split('=');
+  q[p[0]]=decodeURIComponent(p[1]||'')});
+ if(q.ind&&DATA.industries[q.ind])CFG.industry=q.ind;
+ if(q.band&&DATA.bands[q.band])CFG.band=q.band;
+ if(q.depts)CFG.depts=q.depts.split(',').filter(function(d){return DATA.dept[d]});
+ if(q.f)FUNC=q.f;
+ if(CFG.depts.length<2)CFG.depts=DATA.industries[CFG.industry].depts.slice(0,4);
+})();
+
+var M=synth(CFG);
+document.getElementById('back').href=(FA?'/fa/build/':'/build/')+
+ '#ind='+CFG.industry+'&band='+CFG.band+'&depts='+CFG.depts.join(',');
+document.getElementById('cohead').innerHTML=
+ '<b>'+DATA.indNames[CFG.industry][LANG]+'</b> · '+
+ DATA.bandLabels[CFG.band][LANG]+' · '+
+ M.depts.map(function(d){return DATA.dept[d][LANG]}).join(FA?'، ':', ')+
+ ' · <span class="num">'+M.ents.length+'</span> '+T.items+
+ ' · <span class="num">'+M.people.length+'</span> '+T.contrib;
+
+function N(v){return '<span class="num">'+v+'</span>'}
+function fa(t){return '<span class="'+(FA?'fa':'')+'">'+t+'</span>'}
+function pill(kind,label){return '<span class="pl '+kind+'">'+label+'</span>'}
+function stat(s){
+ return s.fired?pill('ok',T.met):(s.indep>=2?pill('warn',T.near):pill('mute',T.single))}
+
+function tiles(list){
+ return '<div class="tiles">'+list.map(function(t){
+  return '<div class="tile"><div class="v num">'+t.v+'</div><div class="l">'+
+   t.l+'</div>'+(t.s?'<div class="s">'+t.s+'</div>':'')+'</div>'}).join('')+'</div>'}
+
+function tbl(title,hint,cols,rows,align){
+ if(!rows.length)return '<div class="panel"><h3>'+title+'</h3>'+
+  '<div class="ph">'+hint+'</div><div class="empty">'+T.none+'</div></div>';
+ return '<div class="panel"><h3>'+title+'</h3><div class="ph">'+hint+'</div>'+
+  '<div class="tw"><table><thead><tr>'+cols.map(function(c,i){
+   return '<th'+((align&&align[i]==='n')?' class="r"':'')+'>'+c+'</th>'}).join('')+
+  '</tr></thead><tbody>'+rows.map(function(r){
+   return '<tr>'+r.map(function(c,i){
+    return '<td'+((align&&align[i]==='n')?' class="r"':'')+'>'+c+'</td>'}).join('')+
+   '</tr>'}).join('')+'</tbody></table></div></div>'}
+
+var byAge=function(a,b){return b.days-a.days};
+
+function viewExec(){
+ var conv=M.ents.filter(function(e){return e.fired});
+ var blocked=M.prio.filter(function(p){return p.status!=='tracked'});
+ var oldest=M.ents.reduce(function(a,e){return e.friction&&e.days>a?e.days:a},0);
+ var byDept={};M.people.forEach(function(p){
+  byDept[p.dept]=byDept[p.dept]||{n:0,notes:0};
+  byDept[p.dept].n++;byDept[p.dept].notes+=p.notes.length});
+ var h=tiles([
+  {v:blocked.length+'/'+M.prio.length,l:T.prioGap,s:T.prioGapS},
+  {v:conv.length,l:T.convFind,s:T.convFindS},
+  {v:M.depts.length,l:T.deptHeard},
+  {v:oldest,l:T.oldest}]);
+ h+=tbl(T.t.prio,T.h.prio,[T.c.prio,T.c.items,T.c.mentions,T.c.state],
+  M.prio.map(function(p){return [fa(p.name),N(p.items),N(p.mentions),
+   p.status==='tracked'?pill('ok',T.tracked):
+   (p.status==='gap'?pill('warn',T.gap):pill('bad',T.blocked))]}),
+  ['t','n','n','t']);
+ h+=tbl(T.t.conv,T.h.conv,[T.c.topic,T.c.subject,T.c.indep,T.c.teams,T.c.days],
+  conv.sort(byAge).map(function(e){return [fa(e.topic),fa(e.subject),
+   N(e.indep+'/'+e.reports),fa(e.depts.join(FA?'، ':', ')),N(e.days)]}),
+  ['t','t','n','t','n']);
+ h+=tbl(T.t.cov,T.h.cov,[T.c.dept,T.c.people,T.c.notes],
+  M.depts.map(function(d){return [fa(DATA.dept[d][LANG]),
+   N(byDept[d].n),N(byDept[d].notes)]}),['t','n','n']);
+ return h}
+
+function viewSales(){
+ var cl=M.ents.filter(function(e){return e.kind==='client'});
+ var solo=cl.filter(function(e){return e.indep<2});
+ var blind=cl.filter(function(e){return e.missing.length>0});
+ var overdue=M.promises.filter(function(p){return p.age>7});
+ var quiet=cl.filter(function(e){return e.days>14});
+ var oldest=cl.reduce(function(a,e){return e.days>a?e.days:a},0);
+ var h=tiles([
+  {v:cl.length,l:T.openClient},
+  {v:M.promises.length+'/'+overdue.length,l:T.promUn,s:T.promOverdue},
+  {v:solo.length,l:T.soloRaised,s:T.soloRaisedS},
+  {v:blind.length,l:T.teamMissing,s:T.teamMissingS}]);
+ h+=tbl(T.t.prom,T.h.prom,
+  [T.c.promised,T.c.subject,T.c.made,T.c.days,T.c.teams,T.c.state],
+  M.promises.sort(function(a,b){return b.age-a.age}).map(function(p){
+   return [fa(p.what),fa(p.subject),N(T.day+' '+p.day),N(p.age),
+    fa(p.depts.join(FA?'، ':', ')),
+    p.age>7?pill('bad',T.past):pill('mute',T.within)]}),
+  ['t','t','n','n','t','t']);
+ h+=tbl(T.t.cl,T.h.cl,
+  [T.c.subject,T.c.topic,T.c.reports,T.c.indep,T.c.days,T.c.missing,T.c.state],
+  cl.sort(byAge).map(function(e){return [fa(e.subject),fa(e.topic),
+   N(e.reports),N(e.indep),N(e.days),
+   e.missing.length?fa(e.missing.join(FA?'، ':', ')):'—',stat(e)]}),
+  ['t','t','n','n','n','t','t']);
+ h+=tbl(T.t.solo,T.h.solo,[T.c.subject,T.c.topic,T.c.who,T.c.days],
+  solo.sort(byAge).map(function(e){return [fa(e.subject),fa(e.topic),
+   fa(e.people.join(FA?'، ':', ')),N(e.days)]}),['t','t','t','n']);
+ h+=tbl(T.t.quiet,T.h.quiet,[T.c.subject,T.c.topic,T.c.days,T.c.teams],
+  quiet.sort(byAge).map(function(e){return [fa(e.subject),fa(e.topic),
+   N(e.days),fa(e.depts.join(FA?'، ':', '))]}),['t','t','n','t']);
+ return h}
+
+function viewOps(){
+ var fr=M.ents.filter(function(e){return e.friction});
+ var rec=fr.filter(function(e){return e.weeks>2});
+ var maxW=0,who='—';
+ M.people.forEach(function(p){if(p.waiting>maxW){maxW=p.waiting;
+  who=DATA.dept[p.dept][LANG]}});
+ var byDept={};M.people.forEach(function(p){
+  byDept[p.dept]=byDept[p.dept]||{wait:0,notes:0};
+  byDept[p.dept].wait+=p.waiting;byDept[p.dept].notes+=p.notes.length});
+ var h=tiles([
+  {v:M.ents.length,l:T.items},
+  {v:fr.length,l:T.withProb},
+  {v:rec.length,l:T.recur2},
+  {v:maxW,l:T.queued,s:T.queuedS+' '+who}]);
+ h+=tbl(T.t.open,T.h.open,
+  [T.c.item,T.c.topic,T.c.teams,T.c.reports,T.c.indep,T.c.first,T.c.days,T.c.state],
+  fr.sort(byAge).map(function(e){return [fa(e.label),fa(e.topic),
+   fa(e.depts.join(FA?'، ':', ')),N(e.reports),N(e.indep),
+   N(T.day+' '+e.firstDay),N(e.days),stat(e)]}),
+  ['t','t','t','n','n','n','n','t']);
+ h+=tbl(T.t.load,T.h.load,[T.c.dept,T.c.queued,T.c.notes],
+  M.depts.map(function(d){return [fa(DATA.dept[d][LANG]),
+   N(byDept[d].wait),N(byDept[d].notes)]}),['t','n','n']);
+ return h}
+
+function viewTech(){
+ var rec=M.ents.filter(function(e){return e.weeks>3});
+ var key=M.ents.filter(function(e){return e.kind==='people'});
+ var cross=M.ents.filter(function(e){return e.depts.length>2});
+ var intern=M.ents.filter(function(e){return e.kind==='internal'&&e.friction});
+ var h=tiles([
+  {v:rec.length,l:T.recur3,s:T.recur3S},
+  {v:key.length,l:T.keyRisk},
+  {v:cross.length,l:T.cross3},
+  {v:intern.length,l:T.internUn}]);
+ h+=tbl(T.t.rec,T.h.rec,
+  [T.c.item,T.c.topic,T.c.weeks,T.c.teams,T.c.days,T.c.state],
+  M.ents.filter(function(e){return e.friction}).sort(function(a,b){
+   return b.weeks-a.weeks}).map(function(e){return [fa(e.label),fa(e.topic),
+   N(e.weeks),fa(e.depts.join(FA?'، ':', ')),N(e.days),stat(e)]}),
+  ['t','t','n','t','n','t']);
+ h+=tbl(T.t.key,T.h.key,[T.c.item,T.c.teams,T.c.reports,T.c.days],
+  key.sort(byAge).map(function(e){return [fa(e.label),
+   fa(e.depts.join(FA?'، ':', ')),N(e.reports),N(e.days)]}),
+  ['t','t','n','n']);
+ return h}
+
+var VIEWS={exec:viewExec,sales:viewSales,ops:viewOps,tech:viewTech};
+var ORDER=['exec','sales','ops','tech'];
+
+function paint(){
+ document.getElementById('layers').innerHTML=ORDER.map(function(k){
+  return '<button class="ly'+(k===FUNC?' on':'')+'" data-l="'+k+'">'+
+   T.f[k]+'</button>'}).join('');
+ document.querySelectorAll('.ly').forEach(function(b){
+  b.onclick=function(){FUNC=b.dataset.l;
+   if(history.replaceState)history.replaceState(null,'',
+    '#ind='+CFG.industry+'&band='+CFG.band+'&depts='+CFG.depts.join(',')+
+    '&f='+FUNC);
+   paint()}});
+ document.getElementById('panel').innerHTML=(VIEWS[FUNC]||viewExec)();
+}
+paint();
+</script>
+</body></html>

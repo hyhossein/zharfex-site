@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zharfex — people talk, you see what they missed</title>
+<meta name="description" content="Voice notes become a wiki that belongs to the person who recorded them. Organizational intelligence as a by-product of consent. Persian first, self-hostable.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#07090f">
+<link rel="canonical" href="https://zharfex.com/">
+<link rel="alternate" hreflang="fa" href="https://zharfex.com/fa/">
+<meta property="og:title" content="Zharfex — people talk, you see what they missed"><meta property="og:description" content="Voice notes become a wiki that belongs to the person who recorded them. Organizational intelligence as a by-product of consent. Persian first, self-hostable.">
+<meta property="og:url" content="https://zharfex.com/"><meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{
+--bg:#07090f; --bg2:#0a0d15; --sf:#0e131c; --sf2:#141a26; --sf3:#1b2433;
+--bd:#1b2433; --bd2:#283346;
+--tx:#9aa7bd; --txb:#eef2f9; --txm:#5b6a85;
+--tl:#00e0b0; --tld:rgba(0,224,176,.09); --tl2:#00b894;
+--am:#f5a83c; --amd:rgba(245,168,60,.10);
+--bl:#5b9bff; --rd:#ff6b6b; --pu:#a98bff; --gn:#3ddc97;
+--w:1120px; --prose:680px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-size:16px;line-height:1.7;
+-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+overflow-x:hidden}
+html[lang="en"] body{font-family:'IBM Plex Sans',system-ui,-apple-system,sans-serif}
+html[lang="fa"] body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;
+line-height:1.95}
+.fa{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;direction:rtl;
+unicode-bidi:isolate}
+.en{font-family:'IBM Plex Sans',system-ui,sans-serif;direction:ltr;
+unicode-bidi:isolate}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;
+font-variant-numeric:tabular-nums}
+/* Latin digits inside RTL text get reordered by the bidi algorithm —
+   "1 / 8" renders as "8 / 1". Any run of numerals or mixed numeric text must
+   be isolated LTR regardless of document direction. */
+.num{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 28px}
+.prose{max-width:var(--prose)}
+@media(max-width:640px){.wrap{padding:0 18px}body{font-size:15.5px}}
+
+a{color:inherit}
+h1,h2,h3,h4{color:var(--txb);font-weight:600;letter-spacing:-.018em;
+line-height:1.18}
+html[lang="fa"] h1,html[lang="fa"] h2,html[lang="fa"] h3{letter-spacing:0;
+line-height:1.45;font-weight:600}
+.h-xl{font-size:clamp(34px,5.4vw,62px);font-weight:300;line-height:1.08}
+html[lang="fa"] .h-xl{font-size:clamp(28px,4.6vw,52px);line-height:1.38;
+font-weight:400}
+.h-l{font-size:clamp(24px,3vw,36px);font-weight:300;line-height:1.2}
+html[lang="fa"] .h-l{line-height:1.5;font-weight:500}
+.h-m{font-size:clamp(19px,2.1vw,24px);font-weight:600}
+em{font-style:normal;color:var(--tl);font-weight:400}
+html[lang="fa"] em{font-weight:500}
+.kick{font-size:11px;font-weight:600;letter-spacing:.16em;
+text-transform:uppercase;color:var(--txm)}
+html[lang="fa"] .kick{letter-spacing:.04em;font-size:12px}
+.lead{font-size:18px;line-height:1.68;color:var(--tx)}
+html[lang="fa"] .lead{font-size:17px;line-height:2}
+.dim{color:var(--txm)}
+.sm{font-size:13.5px}
+.xs{font-size:12px;color:var(--txm);line-height:1.65}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(7,9,15,.82);
+backdrop-filter:blur(14px) saturate(160%);border-bottom:1px solid var(--bd)}
+nav .wrap{display:flex;align-items:center;gap:26px;height:62px}
+.brand{display:flex;align-items:baseline;gap:9px;text-decoration:none;
+margin-inline-end:auto}
+.brand b{font-family:'IBM Plex Sans',sans-serif;font-size:14.5px;
+font-weight:700;letter-spacing:.11em;color:var(--txb)}
+.brand i{font-style:normal;font-size:19px;color:var(--tl);
+font-family:'Vazirmatn',Tahoma,sans-serif}
+.nl{color:var(--txm);text-decoration:none;font-size:14px;font-weight:500;
+white-space:nowrap}
+.nl:hover{color:var(--tx)}
+.nl.on{color:var(--tl)}
+.lang{border:1px solid var(--bd2);border-radius:7px;padding:6px 13px;
+font-size:13px;color:var(--tx);text-decoration:none;white-space:nowrap}
+.lang:hover{border-color:var(--tl);color:var(--tl)}
+.navcta{background:var(--tl);color:#03120d;border-radius:7px;padding:8px 16px;
+font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap}
+.navcta:hover{opacity:.88}
+@media(max-width:820px){.nl.hide-s{display:none}nav .wrap{gap:14px}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:9px;background:var(--tl);
+color:#03120d;border:none;border-radius:8px;padding:14px 24px;font-size:15px;
+font-weight:600;cursor:pointer;text-decoration:none;font-family:inherit;
+transition:transform .12s,opacity .12s}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--bd2)}
+.btn.ghost:hover{background:var(--sf2);opacity:1;border-color:var(--tl)}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+
+/* sections — dense by default */
+.sec{padding:66px 0;border-top:1px solid var(--bd)}
+.sec.first{border-top:none}
+.sec.tight{padding:44px 0}
+@media(max-width:640px){.sec{padding:46px 0}}
+
+/* numbered argument rows */
+.arg{display:grid;grid-template-columns:76px minmax(0,1fr) minmax(0,1.05fr);
+gap:30px;align-items:start}
+.arg+.arg{margin-top:46px;padding-top:46px;border-top:1px solid var(--bd)}
+.arg .n{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--tl);
+padding-top:6px}
+@media(max-width:860px){.arg{grid-template-columns:1fr;gap:12px}
+.arg+.arg{margin-top:34px;padding-top:34px}}
+
+/* cards */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:11px;
+padding:20px 22px}
+.card.tl{border-color:var(--tl);background:linear-gradient(160deg,var(--tld),transparent 60%)}
+.card.am{border-inline-start:3px solid var(--am)}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:820px){.g2,.g3{grid-template-columns:1fr}}
+
+/* footer */
+footer{border-top:1px solid var(--bd);margin-top:10px;padding:34px 0 54px;
+font-size:12.5px;color:var(--txm)}
+footer .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+footer .sp{margin-inline-start:auto}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);
+transition:opacity .5s ease-out,transform .5s ease-out}
+.rv.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;
+transition:none}html{scroll-behavior:auto}}
+
+.hero{position:relative;padding:74px 0 60px;overflow:hidden}
+.hero .wrap{position:relative;z-index:2}
+#hg{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:.5}
+.hero::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+background:radial-gradient(90% 70% at 50% 18%,transparent,var(--bg) 72%)}
+.hero h1{max-width:19ch;margin:18px 0 20px}
+html[lang="fa"] .hero h1{max-width:24ch}
+.hero .lead{max-width:56ch}
+.hero .btns{margin-top:30px}
+.beat{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}
+.chip{border:1px solid var(--bd2);border-radius:999px;padding:7px 14px;
+font-size:12.5px;color:var(--txm);background:rgba(10,13,21,.6)}
+.chip b{color:var(--tl);font-weight:600}
+@media(max-width:640px){#hg{opacity:.3}.hero{padding:52px 0 44px}}
+</style></head><body>
+<nav><div class="wrap">
+<a class="brand" href="/"><b>ZHARFEX</b><i>ژرفکس</i></a>
+<a class="nl hide-s " href="/build/">Build yours</a><a class="nl hide-s " href="/demo/">Demo</a><a class="nl hide-s " href="/solutions/">Solutions</a><a class="nl hide-s " href="/writing/">Writing</a>
+<a class="lang" href="/fa/" hreflang="fa">فارسی</a>
+<a class="navcta" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex">Get access</a>
+</div></nav>
+<section class="hero">
+<canvas id="hg"></canvas>
+<div class="wrap">
+<div class="kick rv on">Voice-first organizational intelligence · Persian first</div>
+<h1 class="h-xl">People talk.<br><em>You see what they missed.</em></h1>
+<p class="lead">A minute of voice at the end of the day becomes a wiki that belongs to the person who recorded it. When enough people find their own wiki worth keeping and choose to share part of it, the organization finally gets an honest picture of itself.</p>
+<div class="btns">
+<a class="btn" href="/build/">Build your company</a>
+<a class="btn ghost" href="/writing/subjective-objective/">Why it works</a>
+</div>
+<div class="beat"><span class="chip"><b>7</b> people recording</span><span class="chip"><b>35</b> entities compiled</span><span class="chip"><b>3</b> independent reports on one shortage</span><span class="chip"><b>0</b> forms filled in</span></div>
+</div></section>
+
+<section class="sec first" style="border-top:1px solid var(--bd)">
+<div class="wrap"><div class="arg rv">
+<div class="n">01</div>
+<div><div class="kick" style="margin-bottom:9px">The failure</div>
+<h2 class="h-m">Nothing was hidden. Nobody connected it.</h2></div>
+<div class="lead" style="font-size:16px">Three people in three departments described the same packaging shortage over two days. Each told a different colleague. No report was filed, because nobody thought they had a whole problem — each had a fragment, and a fragment never feels worth escalating.</div>
+</div><div class="arg rv">
+<div class="n">02</div>
+<div><div class="kick" style="margin-bottom:9px">The inversion</div>
+<h2 class="h-m">The CEO sees the least. On purpose.</h2></div>
+<div class="lead" style="font-size:16px">Every tool built for organizations serves the person at the top, looking down. Zharfex serves the person recording. Leadership receives a view only as a by-product of consent: claims that three non-coordinating people independently made, with no names attached and no raw notes exposed. Less information, and far more of it true.</div>
+</div><div class="arg rv">
+<div class="n">03</div>
+<div><div class="kick" style="margin-bottom:9px">The arithmetic</div>
+<h2 class="h-m">Corroboration you cannot manufacture.</h2></div>
+<div class="lead" style="font-size:16px">Three reports only count as three if those people weren't talking to each other. Zharfex tracks who coordinates with whom and discounts accordingly, so the loudest voice cannot manufacture its own confirmation. A calculation, not a judgement — no part of it is a matter of opinion.</div>
+</div><div class="arg rv">
+<div class="n">04</div>
+<div><div class="kick" style="margin-bottom:9px">The limit</div>
+<h2 class="h-m">It cannot know what nobody said.</h2></div>
+<div class="lead" style="font-size:16px">So it shows you its own coverage — which parts of the organization it can see and which it cannot — and leaves the judgement to you. If a week is quiet, we tell you we don't know whether that means healthy or unheard. Bounded vision, stated plainly, beats total vision claimed falsely.</div>
+</div></div></section>
+<section class="sec"><div class="wrap" style="text-align:center">
+<h2 class="h-l rv">Start with your own voice.</h2>
+<p class="lead dim rv" style="margin:14px auto 26px;max-width:46ch">One person. One week. No rollout, no buy-in, nobody's permission.</p>
+<div class="rv" style="display:flex;justify-content:center">
+<a class="btn" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex%20access">Request access</a></div>
+</div></section>
+<footer><div class="wrap">
+<span>Built by AIACE · Toronto + Tehran</span><span class="sp">Voice first. Persian first. Self-hostable.</span>
+</div></footer>
+<script>
+var _o=new IntersectionObserver(function(e){e.forEach(function(x){
+if(x.isIntersecting){x.target.classList.add('on');_o.unobserve(x.target)}})},
+{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(function(el){_o.observe(el)});
+
+var G={"nodes": [{"id": "p:مهدی", "c": "#4d8eff", "r": 10}, {"id": "p:سارا", "c": "#ec4899", "r": 10}, {"id": "p:داوود", "c": "#eab308", "r": 10}, {"id": "p:رضا", "c": "#9b7aff", "r": 10}, {"id": "p:نازنین", "c": "#2ec78a", "r": 10}, {"id": "p:امیر", "c": "#f97316", "r": 10}, {"id": "e:مشتری شیراز", "c": "#f0a030", "r": 4.5}, {"id": "e:محموله", "c": "#9b7aff", "r": 4.5}, {"id": "e:بسته بندی", "c": "#2ec78a", "r": 7.5}, {"id": "e:تدارکات", "c": "#2ec78a", "r": 4.5}, {"id": "e:پنجشنبه", "c": "#4d5c78", "r": 4.5}, {"id": "e:کیان", "c": "#4d8eff", "r": 4.5}, {"id": "e:هفته دیگه", "c": "#4d5c78", "r": 4.5}, {"id": "e:دسترسی سرور", "c": "#2ec78a", "r": 4.5}, {"id": "e:ویکی", "c": "#2ec78a", "r": 4.5}, {"id": "e:بودجه q3", "c": "#eab308", "r": 4.5}, {"id": "e:مهاجرت سرورها", "c": "#9b7aff", "r": 4.5}, {"id": "e:تا جمعه", "c": "#4d5c78", "r": 4.5}, {"id": "e:بودجه بازاریابی", "c": "#eab308", "r": 4.5}, {"id": "e:محموله شیراز", "c": "#00d4a8", "r": 4.5}, {"id": "e:بسته بندی حبابدار", "c": "#2ec78a", "r": 4.5}, {"id": "e:کاغذ مچاله", "c": "#2ec78a", "r": 4.5}, {"id": "e:هفته بعد", "c": "#4d5c78", "r": 4.5}, {"id": "e:مشتری اصفهان", "c": "#f0a030", "r": 4.5}, {"id": "e:ماهی 50 تن", "c": "#eab308", "r": 4.5}, {"id": "e:ظرفیت انبار", "c": "#2ec78a", "r": 4.5}, {"id": "e:جلسه فردا ساعت 10", "c": "#4d5c78", "r": 4.5}, {"id": "e:شیراز", "c": "#00d4a8", "r": 4.5}, {"id": "e:مهاجرت سرور", "c": "#9b7aff", "r": 4.5}, {"id": "e:80 درصد", "c": "#eab308", "r": 4.5}, {"id": "e:دیتابیس قدیمی", "c": "#2ec78a", "r": 4.5}, {"id": "e:بودجه اضافی", "c": "#2ec78a", "r": 4.5}, {"id": "e:سرور فعلی", "c": "#2ec78a", "r": 4.5}, {"id": "e:یکشنبه", "c": "#4d5c78", "r": 4.5}], "edges": [{"a": "p:مهدی", "b": "e:مشتری شیراز"}, {"a": "p:مهدی", "b": "e:محموله"}, {"a": "p:مهدی", "b": "e:بسته بندی"}, {"a": "p:مهدی", "b": "p:رضا"}, {"a": "p:مهدی", "b": "e:تدارکات"}, {"a": "p:مهدی", "b": "e:پنجشنبه"}, {"a": "p:سارا", "b": "e:کیان"}, {"a": "p:سارا", "b": "e:هفته دیگه"}, {"a": "p:سارا", "b": "e:دسترسی سرور"}, {"a": "p:سارا", "b": "e:ویکی"}, {"a": "p:سارا", "b": "p:امیر"}, {"a": "p:داوود", "b": "e:بودجه q3"}, {"a": "p:داوود", "b": "e:مهاجرت سرورها"}, {"a": "p:داوود", "b": "e:تا جمعه"}, {"a": "p:داوود", "b": "e:بودجه بازاریابی"}, {"a": "p:داوود", "b": "e:محموله شیراز"}, {"a": "p:داوود", "b": "e:بسته بندی"}, {"a": "p:رضا", "b": "e:بسته بندی حبابدار"}, {"a": "p:رضا", "b": "p:مهدی"}, {"a": "p:رضا", "b": "e:کاغذ مچاله"}, {"a": "p:رضا", "b": "e:هفته بعد"}, {"a": "p:نازنین", "b": "e:مشتری اصفهان"}, {"a": "p:نازنین", "b": "e:ماهی 50 تن"}, {"a": "p:نازنین", "b": "e:ظرفیت انبار"}, {"a": "p:نازنین", "b": "p:مهدی"}, {"a": "p:نازنین", "b": "e:جلسه فردا ساعت 10"}, {"a": "p:نازنین", "b": "e:بسته بندی"}, {"a": "p:نازنین", "b": "e:شیراز"}, {"a": "p:امیر", "b": "e:مهاجرت سرور"}, {"a": "p:امیر", "b": "e:80 درصد"}, {"a": "p:امیر", "b": "e:دیتابیس قدیمی"}, {"a": "p:امیر", "b": "p:داوود"}, {"a": "p:امیر", "b": "e:بودجه اضافی"}, {"a": "p:امیر", "b": "e:سرور فعلی"}, {"a": "p:امیر", "b": "e:یکشنبه"}]};
+(function(){
+ var c=document.getElementById('hg');if(!c)return;
+ var x=c.getContext('2d'),W=0,H=0,D=1,
+ N=G.nodes.map(function(n,i){return{id:n.id,c:n.c,r:n.r,
+  px:0,py:0,vx:0,vy:0}}),
+ IX={};N.forEach(function(n,i){IX[n.id]=i});
+ var E=G.edges.filter(function(e){return IX[e.a]!=null&&IX[e.b]!=null});
+ function size(){D=devicePixelRatio||1;var r=c.getBoundingClientRect();
+  W=r.width;H=r.height;c.width=W*D;c.height=H*D;x.setTransform(D,0,0,D,0,0);
+  N.forEach(function(n,i){if(!n.px){var a=i/N.length*6.2832;
+   n.px=W/2+Math.cos(a)*Math.min(W,H)*.34;
+   n.py=H/2+Math.sin(a)*Math.min(W,H)*.34}})}
+ addEventListener('resize',size);size();
+ function step(){
+  for(var i=0;i<N.length;i++){var a=N[i];
+   for(var j=i+1;j<N.length;j++){var b=N[j];
+    var dx=b.px-a.px,dy=b.py-a.py,d2=dx*dx+dy*dy||1,d=Math.sqrt(d2),
+    f=1500/d2,ux=dx/d,uy=dy/d;
+    a.vx-=ux*f;a.vy-=uy*f;b.vx+=ux*f;b.vy+=uy*f}}
+  E.forEach(function(e){var a=N[IX[e.a]],b=N[IX[e.b]];
+   var dx=b.px-a.px,dy=b.py-a.py,d=Math.sqrt(dx*dx+dy*dy)||1,
+   f=(d-96)*.010,ux=dx/d,uy=dy/d;
+   a.vx+=ux*f;a.vy+=uy*f;b.vx-=ux*f;b.vy-=uy*f});
+  N.forEach(function(n){n.vx+=(W/2-n.px)*.0014;n.vy+=(H/2-n.py)*.0014;
+   n.vx*=.9;n.vy*=.9;n.px+=n.vx;n.py+=n.vy;
+   n.px=Math.max(6,Math.min(W-6,n.px));n.py=Math.max(6,Math.min(H-6,n.py))})}
+ function draw(){x.clearRect(0,0,W,H);
+  x.lineWidth=.9;x.strokeStyle='rgba(120,145,185,.22)';
+  E.forEach(function(e){var a=N[IX[e.a]],b=N[IX[e.b]];
+   x.beginPath();x.moveTo(a.px,a.py);x.lineTo(b.px,b.py);x.stroke()});
+  N.forEach(function(n){x.beginPath();x.arc(n.px,n.py,n.r,0,6.2832);
+   x.fillStyle=n.c;x.globalAlpha=.82;x.fill();x.globalAlpha=1})}
+ var frames=0;
+ function loop(){step();draw();
+  if(++frames<900)requestAnimationFrame(loop)}   /* settle, then stop */
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches)loop();
+ else{for(var k=0;k<260;k++)step();draw()}
+})();
+</script>
+</body></html>

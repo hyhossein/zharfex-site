@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The wiki is subjective. That is why it works. — Zharfex</title>
+<meta name="description" content="How many private accounts of a week compose into something you can act on — and why the differences between them are the information, not the noise.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#07090f">
+<link rel="canonical" href="https://zharfex.com/writing/subjective-objective/">
+<link rel="alternate" hreflang="fa" href="https://zharfex.com/fa/writing/subjective-objective/">
+<meta property="og:title" content="The wiki is subjective. That is why it works. — Zharfex"><meta property="og:description" content="How many private accounts of a week compose into something you can act on — and why the differences between them are the information, not the noise.">
+<meta property="og:url" content="https://zharfex.com/writing/subjective-objective/"><meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{
+--bg:#07090f; --bg2:#0a0d15; --sf:#0e131c; --sf2:#141a26; --sf3:#1b2433;
+--bd:#1b2433; --bd2:#283346;
+--tx:#9aa7bd; --txb:#eef2f9; --txm:#5b6a85;
+--tl:#00e0b0; --tld:rgba(0,224,176,.09); --tl2:#00b894;
+--am:#f5a83c; --amd:rgba(245,168,60,.10);
+--bl:#5b9bff; --rd:#ff6b6b; --pu:#a98bff; --gn:#3ddc97;
+--w:1120px; --prose:680px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-size:16px;line-height:1.7;
+-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+overflow-x:hidden}
+html[lang="en"] body{font-family:'IBM Plex Sans',system-ui,-apple-system,sans-serif}
+html[lang="fa"] body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;
+line-height:1.95}
+.fa{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;direction:rtl;
+unicode-bidi:isolate}
+.en{font-family:'IBM Plex Sans',system-ui,sans-serif;direction:ltr;
+unicode-bidi:isolate}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;
+font-variant-numeric:tabular-nums}
+/* Latin digits inside RTL text get reordered by the bidi algorithm —
+   "1 / 8" renders as "8 / 1". Any run of numerals or mixed numeric text must
+   be isolated LTR regardless of document direction. */
+.num{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 28px}
+.prose{max-width:var(--prose)}
+@media(max-width:640px){.wrap{padding:0 18px}body{font-size:15.5px}}
+
+a{color:inherit}
+h1,h2,h3,h4{color:var(--txb);font-weight:600;letter-spacing:-.018em;
+line-height:1.18}
+html[lang="fa"] h1,html[lang="fa"] h2,html[lang="fa"] h3{letter-spacing:0;
+line-height:1.45;font-weight:600}
+.h-xl{font-size:clamp(34px,5.4vw,62px);font-weight:300;line-height:1.08}
+html[lang="fa"] .h-xl{font-size:clamp(28px,4.6vw,52px);line-height:1.38;
+font-weight:400}
+.h-l{font-size:clamp(24px,3vw,36px);font-weight:300;line-height:1.2}
+html[lang="fa"] .h-l{line-height:1.5;font-weight:500}
+.h-m{font-size:clamp(19px,2.1vw,24px);font-weight:600}
+em{font-style:normal;color:var(--tl);font-weight:400}
+html[lang="fa"] em{font-weight:500}
+.kick{font-size:11px;font-weight:600;letter-spacing:.16em;
+text-transform:uppercase;color:var(--txm)}
+html[lang="fa"] .kick{letter-spacing:.04em;font-size:12px}
+.lead{font-size:18px;line-height:1.68;color:var(--tx)}
+html[lang="fa"] .lead{font-size:17px;line-height:2}
+.dim{color:var(--txm)}
+.sm{font-size:13.5px}
+.xs{font-size:12px;color:var(--txm);line-height:1.65}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(7,9,15,.82);
+backdrop-filter:blur(14px) saturate(160%);border-bottom:1px solid var(--bd)}
+nav .wrap{display:flex;align-items:center;gap:26px;height:62px}
+.brand{display:flex;align-items:baseline;gap:9px;text-decoration:none;
+margin-inline-end:auto}
+.brand b{font-family:'IBM Plex Sans',sans-serif;font-size:14.5px;
+font-weight:700;letter-spacing:.11em;color:var(--txb)}
+.brand i{font-style:normal;font-size:19px;color:var(--tl);
+font-family:'Vazirmatn',Tahoma,sans-serif}
+.nl{color:var(--txm);text-decoration:none;font-size:14px;font-weight:500;
+white-space:nowrap}
+.nl:hover{color:var(--tx)}
+.nl.on{color:var(--tl)}
+.lang{border:1px solid var(--bd2);border-radius:7px;padding:6px 13px;
+font-size:13px;color:var(--tx);text-decoration:none;white-space:nowrap}
+.lang:hover{border-color:var(--tl);color:var(--tl)}
+.navcta{background:var(--tl);color:#03120d;border-radius:7px;padding:8px 16px;
+font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap}
+.navcta:hover{opacity:.88}
+@media(max-width:820px){.nl.hide-s{display:none}nav .wrap{gap:14px}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:9px;background:var(--tl);
+color:#03120d;border:none;border-radius:8px;padding:14px 24px;font-size:15px;
+font-weight:600;cursor:pointer;text-decoration:none;font-family:inherit;
+transition:transform .12s,opacity .12s}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--bd2)}
+.btn.ghost:hover{background:var(--sf2);opacity:1;border-color:var(--tl)}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+
+/* sections — dense by default */
+.sec{padding:66px 0;border-top:1px solid var(--bd)}
+.sec.first{border-top:none}
+.sec.tight{padding:44px 0}
+@media(max-width:640px){.sec{padding:46px 0}}
+
+/* numbered argument rows */
+.arg{display:grid;grid-template-columns:76px minmax(0,1fr) minmax(0,1.05fr);
+gap:30px;align-items:start}
+.arg+.arg{margin-top:46px;padding-top:46px;border-top:1px solid var(--bd)}
+.arg .n{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--tl);
+padding-top:6px}
+@media(max-width:860px){.arg{grid-template-columns:1fr;gap:12px}
+.arg+.arg{margin-top:34px;padding-top:34px}}
+
+/* cards */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:11px;
+padding:20px 22px}
+.card.tl{border-color:var(--tl);background:linear-gradient(160deg,var(--tld),transparent 60%)}
+.card.am{border-inline-start:3px solid var(--am)}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:820px){.g2,.g3{grid-template-columns:1fr}}
+
+/* footer */
+footer{border-top:1px solid var(--bd);margin-top:10px;padding:34px 0 54px;
+font-size:12.5px;color:var(--txm)}
+footer .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+footer .sp{margin-inline-start:auto}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);
+transition:opacity .5s ease-out,transform .5s ease-out}
+.rv.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;
+transition:none}html{scroll-behavior:auto}}
+
+.wlist{display:grid;gap:14px;margin-top:34px}
+.wi{display:block;text-decoration:none;background:var(--sf);
+border:1px solid var(--bd);border-radius:12px;padding:24px 26px;
+transition:border-color .2s,transform .12s}
+.wi:hover{border-color:var(--tl);transform:translateY(-2px)}
+.wi .d{font-size:11.5px;color:var(--txm);letter-spacing:.08em;
+text-transform:uppercase;margin-bottom:10px}
+.wi h2{font-size:21px;font-weight:600;margin-bottom:9px;line-height:1.32}
+html[lang="fa"] .wi h2{line-height:1.6}
+.wi p{font-size:14.5px;color:var(--tx);line-height:1.72;max-width:62ch}
+.wi .r{margin-top:14px;font-size:13px;color:var(--tl);font-weight:600}
+
+article{padding:60px 0 20px}
+article .d{font-size:11.5px;color:var(--txm);letter-spacing:.1em;
+text-transform:uppercase}
+article h1{margin:16px 0 18px;max-width:26ch}
+article .dek{font-size:19px;line-height:1.62;color:var(--tx);
+max-width:60ch;margin-bottom:46px;padding-bottom:30px;
+border-bottom:1px solid var(--bd)}
+html[lang="fa"] article .dek{line-height:2;font-size:18px}
+article h2{font-size:20px;font-weight:600;margin:46px 0 14px}
+article p{margin-bottom:22px;max-width:var(--prose);font-size:16.5px;
+line-height:1.78}
+html[lang="fa"] article p{line-height:2.05;font-size:16px}
+article blockquote{margin:36px 0;padding-inline-start:22px;
+border-inline-start:2px solid var(--tl);max-width:var(--prose)}
+article blockquote p{font-size:20px;line-height:1.56;color:var(--txb);
+font-weight:300;margin:0}
+html[lang="fa"] article blockquote p{line-height:1.9;font-weight:400;
+font-size:19px}
+article ul{max-width:var(--prose);margin:0 0 22px;padding-inline-start:20px}
+article li{margin-bottom:13px;font-size:16px;line-height:1.75}
+html[lang="fa"] article li{line-height:2}
+.back{display:inline-block;margin:46px 0 0;font-size:13.5px;color:var(--txm);
+text-decoration:none}
+.back:hover{color:var(--tl)}
+</style></head><body>
+<nav><div class="wrap">
+<a class="brand" href="/"><b>ZHARFEX</b><i>ژرفکس</i></a>
+<a class="nl hide-s " href="/build/">Build yours</a><a class="nl hide-s " href="/demo/">Demo</a><a class="nl hide-s " href="/solutions/">Solutions</a><a class="nl hide-s " href="/writing/">Writing</a>
+<a class="lang" href="/fa/writing/subjective-objective/" hreflang="fa">فارسی</a>
+<a class="navcta" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex">Get access</a>
+</div></nav>
+<article><div class="wrap">
+<div class="d mono">October 2026</div>
+<h1 class="h-l">The wiki is subjective. That is why it works.</h1>
+<div class="dek">How many private accounts of a week compose into something you can act on — and why the differences between them are the information, not the noise.</div>
+<p>Every entry in a Zharfex wiki is one person's account of their own week. It is not a sensor reading. It is not a log. It is what somebody chose to say at the end of a day, shaped by what they happened to remember, what annoyed them, and what they thought mattered.</p><p>The reflex is to treat that as a defect to be corrected — to normalize it, average it, clean it up into something that looks like data. We think that reflex is exactly wrong, and that it is why organizational software has been disappointing for forty years.</p><h2>Objectivity is produced, not collected</h2><p>There is no vantage point inside a company from which someone sees the organization as it is. The manager walking the floor sees what is in front of them. The dashboard sees what someone decided to instrument. Every view is from somewhere.</p><p>So objectivity cannot be gathered. It has to be manufactured, and the only material available is subjective accounts. It appears at the moment two people who did not consult each other describe the same thing. Not because either is reliable — because the agreement between them is not explicable by either one alone.</p><blockquote><p>Two observers and a shared world is the minimum condition for anything to be objectively true.</p></blockquote><p>This is an old idea. Davidson called it triangulation. Wittgenstein made the same point from the other side: a purely private diary has no criterion of correctness, because there is nothing outside it to be wrong against. And Condorcet gave it the arithmetic — a group converges on truth only if its members err independently.</p><h2>The differences are the information</h2><p>Here is where most systems destroy what they were built to find. Warehouse says «تأخیر» and means a packaging shortage. Finance says «تأخیر» and means a contractual penalty. Sales says it and means a promise to a client that is about to break.</p><p>A single shared vocabulary would flatten those three into one row and call it consistency. An embedding space would do the same thing more quietly, by arithmetic. But the three senses are not noisy copies of one fact — they are three projections of one situation, taken from three positions, and the shape of the situation is recoverable only from the differences.</p><p>So we do not merge. One node carries several local senses, each attached to the person and the function that holds it, plus an assertion that they refer to the same thing — an assertion that can be withdrawn. Agreement is counted across those senses. The senses themselves are never overwritten.</p><blockquote><p>More different subjectivities make a better objectivity. Fewer, more uniform ones make a cleaner illusion.</p></blockquote><h2>Why coordination is a discount</h2><p>If the whole thing rests on independence, then independence has to be measured rather than assumed. Two people who discussed a problem before describing it are one projection, not two. So Zharfex tracks who coordinates with whom and refuses to count them twice.</p><p>That single rule is what makes the result hard to game. Anyone can file a complaint. Nobody can manufacture three independent witnesses to something that did not happen.</p><h2>Where this breaks</h2><p>Independence by our measure is not independence in fact. We can see that two people spoke. We cannot see that three people separately fear the same manager and separately leave the same thing out. They produce no coordination edge, perfect independence by the arithmetic, and perfectly correlated silence.</p><p>Employment manufactures shared incentive, and shared incentive is exactly the thing this method cannot detect. We do not have a solution. We have an instrument that reports what it covers and what it does not, and the discipline to say so rather than present a quiet week as a healthy one.</p><p>The wiki is honest because it is yours. Objectivity is what happens when yours and mine turn out to agree without either of us arranging it.</p>
+<a class="back" href="/writing/">← All writing</a>
+</div></article>
+<section class="sec"><div class="wrap" style="text-align:center">
+<h2 class="h-l rv">Start with your own voice.</h2>
+<p class="lead dim rv" style="margin:14px auto 26px;max-width:46ch">One person. One week. No rollout, no buy-in, nobody's permission.</p>
+<div class="rv" style="display:flex;justify-content:center">
+<a class="btn" href="mailto:hoseyn.yousefi@gmail.com?subject=Zharfex%20access">Request access</a></div>
+</div></section>
+<footer><div class="wrap">
+<span>Built by AIACE · Toronto + Tehran</span><span class="sp">Voice first. Persian first. Self-hostable.</span>
+</div></footer>
+<script>
+var _o=new IntersectionObserver(function(e){e.forEach(function(x){
+if(x.isIntersecting){x.target.classList.add('on');_o.unobserve(x.target)}})},
+{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(function(el){_o.observe(el)});
+</script>
+</body></html>
