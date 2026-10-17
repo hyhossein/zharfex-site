@@ -107,8 +107,12 @@ color:var(--txb);font-size:15px;font-family:inherit;margin-bottom:10px;
 transition:border-color .15s}
 .acc input::placeholder{color:var(--txm)}
 .acc input:focus{outline:none;border-color:var(--tl)}
-.acc input[name="_gotcha"]{position:absolute;left:-9999px;width:1px;height:1px;
-opacity:0;margin:0}
+/* Honeypot. Never hide it with an offset like left:-9999px: in an RTL
+   document overflow on the left is scrollable, and that one rule made every
+   Persian page with the form 10,934px wide. Clip in place instead. */
+.acc input[name="_gotcha"]{position:absolute;width:1px;height:1px;padding:0;
+margin:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;
+opacity:0;pointer-events:none}
 .acc button{width:100%;justify-content:center;margin-top:2px}
 .acc .msg{font-size:13.5px;line-height:1.7;margin-top:12px;min-height:1px}
 .acc .msg.ok{color:var(--tl)}
