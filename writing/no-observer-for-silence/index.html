@@ -9,6 +9,11 @@
 <link rel="alternate" hreflang="fa" href="https://zharfex.com/fa/writing/no-observer-for-silence/">
 <meta property="og:title" content="There is no observer for silence — Zharfex"><meta property="og:description" content="The hardest problem in this product is not transcription. It is that a quiet week and a broken system look identical from inside.">
 <meta property="og:url" content="https://zharfex.com/writing/no-observer-for-silence/"><meta property="og:type" content="website">
+<meta property="og:image" content="https://zharfex.com/assets/og-en.png"><meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630"><meta property="og:image:alt" content="There is no observer for silence — Zharfex">
+<meta property="og:site_name" content="Zharfex"><meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="There is no observer for silence — Zharfex">
+<meta name="twitter:description" content="The hardest problem in this product is not transcription. It is that a quiet week and a broken system look identical from inside."><meta name="twitter:image" content="https://zharfex.com/assets/og-en.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
 :root{
 --bg:#07090f; --bg2:#0a0d15; --sf:#0e131c; --sf2:#141a26; --sf3:#1b2433;
@@ -132,10 +137,10 @@ text-decoration-color:var(--bd2)}
 .acc .note a:hover{color:var(--tl)}
 
 /* sections — dense by default */
-.sec{padding:66px 0;border-top:1px solid var(--bd)}
+.sec{padding:56px 0;border-top:1px solid var(--bd)}
 .sec.first{border-top:none}
 .sec.tight{padding:44px 0}
-@media(max-width:640px){.sec{padding:46px 0}}
+@media(max-width:640px){.sec{padding:40px 0}}
 
 /* numbered argument rows */
 .arg{display:grid;grid-template-columns:76px minmax(0,1fr) minmax(0,1.05fr);
@@ -157,7 +162,7 @@ padding:20px 22px}
 @media(max-width:820px){.g2,.g3{grid-template-columns:1fr}}
 
 /* footer */
-footer{border-top:1px solid var(--bd);margin-top:10px;padding:34px 0 54px;
+footer{border-top:1px solid var(--bd);margin-top:10px;padding:28px 0 44px;
 font-size:12.5px;color:var(--txm)}
 footer .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
 footer .sp{margin-inline-start:auto}
@@ -166,14 +171,14 @@ display:inline-block;padding:9px 0 3px;transition:color .15s,border-color .15s}
 footer a:hover{color:var(--tl);border-color:var(--tl)}
 
 /* section header: kicker with a rule, then a large headline */
-.sh{margin-bottom:38px;max-width:62ch}
+.sh{margin-bottom:24px}
 .sh .kick{color:var(--tl);display:flex;align-items:center;gap:10px}
 .sh .kick::before{content:'';width:22px;height:1px;background:var(--tl);opacity:.7}
 .sh h2{font-size:clamp(28px,3.4vw,42px);font-weight:300;line-height:1.15;
-margin:14px 0 14px;letter-spacing:-.022em;text-wrap:balance}
+margin:12px 0 10px;letter-spacing:-.022em;text-wrap:balance;max-width:30ch}
 html[lang="fa"] .sh h2{font-weight:500;line-height:1.5;letter-spacing:0;
 font-size:clamp(25px,3vw,36px)}
-.sh p{font-size:17px;line-height:1.7;color:var(--tx);max-width:58ch}
+.sh p{font-size:17px;line-height:1.7;color:var(--tx);max-width:60ch}
 html[lang="fa"] .sh p{line-height:2;font-size:16px}
 
 /* product-UI surface: every mock on the site is drawn on this */
@@ -203,6 +208,13 @@ border:1px solid currentColor;line-height:1.5}
 opacity:.85}
 .glow{position:absolute;pointer-events:none;border-radius:50%;
 filter:blur(60px);opacity:.5}
+
+/* keyboard: a visible ring wherever focus lands, and a way past the nav */
+:focus-visible{outline:2px solid var(--tl);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;inset-inline-start:12px;top:-64px;z-index:100;background:var(--tl);
+color:#03120d;padding:10px 16px;border-radius:8px;font-weight:600;font-size:14.5px;
+text-decoration:none;transition:top .15s}
+.skip:focus{top:10px}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(14px);
@@ -248,12 +260,14 @@ html[lang="fa"] article li{line-height:2}
 text-decoration:none}
 .back:hover{color:var(--tl)}
 </style></head><body>
+<a class="skip" href="#main">Skip to content</a>
 <nav><div class="wrap">
 <a class="brand" href="/"><b>ZHARFEX</b><i>ژرفکس</i></a>
-<a class="nl hide-s " href="/demo/">Demo</a><a class="nl hide-s " href="/build/">Build yours</a><a class="nl hide-s " href="/dashboard/">Dashboard</a><a class="nl hide-s " href="/solutions/">Solutions</a><a class="nl hide-s " href="/writing/">Writing</a>
+<a class="nl hide-s " href="/demo/">Demo</a><a class="nl hide-s " href="/build/">Simulate yours</a><a class="nl hide-s " href="/dashboard/">Dashboard</a><a class="nl hide-s " href="/solutions/">Solutions</a><a class="nl hide-s " href="/writing/">Writing</a>
 <a class="lang" href="/fa/writing/no-observer-for-silence/" hreflang="fa">فارسی</a>
 <a class="navcta" href="#access">Get access</a>
 </div></nav>
+<main id="main">
 <article><div class="wrap">
 <div class="d mono">October 2026</div>
 <h1 class="h-l">There is no observer for silence</h1>
@@ -264,7 +278,7 @@ text-decoration:none}
 <section class="sec" id="access"><div class="wrap"
  style="text-align:center">
 <h2 class="h-l rv">Start with your own voice.</h2>
-<p class="lead dim rv" style="margin:14px auto 26px;max-width:46ch">One person. One week. No rollout, no buy-in, nobody's permission.</p>
+<p class="lead dim rv" style="margin:12px auto 22px;max-width:58ch">Early access for mid-size companies in MENA. Week one is one person and their own record; the company view grows as more people join.</p>
 <form class="acc rv" id="accform" action="https://formspree.io/f/mdealjda" method="POST" novalidate>
 <div class="row">
 <input name="name" type="text" autocomplete="name" placeholder="Your name" required>
@@ -276,13 +290,14 @@ text-decoration:none}
 <input type="hidden" name="lang" value="en">
 <button class="btn" type="submit">Request access</button>
 <div class="msg" role="status" aria-live="polite"></div>
-<p class="note">Your address is used to reply to you. Nothing else. No list, no analytics — see <a href="/privacy/">Privacy</a>. Or write to
+<p class="note">Used only to reply to you. No list, no analytics: see <a href="/privacy/">Privacy</a>. Or write to
 <a href="mailto:hoseyn.yousefi@gmail.com">hoseyn.yousefi@gmail.com</a>.</p>
 </form>
 </div></section>
+</main>
 <footer><div class="wrap">
 <span>Built by AIACE · Toronto + Tehran</span>
-<a href="/about/">About</a><a href="/privacy/">Privacy</a>
+<a href="/about/">About</a><a href="/now/">Now</a><a href="/privacy/">Privacy</a>
 <span class="sp">Voice first. Persian first. Self-hostable.</span>
 </div></footer>
 <script>
