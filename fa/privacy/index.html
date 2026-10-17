@@ -3,8 +3,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>حریم خصوصی و داده — ژرفکس</title>
 <meta name="description" content="بدون ابزار تحلیلی، بدون کوکی، بدون رهگیری. ژرفکس چه چیزی جمع می‌کند، چه کسی می‌بیندش، و طراحی چه چیزی را ناممکن می‌کند.">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#07090f">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f6f1e6">
 <link rel="canonical" href="https://zharfex.com/fa/privacy/">
 <link rel="alternate" hreflang="en" href="https://zharfex.com/privacy/">
 <meta property="og:title" content="حریم خصوصی و داده — ژرفکس"><meta property="og:description" content="بدون ابزار تحلیلی، بدون کوکی، بدون رهگیری. ژرفکس چه چیزی جمع می‌کند، چه کسی می‌بیندش، و طراحی چه چیزی را ناممکن می‌کند.">
@@ -22,9 +22,9 @@
 /* muted text: #5b6a85 was 3.6:1 on the page and failed AA in 42 places.
    #8090a8 holds >= 4.8:1 on every surface up to --sf3. */
 --txm:#8090a8; --txf:#5b6a85;
---tl:#00e0b0; --tld:rgba(0,224,176,.09); --tl2:#00b894;
---am:#f5a83c; --amd:rgba(245,168,60,.10);
---bl:#5b9bff; --rd:#ff6b6b; --pu:#a98bff; --gn:#3ddc97;
+--tl:#33bfb5; --tld:rgba(51,191,181,.09); --tl2:#22a39a;
+--am:#e64c59; --amd:rgba(230,76,89,.10);
+--bl:#8d96aa; --rd:#ff6b6b; --pu:#a98bff; --gn:#3ddc97;
 --w:1200px; --prose:680px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -193,16 +193,16 @@ font-size:11.5px;color:var(--txm)}
 .ui-bar .live{margin-inline-start:auto;display:flex;align-items:center;gap:6px;
 color:var(--tl);font-size:11.5px}
 .ui-bar .live::before{content:'';width:7px;height:7px;border-radius:50%;
-background:var(--tl);box-shadow:0 0 0 0 rgba(0,224,176,.6);
+background:var(--tl);box-shadow:0 0 0 0 rgba(51,191,181,.6);
 animation:ping 2s infinite}
-@keyframes ping{70%{box-shadow:0 0 0 7px rgba(0,224,176,0)}
-100%{box-shadow:0 0 0 0 rgba(0,224,176,0)}}
+@keyframes ping{70%{box-shadow:0 0 0 7px rgba(51,191,181,0)}
+100%{box-shadow:0 0 0 0 rgba(51,191,181,0)}}
 .tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;
 font-weight:600;letter-spacing:.04em;border-radius:5px;padding:2px 7px;
 border:1px solid currentColor;line-height:1.5}
-.tag.tl{color:var(--tl);background:rgba(0,224,176,.08)}
-.tag.am{color:var(--am);background:rgba(245,168,60,.08)}
-.tag.bl{color:#5b9bff;background:rgba(91,155,255,.08)}
+.tag.tl{color:var(--tl);background:rgba(51,191,181,.08)}
+.tag.am{color:var(--am);background:rgba(230,76,89,.08)}
+.tag.bl{color:#8d96aa;background:rgba(141,150,170,.08)}
 .wave{display:flex;align-items:center;gap:2px;height:22px}
 .wave b{display:block;width:3px;border-radius:2px;background:currentColor;
 opacity:.85}
@@ -248,6 +248,46 @@ border-radius:5px;padding:1px 5px;direction:ltr;unicode-bidi:isolate}
 font-size:13px;color:var(--txm);line-height:1.8}
 .pv .stamp a{color:var(--tl)}
 .pv p a{display:inline-block;padding:4px 0}
+
+:root{--bg:#f6f1e6;--bg2:#efe7d8;--sf:#fffcf6;--sf2:#f3ecdf;--sf3:#e8dfcd;--bd:#e3d9c6;--bd2:#cbbca3;
+--tx:#3b4254;--txb:#151b2c;--txm:#5d6577;--txf:#7a8090;--tl:#1f3f99;--tl2:#17327d;--am:#9c3a2a}
+body{background:var(--bg);color:var(--tx)}
+nav{background:rgba(246,241,230,.88)!important;border-bottom-color:var(--bd)!important}
+.brand i{color:#0a6b66}
+.btn,.navcta{background:#d9932a!important;color:#1a1204!important}
+.btn.ghost{background:transparent!important;color:var(--txb)!important;border-color:var(--bd2)!important}
+.hero h1 em,.sh .kick,.kick{color:var(--tl)}
+.sh .kick::before{background:var(--tl)}
+.hero .glow,.ldw .glow{opacity:.18}
+.hero::after{-webkit-text-stroke:1px rgba(31,63,153,.10)!important}
+.ht span::before{color:#0a6b66}
+.case .kick{color:var(--am)}
+.cw{background:rgba(10,107,102,.07)!important;border-color:rgba(10,107,102,.35)!important;color:var(--txb)!important}
+.strip li.flag b{color:#0a6b66!important}.strip li.flag i{background:#0a6b66!important}
+.strip li.loss b{color:#9c3a2a!important}.strip li.loss i{background:#9c3a2a!important}
+.strip li i{background:#7c8496!important}
+.strip::before{background:var(--bd2)!important}
+.gd i{background:rgba(124,132,150,.15)!important;border-color:#7c8496!important}
+.s3 .gd i{background:rgba(10,107,102,.15)!important;border-color:#0a6b66!important;box-shadow:none!important}
+.gs:last-child{background:linear-gradient(160deg,rgba(10,107,102,.08),transparent 60%),var(--sf)!important}
+.s3 .go{color:#0a6b66!important}
+.also a,.rule a,footer a:hover,.acc .note a:hover{color:var(--tl)!important}
+.acc input{background:#fffcf6!important}
+.acc .msg.ok{color:#0a6b66!important}
+.tag.tl{color:#0a6b66}.tag.am{color:var(--am)}
+.skip{background:var(--tl)!important;color:#fff!important}
+#asksend{color:#fff!important}
+.fi.fired .st{background:#0a6b66!important;color:#fff!important}  /* fired = confirmed */
+.fi:not(.fired) .st{color:var(--tx)!important}
+.pl.ok{color:#0a6b66!important;background:rgba(10,107,102,.12)!important}
+.pl.bad{color:#9c3a2a!important;background:rgba(156,58,42,.10)!important}
+.ui,.hw,.o3,.db,.v2w,.v2w .ph,.wk,.gwrap{box-shadow:0 30px 70px -30px rgba(21,27,44,.45)}
+
+/* .v2w .ph, not .ph: the dashboard's panel hints are also .ph */
+.ui,.hw,.o3,.db,.v2w,.v2w .ph,.wk,.finding,.gwrap{--bg:#0a0f1c;--bg2:#0c1322;--sf:#10182a;--sf2:#152036;--sf3:#1c2944;
+--bd:#1c2842;--bd2:#2b3b5c;--tx:#aab4c8;--txb:#f4efe6;--txm:#8794ad;--tl:#33bfb5;--am:#e64c59;color:var(--tx)}
+.ui .tag.tl,.hw .tag.tl,.o3 .tag.tl,.db .tag.tl{color:#33bfb5}
+.ui .tag.am,.db .tag.am,.hw .tag.am{color:#f06b76}
 </style></head><body>
 <a class="skip" href="#main">پرش به محتوا</a>
 <nav><div class="wrap">
