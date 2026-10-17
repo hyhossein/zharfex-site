@@ -87,6 +87,11 @@ font-size:13.5px;color:var(--tx);text-decoration:none;white-space:nowrap}
 font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap}
 .navcta:hover{opacity:.88}
 @media(max-width:820px){.nl.hide-s{display:none}nav .wrap{gap:14px}}
+/* Persian at phone width: brand + language + CTA overflowed by ~40px, and in
+   RTL that overflow is on the left, where it is scrollable. Shrink the chrome,
+   and clip as a backstop so the page itself can never widen. */
+@media(max-width:480px){nav{overflow-x:clip}nav .wrap{gap:10px}.brand i{display:none}
+.lang{padding:6px 10px}.navcta{padding:8px 12px}}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:9px;background:var(--tl);
@@ -238,7 +243,7 @@ padding:17px 19px}
 font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .tile .l{font-size:12.5px;color:var(--tx);margin-top:9px;line-height:1.5}
 .tile .s{font-size:11.5px;color:var(--txm);margin-top:5px;line-height:1.55}
-.dashlink{display:inline-flex;align-items:center;gap:7px;margin-top:14px;
+.dashlink{padding:8px 0;min-height:24px;display:inline-flex;align-items:center;gap:7px;margin-top:14px;
 font-size:13.5px;color:var(--tl);text-decoration:none;font-weight:600}
 .dashlink:hover{text-decoration:underline}
 .gwrap{position:relative;margin-top:16px;background:var(--bg2);
