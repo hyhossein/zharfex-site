@@ -241,9 +241,10 @@ font-size:13.5px;color:var(--tx)}
 gap:72px;padding:18px 22px;align-items:center}
 .hw-notes{display:flex;flex-direction:column;gap:9px;position:relative;z-index:2}
 .vn{display:flex;gap:11px;align-items:flex-start;background:#111826;border:1px solid #1e2838;
-border-radius:10px;padding:9px 13px;animation:hwIn .55s cubic-bezier(.2,.7,.2,1) both;
-animation-delay:calc(var(--i) * .7s + .3s)}
-.vn.dup{border:1px dashed rgba(217,112,63,.75);background:#14141a}
+border-radius:10px;padding:9px 13px;animation:hl 6s ease-in-out infinite;
+animation-delay:calc(var(--i) * .75s)}
+.vn.dup{border:1px dashed rgba(217,112,63,.75);background:#14141a;animation-name:hlx}
+@keyframes hlx{0%,22%,100%{border-color:rgba(217,112,63,.75)}8%,14%{border-color:#e08452;box-shadow:0 0 0 3px rgba(217,112,63,.1)}}
 .av{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
 font-size:12.5px;font-weight:700;color:#d6e6ff;background:rgba(57,135,229,.2);
 border:1px solid rgba(91,155,255,.5)}
@@ -257,19 +258,16 @@ border:1px solid rgba(91,155,255,.5)}
 html[lang="fa"] .vn p{line-height:1.8}
 .vn .tag{margin-top:6px}
 .hw-out{position:relative;z-index:2;display:flex;flex-direction:column;gap:12px}
-.hw-count{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:var(--txm);
-animation:hwIn .5s both;animation-delay:2.9s}
+.hw-count{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:var(--txm)}
 .hw-count b{color:var(--txb);font-family:'IBM Plex Mono',monospace;font-size:13.5px;font-weight:500}
 .hw-count .cx{color:#e08452}
-.cd{display:flex;gap:4px}.cd i{width:9px;height:9px;border-radius:50%;background:#253042;
-display:block;animation:fillDot .3s both}
-.cd i.x{animation-name:fillX}
-.cd i:nth-child(1){animation-delay:.9s}.cd i:nth-child(2){animation-delay:1.6s}
-.cd i:nth-child(3){animation-delay:2.3s}.cd i:nth-child(4){animation-delay:2.95s}
+.cd{display:flex;gap:4px}.cd i{width:9px;height:9px;border-radius:50%;background:var(--tl);
+display:block;box-shadow:0 0 8px rgba(0,224,176,.6)}
+.cd i.x{background:transparent;box-shadow:inset 0 0 0 1.5px #d9703f}
 .finding{background:linear-gradient(160deg,rgba(0,224,176,.15),rgba(0,224,176,.03) 55%),#0d1620;
 border:1px solid rgba(0,224,176,.55);border-radius:13px;padding:18px 20px;
 box-shadow:0 0 0 4px rgba(0,224,176,.05),0 22px 60px -20px rgba(0,224,176,.5);
-animation:popIn .6s cubic-bezier(.2,.8,.2,1.15) both;animation-delay:3.2s}
+animation:fglow 6s ease-in-out infinite;animation-delay:2.4s}
 .finding .ft{font-size:22px;font-weight:600;line-height:1.25;margin:12px 0 11px;color:var(--txb);
 letter-spacing:-.01em}
 html[lang="fa"] .finding .ft{line-height:1.6;font-size:20px;letter-spacing:0}
@@ -279,11 +277,16 @@ border:1px solid #223044;border-radius:5px;padding:2px 8px}
 .ff{margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,224,176,.2);
 font-size:13.5px;color:var(--txb)}
 .hw-lines{position:absolute;inset:0;width:100%;height:100%;z-index:1;overflow:visible}
-.hw-lines path{fill:none;stroke:var(--tl);stroke-width:1.5;stroke-opacity:.6;
-stroke-dasharray:1;stroke-dashoffset:1;animation:draw .7s ease-out forwards}
-.hw-lines path.x{stroke:#d9703f;stroke-opacity:.7}
+.hw-lines path{fill:none;stroke:var(--tl);stroke-width:1.4;stroke-opacity:.38}
+.hw-lines path.x{stroke:#d9703f;stroke-opacity:.55;stroke-dasharray:5 5}
+/* a bright segment travels each line; if animation is throttled the base line still shows */
+.hw-lines path.fl{stroke-opacity:.95;stroke-width:2;stroke-dasharray:.09 .91;
+animation:flow 2.6s linear infinite}
+.hw-lines path.fl.x{stroke-dasharray:.09 .91}
 .hw-lines circle{fill:var(--tl)}.hw-lines circle.x{fill:#d9703f}
-@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes flow{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes hl{0%,22%,100%{border-color:#1e2838}8%,14%{border-color:rgba(0,224,176,.7);box-shadow:0 0 0 3px rgba(0,224,176,.08)}}
+@keyframes fglow{0%,100%{border-color:rgba(0,224,176,.55)}50%{border-color:rgba(0,224,176,.95);box-shadow:0 0 0 5px rgba(0,224,176,.08),0 22px 70px -16px rgba(0,224,176,.7)}}
 @keyframes hwIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
 @keyframes fillDot{to{background:var(--tl);box-shadow:0 0 8px rgba(0,224,176,.7)}}
@@ -298,7 +301,7 @@ stroke-dasharray:1;stroke-dashoffset:1;animation:draw .7s ease-out forwards}
 .hero .btns{flex-direction:column;align-items:stretch}.hero .btns .btn{justify-content:center}
 .finding .ft{font-size:18.5px}.nh .wave{display:none}}
 
-.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .step{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:20px;
 display:flex;flex-direction:column}
 .step .sv{min-height:330px;display:flex;align-items:center;justify-content:center;
@@ -351,33 +354,33 @@ line-height:1.5;margin-top:7px}
 background:radial-gradient(circle,rgba(57,135,229,.22),transparent 65%)}
 .db{position:relative;overflow:hidden}
 .db-g{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1px;background:#1a2331}
-.pn{background:#0c111a;padding:18px 20px}
-.pn .pt{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--txm);
+.pn{background:#0c111a;padding:20px 22px}
+.pn .pt{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--txm);
 font-weight:600;margin-bottom:10px}
 html[lang="fa"] .pn .pt{text-transform:none;letter-spacing:0;font-size:12.5px}
 .fr{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:10px;align-items:center;
-padding:9px 0;border-bottom:1px solid #161e2b;font-size:13.5px}
-.fr .fn{color:var(--txb)}.fr .fx{color:var(--txm);font-size:12.5px;white-space:nowrap}
+padding:10px 0;border-bottom:1px solid #161e2b;font-size:14.5px}
+.fr .fn{color:var(--txb)}.fr .fx{color:var(--tx);font-size:13.5px;white-space:nowrap}
 .fr.near{grid-template-columns:minmax(0,1fr) auto;border-bottom:0}.fr.near .fn{color:var(--tx)}
 .mr{display:grid;grid-template-columns:minmax(0,1fr) 110px 38px;gap:10px;align-items:center;padding:6px 0}
-.ml b{display:block;font-size:13.5px;color:var(--txb);font-weight:500;line-height:1.35}
-.ml span{font-size:11.5px;color:var(--txm)}
+.ml b{display:block;font-size:14.5px;color:var(--txb);font-weight:500;line-height:1.35}
+.ml span{font-size:12.5px;color:var(--txm)}
 .mt{height:8px;border-radius:4px;background:#161e2b;overflow:hidden}
 .mt i{display:block;height:100%;border-radius:4px}
 .mr.hi .mt i{background:#5b9bff}.mr.lo .mt i{background:var(--am)}
 .mv{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--txb);text-align:end}
 .pn .cap{font-size:11.5px;color:var(--txm);margin:8px 0 0}
 .cg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.ct{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--tx);
+.ct{display:flex;align-items:center;gap:6px;font-size:13.5px;color:var(--tx);
 border:1px solid #1e2838;border-radius:7px;padding:7px 8px;background:#0f1520;min-width:0}
 .ct i{width:7px;height:7px;border-radius:50%;background:var(--tl);flex:none}
 .ct.off{border:1px dashed var(--am);color:var(--am);background:rgba(245,168,60,.06)}
 .ct.off i{background:transparent;border:1px solid var(--am)}
 .pn .gap{font-size:12.5px;color:var(--am);margin:10px 0 0;line-height:1.55}
 .pr{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;
-padding:9px 0;border-bottom:1px solid #161e2b;font-size:13.5px}
+padding:10px 0;border-bottom:1px solid #161e2b;font-size:14.5px}
 .pr:last-child{border-bottom:0}.pr b{color:var(--txb);font-weight:500}
-.pr>span{color:var(--txm);font-size:12.5px;white-space:nowrap}
+.pr>span{color:var(--tx);font-size:13.5px;white-space:nowrap}
 .db-f{padding:12px 20px;font-size:12.5px;color:var(--tx);border-top:1px solid #1a2331;
 display:flex;gap:8px;align-items:center;background:#0b1018}
 .db-f::before{content:'✓';color:var(--tl);font-weight:700}
@@ -385,7 +388,8 @@ display:flex;gap:8px;align-items:center;background:#0b1018}
 @media(max-width:560px){.fr{grid-template-columns:auto auto auto;justify-content:start}
 .fr .fn{grid-column:1/-1}.fr.near{grid-template-columns:1fr}
 .mr{grid-template-columns:minmax(0,1fr) 70px 34px}
-.pr{grid-template-columns:1fr auto}.pr b{grid-column:1/-1}}
+.pr{grid-template-columns:1fr auto}.pr b{grid-column:1/-1}
+.cg{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 .cases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 @media(max-width:900px){.cases{grid-template-columns:1fr}}
@@ -442,10 +446,66 @@ html[lang="fa"] .tc p{line-height:1.95}
 @media(max-width:760px){.tc{grid-template-columns:1fr;gap:6px}}
 
 @media(prefers-reduced-motion:reduce){
-.vn,.finding,.hw-count{animation:none}
-.cd i{animation:none;background:var(--tl)}
-.hw-lines path{animation:none;stroke-dashoffset:0}
+.vn,.finding{animation:none}
+.hw-lines path.fl{display:none}
 .wave b,.ph-top .rd,.ui-bar .live::before{animation:none!important}}
+
+.rules{margin-top:22px}
+.rg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#1a2331}
+.rl{background:#0b1018;padding:18px 20px}
+.rl code{display:block;font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:var(--tl);
+margin-bottom:8px;word-break:break-word;text-align:start}
+html[lang="fa"] .rl code{text-align:right}
+.rl p{font-size:14.5px;line-height:1.65;color:var(--tx);margin:0}
+html[lang="fa"] .rl p{line-height:1.9}
+@media(max-width:760px){.rg{grid-template-columns:1fr}}
+.fdr{display:flex;align-items:center;gap:18px;margin-top:22px;padding:20px 22px;
+border:1px solid var(--bd);border-radius:14px;background:var(--sf)}
+.fav{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;
+font-weight:600;font-size:15px;color:var(--txb);background:linear-gradient(140deg,#123b34,#13243d);
+border:1px solid #284a52}
+.fdt{flex:1;min-width:0;font-size:15px;color:var(--tx)}
+.fdt b{color:var(--txb)}
+.fdt p{font-size:13.5px;color:var(--txm);margin:4px 0 0;line-height:1.6}
+.fdr .btn{padding:10px 18px;font-size:13.5px}
+@media(max-width:640px){.fdr{flex-wrap:wrap}.fdr .btn{width:100%;justify-content:center}}
+
+.hero::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.055' stroke-width='1'%3E%3Cpath d='M17 17h30v30H17z'/%3E%3Cpath d='M32 10.8 53.2 32 32 53.2 10.8 32z'/%3E%3Cpath d='M32 0v10.8M32 53.2V64M0 32h10.8M53.2 32H64M0 0l17 17M64 0 47 17M0 64l17-17M64 64 47 47'/%3E%3C/g%3E%3C/svg%3E");background-size:64px 64px}
+.hero::after{content:'ژرفکس';position:absolute;inset-inline-end:-2%;top:-40px;pointer-events:none;
+font-family:'Vazirmatn',Tahoma,sans-serif;font-weight:700;font-size:clamp(160px,22vw,340px);
+line-height:1;color:transparent;-webkit-text-stroke:1px rgba(0,224,176,.07);z-index:0}
+.hero .wrap,.hww{z-index:1}
+
+.o3{position:relative;border:1px solid #1a2331;border-radius:18px;overflow:hidden;
+background:radial-gradient(70% 80% at 62% 50%,rgba(0,224,176,.07),transparent 60%),#070a11}
+.o3 canvas{display:block;width:100%;height:540px}
+.o3-steps{position:absolute;inset-inline-start:28px;top:28px;bottom:28px;width:min(340px,38%);
+display:flex;flex-direction:column;justify-content:center;gap:10px;list-style:none;margin:0;padding:0}
+.o3-steps li{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:11px;
+border:1px solid transparent;color:var(--txm);font-size:14.5px;line-height:1.55;
+transition:color .4s,background .4s,border-color .4s}
+html[lang="fa"] .o3-steps li{line-height:1.9}
+.o3-steps li b{flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--txm);
+width:22px;height:22px;border-radius:50%;border:1px solid #283346;display:grid;place-items:center;
+transition:all .4s}
+.o3-steps li.on{color:var(--txb);background:rgba(13,19,30,.88);border-color:#223044}
+.o3-steps li.on b{color:#03120d;background:var(--tl);border-color:var(--tl)}
+.o3-card{position:absolute;inset-inline-end:28px;bottom:28px;max-width:330px;padding:14px 16px;
+border-radius:12px;border:1px solid rgba(0,224,176,.55);
+background:linear-gradient(160deg,rgba(0,224,176,.16),rgba(0,224,176,.03)),#0b131c;
+box-shadow:0 18px 50px -18px rgba(0,224,176,.5);opacity:0;transform:translateY(8px);
+transition:opacity .5s,transform .5s}
+.o3-card.show{opacity:1;transform:none}
+.o3-card b{display:block;color:var(--txb);font-size:15px;margin:8px 0 4px}
+.o3-card span.m{font-size:12.5px;color:var(--tx)}
+.o3-count{position:absolute;inset-inline-end:28px;bottom:126px;font-size:12.5px;color:var(--txm);
+display:flex;gap:8px;align-items:center}
+.o3-count b{font-family:'IBM Plex Mono',monospace;color:var(--txb);font-size:15px;font-weight:500}
+@media(max-width:860px){.o3 canvas{height:420px}
+.o3-steps{position:static;width:auto;padding:16px;gap:6px}
+.o3-steps li{padding:9px 11px;font-size:13.5px}
+.o3-card{position:static;max-width:none;margin:0 16px 16px;opacity:1;transform:none}
+.o3-count{top:14px;bottom:auto;inset-inline-end:16px}}
 </style></head><body>
 <nav><div class="wrap">
 <a class="brand" href="/fa/"><b>ZHARFEX</b><i>ژرفکس</i></a>
@@ -485,11 +545,16 @@ html[lang="fa"] .tc p{line-height:1.95}
 <div class="finding">
 <span class="tag tl">✓ تأییدشده</span>
 <div class="ft">محمولهٔ شیراز متوقف شده</div>
-<div class="fm"><span>۳ دپارتمان</span><span>۹ روز باز</span><span>بدون مسئول</span></div>
+<div class="fm"><span>۴ دپارتمان</span><span>۹ روز باز</span><span>بدون مسئول</span></div>
 <div class="ff">مدیریت ادعا را می‌بیند، نه کلماتِ کسی را.</div>
 </div></div>
 </div></div></div>
-</section><section class="sec"><div class="wrap"><div class="sh rv"><div class="kick">چطور کار می‌کند</div><h2>یک دقیقه ورودی. یک تصویرِ صادق خروجی.</h2><p>هیچ‌کس فرم پر نمی‌کند و هیچ‌کس نمره نمی‌گیرد. تصویر، محصولِ جانبیِ آدم‌هایی است که سابقهٔ خودشان را نگه می‌دارند.</p></div><div class="steps"><div class="step rv" style="transition-delay:0ms"><div class="sv"><div class="ph" data-viz role="img" aria-label="حرف بزن">
+</section><section class="sec"><div class="wrap"><div class="sh rv"><div class="kick">درونِ سازمانِ شما</div><h2>شرکت شما از قبل می‌داند. فقط پخش است میان آدم‌هایی که یادداشت‌هایشان را مقایسه نمی‌کنند.</h2></div><div class="rv"><div class="o3" data-viz role="img" aria-label="هر نقطه یک نفر است. هر خط، گفت‌وگویی که از قبل دارند. هر کس روزی یک دقیقه صدا ضبط می‌کند. از آنِ خودش می‌ماند. چهار نفر یک مسئله را توصیف می‌کنند. دو نفرشان از قبل حرف زده بودند، پس یک بار شمرده می‌شوند. سه صدای مستقل. مدیریت ادعا را می‌بیند، نه آدم‌ها را." data-c='{&quot;depts&quot;: [&quot;انبار&quot;, &quot;تدارکات&quot;, &quot;حمل‌ونقل&quot;, &quot;مالی&quot;, &quot;فروش&quot;, &quot;کیفیت&quot;], &quot;dup&quot;: &quot;یک بار شمرده شد&quot;, &quot;digits&quot;: [&quot;۰&quot;, &quot;۱&quot;, &quot;۲&quot;, &quot;۳&quot;]}'>
+<canvas></canvas>
+<ol class="o3-steps"><li><b>۱</b><span>هر نقطه یک نفر است. هر خط، گفت‌وگویی که از قبل دارند.</span></li><li><b>۲</b><span>هر کس روزی یک دقیقه صدا ضبط می‌کند. از آنِ خودش می‌ماند.</span></li><li><b>۳</b><span>چهار نفر یک مسئله را توصیف می‌کنند. دو نفرشان از قبل حرف زده بودند، پس یک بار شمرده می‌شوند.</span></li><li><b>۴</b><span>سه صدای مستقل. مدیریت ادعا را می‌بیند، نه آدم‌ها را.</span></li></ol>
+<div class="o3-count"><span>مستقل</span><b class="num">0</b><span class="num">/ ۳</span></div>
+<div class="o3-card"><span class="tag tl">✓ تأییدشده</span><b>محمولهٔ شیراز متوقف شده</b><span class="m">۳ مستقل · ۱ یک بار شمرده شد · ۹ روز باز</span></div>
+</div></div></div></section><section class="sec"><div class="wrap"><div class="sh rv"><div class="kick">برای هر نفر</div><h2>یک دقیقه حرف بزن. هفتهٔ خودت را بخوان.</h2><p>هیچ‌کس فرم پر نمی‌کند و هیچ‌کس نمره نمی‌گیرد. آنچه هر نفر پس می‌گیرد به‌تنهایی ارزش نگه‌داشتن دارد؛ تصویرِ سازمان محصولِ جانبیِ آن است.</p></div><div class="steps"><div class="step rv" style="transition-delay:0ms"><div class="sv"><div class="ph" data-viz role="img" aria-label="حرف بزن">
 <div class="ph-top"><span class="rd"></span>در حال ضبط<span class="tm"><span class="num">۰:۴۸</span></span></div>
 <div class="wave big" aria-hidden="true"><b style="height:16px;--d:0ms"></b><b style="height:13px;--d:37ms"></b><b style="height:19px;--d:74ms"></b><b style="height:5px;--d:111ms"></b><b style="height:14px;--d:148ms"></b><b style="height:8px;--d:185ms"></b><b style="height:16px;--d:222ms"></b><b style="height:8px;--d:259ms"></b><b style="height:5px;--d:296ms"></b><b style="height:6px;--d:333ms"></b><b style="height:4px;--d:370ms"></b><b style="height:9px;--d:407ms"></b><b style="height:7px;--d:444ms"></b><b style="height:7px;--d:481ms"></b><b style="height:8px;--d:518ms"></b><b style="height:16px;--d:555ms"></b><b style="height:9px;--d:592ms"></b><b style="height:9px;--d:629ms"></b><b style="height:7px;--d:666ms"></b><b style="height:8px;--d:703ms"></b><b style="height:8px;--d:740ms"></b><b style="height:8px;--d:777ms"></b><b style="height:16px;--d:814ms"></b><b style="height:16px;--d:851ms"></b><b style="height:20px;--d:888ms"></b><b style="height:6px;--d:925ms"></b><b style="height:12px;--d:962ms"></b><b style="height:13px;--d:999ms"></b><b style="height:18px;--d:1036ms"></b><b style="height:7px;--d:1073ms"></b></div>
 <p class="pfa" lang="fa" dir="rtl">امروز باز سفارش شیراز بسته‌بندی نشد. از تدارکات پرسیدم، هنوز جوابی نیامده.</p>
@@ -498,15 +563,7 @@ html[lang="fa"] .tc p{line-height:1.95}
 <div class="sn">01</div><h3>حرف بزن</h3><p>پایان روز یک دقیقه، به فارسی، با گوشی.</p></div><div class="step rv" style="transition-delay:110ms"><div class="sv"><div class="wk ui" data-viz role="img" aria-label="ویکی‌ات نوشته می‌شود">
 <div class="wk-h"><b>رضا · هفتهٔ ۴۲</b><span class="tag bl">🔒 خصوصی</span></div>
 <div class="wr"><span>روی چه کار کرد</span><b>محمولهٔ شیراز · بسته‌بندی</b></div><div class="wr"><span>منتظرِ</span><b>تدارکات · ۵ روز</b></div><div class="wr"><span>قول داده</span><b>پاسخِ ظرفیت به فروش · پنجشنبه</b></div></div></div>
-<div class="sn">02</div><h3>ویکی‌ات نوشته می‌شود</h3><p>روی چه کار کردی، منتظر چه کسی بودی، چه قولی دادی. فقط برای خودت.</p></div><div class="step rv" style="transition-delay:220ms"><div class="sv"><div class="cv ui" data-viz role="img" aria-label="الگوها آشکار می‌شوند">
-<div class="cv-row">
-<span class="pp"></span><span class="pair"><span class="pp"></span><span class="pp"></span></span>
-<span class="pp"></span><span class="eq">=</span><span class="tag tl">✓ ۳ مستقل</span>
-</div>
-<div class="cv-l"><span class="d1"></span>۴ نفر مطرحش کردند</div>
-<div class="cv-l"><span class="d2"></span>۲ نفر از قبل حرف زده بودند — یک بار شمرده می‌شوند</div>
-</div></div>
-<div class="sn">03</div><h3>الگوها آشکار می‌شوند</h3><p>فقط وقتی سه نفر که با هم هماهنگ نکرده‌اند یک چیز را بگویند.</p></div></div></div></section><section class="sec"><div class="wrap"><div class="sh rv"><div class="kick">مدیریت چه می‌بیند</div><h2>نه نظرسنجی. آنچه چند نفر، مستقل از هم، متوجه شدند.</h2><p>هر سطر محاسبه‌ای است روی یادداشت‌هایی که آدم‌ها خودشان نگه داشته‌اند، و هر سطر می‌گوید چقدر مطمئن است.</p></div>
+<div class="sn">02</div><h3>ویکی‌ات نوشته می‌شود</h3><p>روی چه کار کردی، منتظر چه کسی بودی، چه قولی دادی. فقط برای خودت.</p></div></div></div></section><section class="sec"><div class="wrap"><div class="sh rv"><div class="kick">مدیریت چه می‌بیند</div><h2>نه نظرسنجی. آنچه چند نفر، مستقل از هم، متوجه شدند.</h2><p>هر سطر محاسبه‌ای است روی یادداشت‌هایی که آدم‌ها خودشان نگه داشته‌اند، و هر سطر می‌گوید چقدر مطمئن است.</p></div>
 <div class="ldw rv"><div class="glow"></div><div class="db ui" data-viz role="img" aria-label="ژرفکس · نمای مدیریت">
 <div class="ui-bar"><i></i><i></i><i></i><span class="t">ژرفکس · نمای مدیریت</span></div>
 <div class="db-g">
@@ -515,35 +572,35 @@ html[lang="fa"] .tc p{line-height:1.95}
 <span class="tag tl"><span class="num">۴</span> مستقل</span><span class="fx">۳ دپارتمان</span><span class="fx">۵ هفته</span></div><div class="fr"><span class="fn">قرارداد اصفهان در انتظار ظرفیت</span>
 <span class="tag tl"><span class="num">۳</span> مستقل</span><span class="fx">۳ دپارتمان</span><span class="fx">۹ روز</span></div><div class="fr near"><span class="fn">کمبود نیروی آخر هفته</span><span class="tag am">۲ از ۳ — زیر نظر، نمایش داده نمی‌شود</span></div></div>
 <div class="pn"><div class="pt">اعلام‌شده در برابر واقعی</div><div class="mr lo"><div class="ml"><b>محمولهٔ صادراتی</b><span>اولویت ۱</span></div>
-<div class="mt"><i style="width:16%"></i></div><span class="mv"><span class="num">۸%</span></span></div><div class="mr hi"><div class="ml"><b>نجاتِ شیراز</b><span>هرگز اعلام نشد</span></div>
-<div class="mt"><i style="width:82%"></i></div><span class="mv"><span class="num">۴۱%</span></span></div><div class="mr lo"><div class="ml"><b>استقرار ERP</b><span>اولویت ۲</span></div>
-<div class="mt"><i style="width:6%"></i></div><span class="mv"><span class="num">۳%</span></span></div><p class="cap">سهمِ توجه در یادداشت‌های این هفته</p></div>
+<div class="mt"><i style="width:8%"></i></div><span class="mv"><span class="num">۳</span></span></div><div class="mr hi"><div class="ml"><b>نجاتِ شیراز</b><span>هرگز اعلام نشد</span></div>
+<div class="mt"><i style="width:88%"></i></div><span class="mv"><span class="num">۳۱</span></span></div><div class="mr lo"><div class="ml"><b>استقرار ERP</b><span>اولویت ۲</span></div>
+<div class="mt"><i style="width:3%"></i></div><span class="mv"><span class="num">۱</span></span></div><p class="cap">ارجاع در یادداشت‌های این هفته: چند بار، نه چه مدت</p></div>
 <div class="pn"><div class="pt">آنچه می‌شنویم</div><div class="cg"><span class="ct on"><i></i>انبار</span><span class="ct on"><i></i>توزیع</span><span class="ct on"><i></i>مالی</span><span class="ct on"><i></i>فروش</span><span class="ct off"><i></i>تدارکات</span><span class="ct on"><i></i>کیفیت</span></div><p class="gap">تدارکات: کسی ضبط نمی‌کند، و ۴ مسئلهٔ باز به آن ارجاع می‌دهند.</p></div>
 <div class="pn"><div class="pt">قول‌های بی‌پیگیری</div><div class="pr"><b>پاسخِ ظرفیت به فروش</b><span>گفته‌شده پنجشنبه</span><span class="tag am">۶ روز گذشته</span></div><div class="pr"><b>سفارشِ مجددِ کاغذ</b><span>گفته‌شده دوشنبه</span><span class="tag am">۴ روز باز</span></div></div>
 </div>
 <div class="db-f">هیچ سطری آدمی را رتبه‌بندی نمی‌کند. هیچ نمره‌ای در این صفحه نیست.</div>
-</div></div></div></section><section class="sec"><div class="wrap"><div class="sh rv"><div class="kick">چه چیزی را می‌گرفت</div><h2>چهار ضرری که از قبل در یادداشت صوتیِ کسی بود.</h2></div><div class="cases"><div class="case rv"><div class="kick">قراردادی که خوابید</div><h3>قرارداد سالانهٔ ۵۰ تن، به‌خاطر سؤالی که کسی جوابش را نداد، از دست رفت.</h3><p>فروش برای بستنش فقط یک چیز لازم داشت: تأیید اینکه انبار جا دارد. مسئول انبار آن هفته درگیر بحران بسته‌بندی بود و هرگز نرسید. نُه روز بعد مشتری با جای دیگر قرارداد بست. هر دو واقعیت ثبت شده بود — در یادداشت صوتیِ دو نفرِ مختلف، و جای دیگری نه.</p><div class="tl" data-viz role="img" aria-label="هشدار روز ۳">
+</div></div></div></section><section class="sec"><div class="wrap"><div class="sh rv"><div class="kick">چه چیزی را می‌گرفت</div><h2>چهار ضرری که از قبل در یادداشت صوتیِ کسی بود.</h2></div><div class="cases"><div class="case rv"><div class="kick">قراردادی که خوابید</div><h3>قرارداد سالانهٔ ۵۰ تن، به‌خاطر سؤالی که کسی جوابش را نداد، از دست رفت.</h3><p>فروش برای بستن قرارداد فقط یک پاسخ لازم داشت: انبار جا دارد؟ مسئول انبار درگیر بحران بسته‌بندی بود و هرگز جواب نداد. نُه روز بعد مشتری جای دیگری امضا کرد.</p><div class="tl" data-viz role="img" aria-label="هشدار روز ۳">
 <div class="tk"><i class="nd" style="inset-inline-start:4.0%"></i><i class="nd" style="inset-inline-start:14.2%"></i><i class="nd" style="inset-inline-start:24.4%"></i>
 <span class="mk fl" style="inset-inline-start:24.4%"><em>هشدار · روز <span class="num">۳</span></em></span>
 <span class="mk ls" style="inset-inline-start:85.8%"><em>روز <span class="num">۹</span> · مشتری جای دیگر امضا می‌کند</em></span>
 </div>
 <div class="ax"><span>روز <span class="num">۱</span></span></div>
 </div>
-<div class="cw">ژرفکس نشان می‌داد: «قرارداد اصفهان در انتظار پاسخِ ظرفیت · ۹ روز · بدون مسئول».</div></div><div class="case rv"><div class="kick">جریمه‌ای که پرداخت شد</div><h3>جریمهٔ تأخیر که دو نفر می‌توانستند جلویش را بگیرند.</h3><p>مالی می‌دانست آن قرارداد بندِ جریمه دارد. انبار می‌دانست محموله یازده روز تأخیر دارد. هیچ‌کدام نمی‌دانست دیگری می‌داند، چون جلسه‌ای نبود که هر دو در آن باشند. صورت‌حساب پیش از آنکه کسی وصلشان کند رسید.</p><div class="tl" data-viz role="img" aria-label="هشدار روز ۶">
+<div class="cw">ژرفکس نشان می‌داد: «قرارداد اصفهان در انتظار پاسخِ ظرفیت · ۹ روز · بدون مسئول».</div></div><div class="case rv"><div class="kick">جریمه‌ای که پرداخت شد</div><h3>جریمهٔ تأخیر که دو نفر می‌توانستند جلویش را بگیرند.</h3><p>مالی می‌دانست قرارداد بندِ جریمه دارد. انبار می‌دانست محموله یازده روز تأخیر دارد. هیچ جلسه‌ای آن دو را کنار هم ننشاند، پس صورت‌حساب زودتر رسید.</p><div class="tl" data-viz role="img" aria-label="هشدار روز ۶">
 <div class="tk"><i class="nd" style="inset-inline-start:12.4%"></i><i class="nd" style="inset-inline-start:29.1%"></i><i class="nd" style="inset-inline-start:45.8%"></i>
 <span class="mk fl" style="inset-inline-start:45.8%"><em>هشدار · روز <span class="num">۶</span></em></span>
 <span class="mk ls" style="inset-inline-start:87.6%"><em>روز <span class="num">۱۱</span> · جریمه صادر می‌شود</em></span>
 </div>
 <div class="ax"><span>روز <span class="num">۱</span></span></div>
 </div>
-<div class="cw">ژرفکس نشان می‌داد: «محمولهٔ شیراز · ۱۱ روز تأخیر · بندِ جریمه از طرف مالی · ۳ دپارتمان درگیر».</div></div><div class="case rv"><div class="kick">راه‌حلی که هرگز نگرفت</div><h3>یک خرابیِ دستگاه، پنج هفته، هر هفته ریست شد.</h3><p>هر شیفت خط را بیرون از تلورانس می‌دید، ریست می‌کرد و ادامه می‌داد. هر نوبت حل‌شده به نظر می‌رسید. کسی ثبتش نکرد، پس کسی ندید که بار پنجم است — و ضایعاتی که کنترل کیفیت مدام گزارش می‌داد هرگز به آن وصل نشد.</p><div class="tl" data-viz role="img" aria-label="هشدار هفته ۲">
+<div class="cw">ژرفکس نشان می‌داد: «محمولهٔ تبریز · ۱۱ روز تأخیر · بندِ جریمه از طرف مالی · ۳ دپارتمان درگیر».</div></div><div class="case rv"><div class="kick">راه‌حلی که هرگز نگرفت</div><h3>یک خرابیِ دستگاه، پنج هفته، هر هفته ریست شد.</h3><p>هر شیفت خط را بیرون از تلورانس می‌دید، ریستش می‌کرد و ادامه می‌داد. کسی ثبتش نکرد، پس کسی ندید بار پنجم است — یا آن را به ضایعاتی که کیفیت مدام گزارش می‌داد وصل نکرد.</p><div class="tl" data-viz role="img" aria-label="هشدار هفته ۲">
 <div class="tk"><i class="nd" style="inset-inline-start:4.0%"></i><i class="nd" style="inset-inline-start:27.0%"></i><i class="nd" style="inset-inline-start:33.9%"></i><i class="nd" style="inset-inline-start:50.0%"></i><i class="nd" style="inset-inline-start:56.9%"></i><i class="nd" style="inset-inline-start:73.0%"></i><i class="nd" style="inset-inline-start:96.0%"></i>
 <span class="mk fl" style="inset-inline-start:27.0%"><em>هشدار · هفته <span class="num">۲</span></em></span>
 <span class="mk ls" style="inset-inline-start:96.0%"><em>هفته <span class="num">۵</span> · پنج هفته ضایعات</em></span>
 </div>
 <div class="ax"><span>هفته <span class="num">۱</span></span></div>
 </div>
-<div class="cw">ژرفکس نشان می‌داد: «خط دو · ۵ هفته تکرار · هرگز حل نشده · مطرح‌شده توسط تولید، کیفیت و فنی».</div></div><div class="case rv"><div class="kick">یک نفر، همه‌چیز</div><h3>پنج کار در انتظار یک مدیر، و کسی این انبوه را نمی‌دید.</h3><p>او تنها کسی بود که می‌توانست ظرفیت انبار را تأیید کند، و هم‌زمان کسی بود که بحران بسته‌بندی، هفتهٔ اولِ نیروی جدید و دو اعتراض مشتری را هم دست داشت. هر کسی که به او نیاز داشت فقط درخواست خودش را می‌دید. هیچ‌کس هر پنج را ندید.</p><div class="tl" data-viz role="img" aria-label="هشدار روز ۳">
+<div class="cw">ژرفکس نشان می‌داد: «خط دو · ۵ هفته تکرار · هرگز حل نشده · مطرح‌شده توسط تولید، کیفیت و فنی».</div></div><div class="case rv"><div class="kick">یک نفر، همه‌چیز</div><h3>پنج کار در انتظار یک مدیر، و کسی این انبوه را نمی‌دید.</h3><p>یک مدیر تنها امضاکنندهٔ ظرفیت انبار بود و هم‌زمان بحران بسته‌بندی، نیروی جدید و دو اعتراض مشتری را هم دست داشت. هر کس فقط درخواست خودش را می‌دید.</p><div class="tl" data-viz role="img" aria-label="هشدار روز ۳">
 <div class="tk"><i class="nd" style="inset-inline-start:4.0%"></i><i class="nd" style="inset-inline-start:15.5%"></i><i class="nd" style="inset-inline-start:20.1%"></i><i class="nd" style="inset-inline-start:27.0%"></i><i class="nd" style="inset-inline-start:38.5%"></i>
 <span class="mk fl" style="inset-inline-start:27.0%"><em>هشدار · روز <span class="num">۳</span></em></span>
 <span class="mk ls" style="inset-inline-start:84.5%"><em>روز <span class="num">۸</span> · دو اعتراضِ مشتری</em></span>
@@ -557,7 +614,12 @@ html[lang="fa"] .tc p{line-height:1.95}
 <div class="go">به خودِ افرادِ درگیر برمی‌گردد</div></div><div class="gs s3"><div class="gv"><span class="gd sep"><i></i><i></i><i></i></span></div>
 <div class="gn"><b>۳</b> نفرِ بی‌ارتباط</div><div class="ga" aria-hidden="true"></div>
 <div class="go">مدیریت ادعا را می‌بیند — نه کلمات، نه نام‌ها</div></div></div></div>
-<div class="tcards"><div class="tc rv"><h3>هیچ نمره‌ای، هرگز</h3><p>هیچ عددِ بازده، هیچ رتبه، هیچ جدولِ مقایسه. اگر خروجی‌ای شبیه نمره باشد، تستی ساخت را رد می‌کند.</p></div><div class="tc rv"><h3>یادداشت‌هایت از آنِ خودت است</h3><p>پیش‌فرض خصوصی، اشتراک صفحه‌به‌صفحه، قابل پس‌گرفتن. مدیریت هرگز یادداشت خام نمی‌بیند.</p></div><div class="tc rv"><h3>ساخته‌شده برای سرورهای خودتان</h3><p>طراحی‌شده برای اجرا روی زیرساختِ خودتان با مدل‌های وزن‌باز.</p></div></div></div></section>
+<div class="rv"><div class="rules ui" data-viz role="img" aria-label="قواعدِ اعتماد کد هستند. یکی را بشکنی، ساخت شکست می‌خورد.">
+<div class="ui-bar"><i></i><i></i><i></i><span class="t">zharfex · src / tests</span>
+<span class="live">۹۵ / ۹۵</span></div>
+<div class="rg"><div class="rl"><code dir="ltr">test_no_output_field_is_a_figure_of_merit</code><p>اگر فیلدی از گزارشِ آینه نامی شبیه نمره، رتبه یا درجه داشته باشد، ساخت را رد می‌کند.</p></div><div class="rl"><code dir="ltr">K_MIN_CONVERGENCE = 3</code><p>هیچ چیزِ کمتر از سه گزارشِ مستقل به مدیریت نمی‌رسد. این یک تنظیم نیست.</p></div><div class="rl"><code dir="ltr">max_independent_set(nodes, adj)</code><p>استقلال دقیق محاسبه می‌شود. کسانی که از قبل حرف زده‌اند یک بار شمرده می‌شوند.</p></div><div class="rl"><code dir="ltr">normalize(«پیش‌بینی») → «پیش‌بینی»</code><p>فارسی همان‌طور که نوشته شده می‌ماند: نیم‌فاصله حفظ می‌شود، پس کلماتت از آنِ خودت می‌ماند.</p></div></div></div></div><div class="fdr"><span class="fav" aria-hidden="true">ح‌ی</span>
+<div class="fdt"><span>ساختهٔ</span> <b>حسین یوسفی</b><p>پژوهشگر همکار، مؤسسهٔ وکتور برای هوش مصنوعی · کارشناسی ارشد مهندسی، دانشگاه تورنتو</p></div>
+<a class="btn ghost" href="/fa/about/">درباره</a></div></div></section>
 <section class="sec" id="access"><div class="wrap"
  style="text-align:center">
 <h2 class="h-l rv">با صدای خودت شروع کن.</h2>
@@ -607,7 +669,7 @@ fetch(f.action,{method:'POST',body:new FormData(f),
 (function(){
  var w=document.querySelector('.hw');if(!w)return;
  var body=w.querySelector('.hw-body'),svg=w.querySelector('.hw-lines'),
-     f=w.querySelector('.finding'),notes=w.querySelectorAll('.vn'),drawn=false;
+     f=w.querySelector('.finding'),notes=w.querySelectorAll('.vn');
  /* offsets, not getBoundingClientRect: the cards are mid-animation (scaled,
     translated) when this runs, and offsets ignore transforms */
  function pos(el){var x=0,y=0;while(el&&el!==body){x+=el.offsetLeft;y+=el.offsetTop;
@@ -618,17 +680,106 @@ fetch(f.action,{method:'POST',body:new FormData(f),
   notes.forEach(function(n,i){
    var p=pos(n),x1=rtl?p.x:p.x+n.offsetWidth,y1=p.y+n.offsetHeight/2,
        x2=rtl?fp.x+f.offsetWidth:fp.x,y2=fp.y+f.offsetHeight/2+(i-1.5)*14,m=(x1+x2)/2;
-   var k=n.classList.contains('dup')?' class="x"':'';
-   out+='<path'+k+' pathLength="1" style="animation-delay:'+(i*.7+.7)+'s" d="M'+x1+','+y1+
-     ' C'+m+','+y1+' '+m+','+y2+' '+x2+','+y2+'"/><circle'+k+' r="2.5" cx="'+x1+'" cy="'+y1+
-     '"/>'});
-  svg.innerHTML=out;
-  /* redraws after resize must not replay the animation */
-  if(drawn)svg.querySelectorAll('path').forEach(function(p){p.style.animation='none';
-   p.style.strokeDashoffset='0'});
-  drawn=true}
+   var dup=n.classList.contains('dup'),d='M'+x1+','+y1+' C'+m+','+y1+' '+m+','+y2+' '+x2+','+y2;
+   out+='<path'+(dup?' class="x"':'')+' d="'+d+'"/><path class="fl'+(dup?' x':'')+
+     '" pathLength="1" style="animation-delay:'+(i*.75)+'s" d="'+d+'"/><circle'+
+     (dup?' class="x"':'')+' r="2.5" cx="'+x1+'" cy="'+y1+'"/>'});
+  svg.innerHTML=out}
  (document.fonts?document.fonts.ready:Promise.resolve()).then(draw);
  addEventListener('resize',draw);
+})();
+
+(function(){
+var root=document.querySelector('.o3');if(!root)return;
+var C=JSON.parse(root.getAttribute('data-c')),cv=root.querySelector('canvas'),x=cv.getContext('2d'),
+ steps=root.querySelectorAll('.o3-steps li'),card=root.querySelector('.o3-card'),
+ cnt=root.querySelector('.o3-count b'),rtl=document.documentElement.dir==='rtl',
+ RM=matchMedia('(prefers-reduced-motion: reduce)').matches,W=0,H=0,R=0,DP=1;
+/* deterministic layout: same organization on every load */
+var seed=7;function rnd(){seed=(seed*16807)%2147483647;return(seed-1)/2147483646}
+var CL=[[18,0],[-14,58],[24,122],[-22,182],[14,240],[-24,300]],N=[],E=[];
+CL.forEach(function(c,ci){var la=c[0]*Math.PI/180,lo=c[1]*Math.PI/180;
+ for(var k=0;k<16;k++){var a=la+(rnd()-.5)*.48,o=lo+(rnd()-.5)*.48;
+  N.push({c:ci,x:Math.cos(a)*Math.sin(o),y:-Math.sin(a),z:Math.cos(a)*Math.cos(o),p:rnd()*9})}});
+N.forEach(function(a,i){N.forEach(function(b,j){if(j<=i)return;
+ var d=Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);
+ if(a.c===b.c&&d<.3&&rnd()<.5)E.push([i,j,0]);else if(a.c!==b.c&&d<.8&&rnd()<.012)E.push([i,j,0])})});
+/* the four reporters: one per department; P (index 1) already talked to W */
+var REP=[0,16,32,48].map(function(b){return b+3}),Wn=REP[0],Pn=REP[1];E.push([Wn,Pn,1]);
+var rot=.6,T=0,last=0,run=false,PER=13;
+function size(){DP=Math.min(2,devicePixelRatio||1);var r=cv.getBoundingClientRect();W=r.width;H=r.height;
+ cv.width=W*DP;cv.height=H*DP;x.setTransform(DP,0,0,DP,0,0);
+ R=Math.min(H*.36,W*(W<860?.33:.26))}
+function cx(){return W<860?W/2:(rtl?W*.36:W*.64)}
+function proj(p){var ca=Math.cos(rot),sa=Math.sin(rot),X=p.x*ca+p.z*sa,Z=-p.x*sa+p.z*ca,
+ tl=.32,Y=p.y*Math.cos(tl)-Z*Math.sin(tl),Z2=p.y*Math.sin(tl)+Z*Math.cos(tl),D=3.4,s=D/(D-Z2);
+ return{x:cx()+X*R*s,y:H/2+Y*R*s,s:s,z:Z2}}
+function lerp(a,b,t){return a+(b-a)*t}
+function ease(t){t=Math.max(0,Math.min(1,t));return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
+function step(t){return t<2.5?0:t<4.6?1:t<7.4?2:3}
+function frame(now){
+ /* one clock only: rAF timestamps and performance.now() can disagree (they do
+    under throttling), and mixing them once made time run backwards */
+ now=performance.now();var dt=last?Math.max(0,Math.min(.25,(now-last)/1000)):0;last=now;
+ if(!RM){T+=dt;rot+=dt*.12}else{T=PER-.5}
+ var t=T%PER,st=step(t),P=N.map(proj),core={x:cx(),y:H/2};
+ x.clearRect(0,0,W,H);
+ /* the globe itself: faint latitude rings and meridians, so depth reads as depth */
+ x.lineWidth=.7;
+ for(var g2=-2;g2<=2;g2++){var lat=g2*.5;x.strokeStyle='rgba(120,150,200,.07)';x.beginPath();
+  for(var q2=0;q2<=48;q2++){var o2=q2/48*6.2832,pp=proj({x:Math.cos(lat)*Math.sin(o2),y:-Math.sin(lat),z:Math.cos(lat)*Math.cos(o2)});
+   q2?x.lineTo(pp.x,pp.y):x.moveTo(pp.x,pp.y)}x.stroke()}
+ for(var m2=0;m2<6;m2++){var lo2=m2/6*3.1416;x.strokeStyle='rgba(120,150,200,.05)';x.beginPath();
+  for(var q3=0;q3<=48;q3++){var a3=q3/48*6.2832,pq=proj({x:Math.cos(a3)*Math.sin(lo2),y:Math.sin(a3),z:Math.cos(a3)*Math.cos(lo2)});
+   q3?x.lineTo(pq.x,pq.y):x.moveTo(pq.x,pq.y)}x.stroke()}
+ /* conversations */
+ E.forEach(function(e){var a=P[e[0]],b=P[e[1]],k=e[2]&&st>=2;
+  x.strokeStyle=k?'rgba(217,112,63,.9)':'rgba(120,150,200,'+(.05+.13*(a.s-.75))+')';
+  x.lineWidth=k?1.8:.8;x.setLineDash(k?[4,4]:[]);x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()});
+ x.setLineDash([]);
+ /* people, back to front */
+ var ord=P.map(function(p,i){return i}).sort(function(a,b){return P[a].z-P[b].z});
+ ord.forEach(function(i){var p=P[i],n=N[i],rep=REP.indexOf(i)>=0&&st>=2,a=.25+.6*(p.z+1)/2;
+  if(st===1&&!RM){var ph=(t*1.3+n.p)%3;if(ph<.6){x.strokeStyle='rgba(0,224,176,'+(.5-.8*ph)+')';
+   x.lineWidth=1;x.beginPath();x.arc(p.x,p.y,3+ph*14,0,7);x.stroke()}}
+  x.fillStyle=rep?(i===Pn?'#d9703f':'#00e0b0'):'rgba(91,155,255,'+a+')';
+  x.beginPath();x.arc(p.x,p.y,(rep?3.6:2.3)*p.s,0,7);x.fill()});
+ /* department labels at cluster centres */
+ x.font='500 12px '+(rtl?'Vazirmatn':'"IBM Plex Sans"')+',sans-serif';x.textAlign='center';
+ CL.forEach(function(c,ci){var g={x:0,y:0,z:0};for(var k=0;k<16;k++){var n=N[ci*16+k];g.x+=n.x;g.y+=n.y;g.z+=n.z}
+  var q=proj({x:g.x/12.2,y:g.y/12.2-.2,z:g.z/12.2});if(q.z<-.2)return;
+  var lw=x.measureText(C.depts[ci]).width/2+6;
+  x.fillStyle='rgba(200,214,236,'+(.35+.5*(q.z+1)/2)+')';x.fillText(C.depts[ci],Math.max(lw,Math.min(W-lw,q.x)),q.y)});  /* never clip a label at the edge */
+ /* reports travel to the core */
+ var arrived=0;
+ if(st>=2){REP.forEach(function(r,k){var s0=4.7+k*.55,u=ease((t-s0)/1.5),p=P[r];if(t<s0)return;
+  var tx=core.x,ty=core.y;if(r===Pn){tx=P[Wn].x;ty=P[Wn].y}
+  var px=lerp(p.x,tx,u),py=lerp(p.y,ty,u);
+  for(var j=0;j<5;j++){var v=Math.max(0,u-j*.035);x.fillStyle=(r===Pn?'rgba(217,112,63,':'rgba(0,224,176,')+(.8-j*.16)+')';
+   x.beginPath();x.arc(lerp(p.x,tx,v),lerp(p.y,ty,v),2.6-j*.35,0,7);x.fill()}
+  if(r!==Pn&&u>=1)arrived++;
+  if(r===Pn&&u>=1){x.font='600 11.5px '+(rtl?'Vazirmatn':'"IBM Plex Sans"');x.fillStyle='#e08452';
+   x.fillText(C.dup,P[Pn].x,P[Pn].y+18)}})}
+ /* the core */
+ var glow=st===3?1:arrived/3*.6;
+ if(glow>0){var gr=x.createRadialGradient(core.x,core.y,0,core.x,core.y,R*.55);
+  gr.addColorStop(0,'rgba(0,224,176,'+.55*glow+')');gr.addColorStop(1,'rgba(0,224,176,0)');
+  x.fillStyle=gr;x.beginPath();x.arc(core.x,core.y,R*.55,0,7);x.fill()}
+ x.fillStyle=glow?'#00e0b0':'rgba(0,224,176,.35)';x.beginPath();x.arc(core.x,core.y,4+5*glow,0,7);x.fill();
+ /* the DOM half of the story */
+ steps.forEach(function(li,i){li.classList.toggle('on',i===st)});
+ card.classList.toggle('show',st===3);
+ cnt.textContent=C.digits[st===3?3:arrived];
+ if(run&&!RM)requestAnimationFrame(function(n){frame(n)})}
+size();addEventListener('resize',function(){size();if(RM)frame(0)});
+if(RM){frame(0);return}
+/* rAF is the clock, but it can starve (low-power mode, throttled webviews,
+   headless). A watchdog draws a frame whenever none has landed for 200ms,
+   so the story still advances instead of freezing on step one. */
+var lastDraw=0,raw=frame;frame=function(n){lastDraw=performance.now();raw(n)};
+setInterval(function(){if(run&&performance.now()-lastDraw>200){run=false;raw(performance.now());run=true}},250);
+new IntersectionObserver(function(es){es.forEach(function(e){
+ if(e.isIntersecting&&!run){run=true;last=0;requestAnimationFrame(frame)}else if(!e.isIntersecting)run=false})}).observe(root);
 })();
 </script>
 </body></html>
