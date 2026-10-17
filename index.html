@@ -2,22 +2,25 @@
 <html lang="en" dir="ltr"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Zharfex — people talk, you see what they missed</title>
-<meta name="description" content="Voice notes become a wiki that belongs to the person who recorded them. Organizational intelligence as a by-product of consent. Persian first, self-hostable.">
+<meta name="description" content="A minute of voice a day becomes each person's private wiki. When three people who never compared notes describe the same problem, leadership sees it. Persian first, self-hostable.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#07090f">
 <link rel="canonical" href="https://zharfex.com/">
 <link rel="alternate" hreflang="fa" href="https://zharfex.com/fa/">
-<meta property="og:title" content="Zharfex — people talk, you see what they missed"><meta property="og:description" content="Voice notes become a wiki that belongs to the person who recorded them. Organizational intelligence as a by-product of consent. Persian first, self-hostable.">
+<meta property="og:title" content="Zharfex — people talk, you see what they missed"><meta property="og:description" content="A minute of voice a day becomes each person's private wiki. When three people who never compared notes describe the same problem, leadership sees it. Persian first, self-hostable.">
 <meta property="og:url" content="https://zharfex.com/"><meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
 :root{
 --bg:#07090f; --bg2:#0a0d15; --sf:#0e131c; --sf2:#141a26; --sf3:#1b2433;
 --bd:#1b2433; --bd2:#283346;
---tx:#9aa7bd; --txb:#eef2f9; --txm:#5b6a85;
+--tx:#9aa7bd; --txb:#eef2f9;
+/* muted text: #5b6a85 was 3.6:1 on the page and failed AA in 42 places.
+   #8090a8 holds >= 4.8:1 on every surface up to --sf3. */
+--txm:#8090a8; --txf:#5b6a85;
 --tl:#00e0b0; --tld:rgba(0,224,176,.09); --tl2:#00b894;
 --am:#f5a83c; --amd:rgba(245,168,60,.10);
 --bl:#5b9bff; --rd:#ff6b6b; --pu:#a98bff; --gn:#3ddc97;
---w:1120px; --prose:680px;
+--w:1200px; --prose:680px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -54,7 +57,7 @@ html[lang="fa"] .h-l{line-height:1.5;font-weight:500}
 .h-m{font-size:clamp(19px,2.1vw,24px);font-weight:600}
 em{font-style:normal;color:var(--tl);font-weight:400}
 html[lang="fa"] em{font-weight:500}
-.kick{font-size:11px;font-weight:600;letter-spacing:.16em;
+.kick{font-size:11.5px;font-weight:600;letter-spacing:.16em;
 text-transform:uppercase;color:var(--txm)}
 html[lang="fa"] .kick{letter-spacing:.04em;font-size:12px}
 .lead{font-size:18px;line-height:1.68;color:var(--tx)}
@@ -73,12 +76,12 @@ margin-inline-end:auto}
 font-weight:700;letter-spacing:.11em;color:var(--txb)}
 .brand i{font-style:normal;font-size:19px;color:var(--tl);
 font-family:'Vazirmatn',Tahoma,sans-serif}
-.nl{color:var(--txm);text-decoration:none;font-size:14px;font-weight:500;
+.nl{color:var(--tx);text-decoration:none;font-size:14.5px;font-weight:500;
 white-space:nowrap}
 .nl:hover{color:var(--tx)}
 .nl.on{color:var(--tl)}
 .lang{border:1px solid var(--bd2);border-radius:7px;padding:6px 13px;
-font-size:13px;color:var(--tx);text-decoration:none;white-space:nowrap}
+font-size:13.5px;color:var(--tx);text-decoration:none;white-space:nowrap}
 .lang:hover{border-color:var(--tl);color:var(--tl)}
 .navcta{background:var(--tl);color:#03120d;border-radius:7px;padding:8px 16px;
 font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap}
@@ -98,7 +101,7 @@ button.btn:disabled{opacity:.55;cursor:default;transform:none}
 
 /* access form */
 #access{scroll-margin-top:70px}
-.acc{max-width:430px;margin:0 auto;text-align:start}
+.acc{max-width:540px;margin:0 auto;text-align:start}
 .acc .row{display:flex;gap:10px}
 .acc .row input{flex:1;min-width:0}
 .acc input{width:100%;box-sizing:border-box;background:var(--sf);
@@ -154,8 +157,47 @@ font-size:12.5px;color:var(--txm)}
 footer .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
 footer .sp{margin-inline-start:auto}
 footer a{color:var(--txm);text-decoration:none;border-bottom:1px solid var(--bd);
-padding-bottom:1px;transition:color .15s,border-color .15s}
+display:inline-block;padding:9px 0 3px;transition:color .15s,border-color .15s}
 footer a:hover{color:var(--tl);border-color:var(--tl)}
+
+/* section header: kicker with a rule, then a large headline */
+.sh{margin-bottom:38px;max-width:62ch}
+.sh .kick{color:var(--tl);display:flex;align-items:center;gap:10px}
+.sh .kick::before{content:'';width:22px;height:1px;background:var(--tl);opacity:.7}
+.sh h2{font-size:clamp(28px,3.4vw,42px);font-weight:300;line-height:1.15;
+margin:14px 0 14px;letter-spacing:-.022em;text-wrap:balance}
+html[lang="fa"] .sh h2{font-weight:500;line-height:1.5;letter-spacing:0;
+font-size:clamp(25px,3vw,36px)}
+.sh p{font-size:17px;line-height:1.7;color:var(--tx);max-width:58ch}
+html[lang="fa"] .sh p{line-height:2;font-size:16px}
+
+/* product-UI surface: every mock on the site is drawn on this */
+.ui{background:linear-gradient(180deg,#0f1520,#0b1018);border:1px solid #1e2838;
+border-radius:14px;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,
+0 30px 80px -30px rgba(0,0,0,.8)}
+.ui-bar{display:flex;align-items:center;gap:7px;padding:11px 14px;
+border-bottom:1px solid #1a2331;font-size:12px;color:var(--txm)}
+.ui-bar i{width:9px;height:9px;border-radius:50%;background:#253042;display:block}
+.ui-bar .t{margin-inline-start:8px;font-family:'IBM Plex Mono',monospace;
+font-size:11.5px;color:var(--txm)}
+.ui-bar .live{margin-inline-start:auto;display:flex;align-items:center;gap:6px;
+color:var(--tl);font-size:11.5px}
+.ui-bar .live::before{content:'';width:7px;height:7px;border-radius:50%;
+background:var(--tl);box-shadow:0 0 0 0 rgba(0,224,176,.6);
+animation:ping 2s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 7px rgba(0,224,176,0)}
+100%{box-shadow:0 0 0 0 rgba(0,224,176,0)}}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;
+font-weight:600;letter-spacing:.04em;border-radius:5px;padding:2px 7px;
+border:1px solid currentColor;line-height:1.5}
+.tag.tl{color:var(--tl);background:rgba(0,224,176,.08)}
+.tag.am{color:var(--am);background:rgba(245,168,60,.08)}
+.tag.bl{color:#5b9bff;background:rgba(91,155,255,.08)}
+.wave{display:flex;align-items:center;gap:2px;height:22px}
+.wave b{display:block;width:3px;border-radius:2px;background:currentColor;
+opacity:.85}
+.glow{position:absolute;pointer-events:none;border-radius:50%;
+filter:blur(60px);opacity:.5}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(14px);
@@ -164,41 +206,241 @@ transition:opacity .5s ease-out,transform .5s ease-out}
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;
 transition:none}html{scroll-behavior:auto}}
 
-.hero{position:relative;padding:74px 0 60px;overflow:hidden}
-.hero .wrap{position:relative;z-index:2}
-#hg{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:.5}
-.hero::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
-background:radial-gradient(90% 70% at 50% 18%,transparent,var(--bg) 72%)}
-.hero h1{max-width:19ch;margin:18px 0 20px}
-html[lang="fa"] .hero h1{max-width:24ch}
-.hero .lead{max-width:56ch}
-.hero .btns{margin-top:30px}
-.beat{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}
-.chip{border:1px solid var(--bd2);border-radius:999px;padding:7px 14px;
-font-size:12.5px;color:var(--txm);background:rgba(10,13,21,.6)}
-.chip b{color:var(--tl);font-weight:600}
-@media(max-width:640px){#hg{opacity:.3}.hero{padding:52px 0 44px}}
-.shown{margin-top:14px;background:var(--sf);border:1px solid var(--bd);
-border-inline-start:3px solid var(--tl);border-radius:9px;padding:13px 15px;
-font-size:13.5px;color:var(--txb);line-height:1.6}
-html[lang="fa"] .shown{line-height:1.9}
-.gets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-@media(max-width:820px){.gets{grid-template-columns:1fr}}
-.gi{background:var(--sf);border:1px solid var(--bd);border-radius:12px;
-padding:20px 22px}
-.gi .gn{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--tl);
-margin-bottom:10px}
-.gi h3{font-size:16.5px;font-weight:600;margin-bottom:8px;line-height:1.35}
-html[lang="fa"] .gi h3{line-height:1.6}
-.gi p{font-size:14px;color:var(--tx);line-height:1.7;margin:0}
-html[lang="fa"] .gi p{line-height:1.95}
-.princs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;
-margin-top:16px}
-@media(max-width:820px){.princs{grid-template-columns:1fr}}
-.pi{border:1px dashed var(--bd2);border-radius:11px;padding:16px 18px}
-.pi h4{font-size:14px;font-weight:600;margin-bottom:7px;line-height:1.4}
-.pi p{font-size:13px;color:var(--txm);line-height:1.7;margin:0}
-html[lang="fa"] .pi p{line-height:1.95}
+.hero{position:relative;padding:38px 0 76px;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;
+background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+background-size:56px 56px;
+-webkit-mask-image:radial-gradient(ellipse 60% 70% at 50% 30%,#000 10%,transparent 72%);
+mask-image:radial-gradient(ellipse 60% 70% at 50% 30%,#000 10%,transparent 72%)}
+.hero .glow{width:min(900px,100%);height:420px;bottom:-40px;inset-inline-start:50%;
+margin-inline-start:min(-450px,-50%);
+background:radial-gradient(closest-side,rgba(0,224,176,.26),transparent)}
+.hc{position:relative;text-align:center;max-width:860px;margin:0 auto}
+.hero h1{font-size:clamp(36px,4.9vw,64px);font-weight:300;line-height:1.04;
+letter-spacing:-.032em;margin:12px 0 16px;text-wrap:balance}
+html[lang="fa"] .hero h1{font-size:clamp(30px,4.1vw,54px);line-height:1.4;
+font-weight:500;letter-spacing:0;margin:10px 0 14px}
+.hero .lead{max-width:66ch;margin:0 auto;font-size:18.5px;line-height:1.6;text-wrap:balance}
+html[lang="fa"] .hero .lead{font-size:17px;line-height:1.95}
+.hero .btns{margin-top:24px;justify-content:center}
+.ht{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;margin-top:16px;
+font-size:13.5px;color:var(--tx)}
+.ht span{display:flex;align-items:center;gap:7px}
+.ht span::before{content:'✓';color:var(--tl);font-weight:700}
+.hww{position:relative;max-width:1280px;margin:30px auto 0;padding:0 28px}
+
+/* the convergence window */
+.hw{position:relative}
+.hw-body{position:relative;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+gap:72px;padding:18px 22px;align-items:center}
+.hw-notes{display:flex;flex-direction:column;gap:9px;position:relative;z-index:2}
+.vn{display:flex;gap:11px;align-items:flex-start;background:#111826;border:1px solid #1e2838;
+border-radius:10px;padding:9px 13px;animation:hwIn .55s cubic-bezier(.2,.7,.2,1) both;
+animation-delay:calc(var(--i) * .7s + .3s)}
+.vn.dup{border:1px dashed rgba(217,112,63,.75);background:#14141a}
+.av{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
+font-size:12.5px;font-weight:700;color:#d6e6ff;background:rgba(57,135,229,.2);
+border:1px solid rgba(91,155,255,.5)}
+.vn.dup .av{color:#ffd9c4;background:rgba(217,112,63,.18);border-color:rgba(217,112,63,.6)}
+.nb{min-width:0;flex:1}
+.nh{display:flex;align-items:center;gap:10px;font-size:12.5px;line-height:1.3}
+.nh>b{color:var(--txb);font-weight:600}.nh>span{color:var(--txm)}
+.nh .wave{height:14px;color:#5b9bff;margin-inline-start:auto}.nh .wave b{width:2px}
+.vn.dup .nh .wave{color:#d9703f}
+.vn p{font-size:13.5px;line-height:1.5;color:var(--tx);margin:3px 0 0}
+html[lang="fa"] .vn p{line-height:1.8}
+.vn .tag{margin-top:6px}
+.hw-out{position:relative;z-index:2;display:flex;flex-direction:column;gap:12px}
+.hw-count{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:var(--txm);
+animation:hwIn .5s both;animation-delay:2.9s}
+.hw-count b{color:var(--txb);font-family:'IBM Plex Mono',monospace;font-size:13.5px;font-weight:500}
+.hw-count .cx{color:#e08452}
+.cd{display:flex;gap:4px}.cd i{width:9px;height:9px;border-radius:50%;background:#253042;
+display:block;animation:fillDot .3s both}
+.cd i.x{animation-name:fillX}
+.cd i:nth-child(1){animation-delay:.9s}.cd i:nth-child(2){animation-delay:1.6s}
+.cd i:nth-child(3){animation-delay:2.3s}.cd i:nth-child(4){animation-delay:2.95s}
+.finding{background:linear-gradient(160deg,rgba(0,224,176,.15),rgba(0,224,176,.03) 55%),#0d1620;
+border:1px solid rgba(0,224,176,.55);border-radius:13px;padding:18px 20px;
+box-shadow:0 0 0 4px rgba(0,224,176,.05),0 22px 60px -20px rgba(0,224,176,.5);
+animation:popIn .6s cubic-bezier(.2,.8,.2,1.15) both;animation-delay:3.2s}
+.finding .ft{font-size:22px;font-weight:600;line-height:1.25;margin:12px 0 11px;color:var(--txb);
+letter-spacing:-.01em}
+html[lang="fa"] .finding .ft{line-height:1.6;font-size:20px;letter-spacing:0}
+.fm{display:flex;flex-wrap:wrap;gap:6px}
+.fm span{font-size:12.5px;color:var(--tx);background:rgba(255,255,255,.04);
+border:1px solid #223044;border-radius:5px;padding:2px 8px}
+.ff{margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,224,176,.2);
+font-size:13.5px;color:var(--txb)}
+.hw-lines{position:absolute;inset:0;width:100%;height:100%;z-index:1;overflow:visible}
+.hw-lines path{fill:none;stroke:var(--tl);stroke-width:1.5;stroke-opacity:.6;
+stroke-dasharray:1;stroke-dashoffset:1;animation:draw .7s ease-out forwards}
+.hw-lines path.x{stroke:#d9703f;stroke-opacity:.7}
+.hw-lines circle{fill:var(--tl)}.hw-lines circle.x{fill:#d9703f}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes hwIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+@keyframes fillDot{to{background:var(--tl);box-shadow:0 0 8px rgba(0,224,176,.7)}}
+@keyframes fillX{to{background:transparent;box-shadow:inset 0 0 0 1.5px #d9703f}}
+@keyframes wv{from{transform:scaleY(.4)}to{transform:scaleY(1)}}
+@keyframes blink{50%{opacity:.25}}
+@media(max-width:860px){.hw-body{grid-template-columns:1fr;gap:14px;padding:14px}
+.hw-lines{display:none}
+/* on a phone the finding comes first: it is the answer, the notes are the evidence */
+.hw-out{order:-1}.hww{padding:0 14px;margin-top:30px}}
+@media(max-width:640px){.hero{padding:34px 0 54px}.hero .lead{font-size:16.5px}
+.hero .btns{flex-direction:column;align-items:stretch}.hero .btns .btn{justify-content:center}
+.finding .ft{font-size:18.5px}.nh .wave{display:none}}
+
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.step{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:20px;
+display:flex;flex-direction:column}
+.step .sv{min-height:330px;display:flex;align-items:center;justify-content:center;
+margin-bottom:20px;border-radius:12px;border:1px solid #161e2b;padding:16px;
+background:radial-gradient(120% 90% at 50% 0%,rgba(0,224,176,.08),transparent 62%),#0a0e16}
+.step .sn{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--tl)}
+.step h3{font-size:18.5px;margin:6px 0 8px;line-height:1.35}
+.step p{font-size:14.5px;line-height:1.7;color:var(--tx);margin:0}
+html[lang="fa"] .step p{line-height:1.95}
+@media(max-width:900px){.steps{grid-template-columns:1fr}}
+
+.ph{width:208px;border-radius:26px;border:1px solid #2a3547;background:#0d121b;
+padding:16px 15px 14px;box-shadow:0 20px 50px -20px rgba(0,0,0,.9)}
+.ph-top{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--txb)}
+.ph-top .rd{width:8px;height:8px;border-radius:50%;background:#ff6b6b;animation:blink 1.3s infinite}
+.ph-top .tm{margin-inline-start:auto;color:var(--txm);font-family:'IBM Plex Mono',monospace}
+.wave.big{height:40px;color:var(--tl);margin:14px 0 10px;justify-content:center}
+.wave.big b{animation:wv .9s ease-in-out infinite alternate;animation-delay:var(--d)}
+.pfa{font-family:'Vazirmatn',Tahoma,sans-serif;font-size:12.5px;line-height:1.95;
+color:var(--txb);text-align:right;margin:0}
+.ph .gl{font-size:11.5px;color:var(--txm);line-height:1.55;margin:7px 0 0}
+.ph-btn{margin:14px auto 0;width:42px;height:42px;border-radius:50%;
+border:2px solid rgba(255,107,107,.5);display:grid;place-items:center}
+.ph-btn span{width:15px;height:15px;border-radius:4px;background:#ff6b6b}
+
+.wk{width:100%;max-width:290px;padding:14px 16px}
+.wk-h{display:flex;justify-content:space-between;align-items:center;gap:8px;
+padding-bottom:10px;border-bottom:1px solid #1a2331;margin-bottom:4px}
+.wk-h b{font-size:13.5px;color:var(--txb)}
+.wr{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-bottom:1px dashed #1e2838}
+.wr:last-child{border-bottom:0}
+.wr span{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--txm)}
+html[lang="fa"] .wr span{text-transform:none;letter-spacing:0;font-size:11.5px}
+.wr b{font-size:13.5px;color:var(--txb);font-weight:500}
+
+.cv{width:100%;max-width:300px;padding:20px 16px}
+.cv-row{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:16px}
+.pp{width:22px;height:22px;border-radius:50%;background:rgba(57,135,229,.25);
+border:1.5px solid #5b9bff;display:block}
+.pair{display:flex;gap:4px;padding:4px;border:1.5px dashed #d9703f;border-radius:999px}
+.eq{color:var(--txm);font-size:17px;padding:0 2px}
+.cv-l{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--tx);
+line-height:1.5;margin-top:7px}
+.cv-l span{flex:none;width:11px;height:11px;border-radius:50%}
+.cv-l .d1{background:#5b9bff}.cv-l .d2{border:1.5px dashed #d9703f}
+
+.ldw{position:relative}
+.sec:has(.ldw){overflow-x:clip}
+.ldw .glow{width:min(700px,100%);height:380px;top:20%;inset-inline-start:15%;
+background:radial-gradient(circle,rgba(57,135,229,.22),transparent 65%)}
+.db{position:relative;overflow:hidden}
+.db-g{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1px;background:#1a2331}
+.pn{background:#0c111a;padding:18px 20px}
+.pn .pt{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--txm);
+font-weight:600;margin-bottom:10px}
+html[lang="fa"] .pn .pt{text-transform:none;letter-spacing:0;font-size:12.5px}
+.fr{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:10px;align-items:center;
+padding:9px 0;border-bottom:1px solid #161e2b;font-size:13.5px}
+.fr .fn{color:var(--txb)}.fr .fx{color:var(--txm);font-size:12.5px;white-space:nowrap}
+.fr.near{grid-template-columns:minmax(0,1fr) auto;border-bottom:0}.fr.near .fn{color:var(--tx)}
+.mr{display:grid;grid-template-columns:minmax(0,1fr) 110px 38px;gap:10px;align-items:center;padding:6px 0}
+.ml b{display:block;font-size:13.5px;color:var(--txb);font-weight:500;line-height:1.35}
+.ml span{font-size:11.5px;color:var(--txm)}
+.mt{height:8px;border-radius:4px;background:#161e2b;overflow:hidden}
+.mt i{display:block;height:100%;border-radius:4px}
+.mr.hi .mt i{background:#5b9bff}.mr.lo .mt i{background:var(--am)}
+.mv{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--txb);text-align:end}
+.pn .cap{font-size:11.5px;color:var(--txm);margin:8px 0 0}
+.cg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.ct{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--tx);
+border:1px solid #1e2838;border-radius:7px;padding:7px 8px;background:#0f1520;min-width:0}
+.ct i{width:7px;height:7px;border-radius:50%;background:var(--tl);flex:none}
+.ct.off{border:1px dashed var(--am);color:var(--am);background:rgba(245,168,60,.06)}
+.ct.off i{background:transparent;border:1px solid var(--am)}
+.pn .gap{font-size:12.5px;color:var(--am);margin:10px 0 0;line-height:1.55}
+.pr{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;
+padding:9px 0;border-bottom:1px solid #161e2b;font-size:13.5px}
+.pr:last-child{border-bottom:0}.pr b{color:var(--txb);font-weight:500}
+.pr>span{color:var(--txm);font-size:12.5px;white-space:nowrap}
+.db-f{padding:12px 20px;font-size:12.5px;color:var(--tx);border-top:1px solid #1a2331;
+display:flex;gap:8px;align-items:center;background:#0b1018}
+.db-f::before{content:'✓';color:var(--tl);font-weight:700}
+@media(max-width:860px){.db-g{grid-template-columns:1fr}}
+@media(max-width:560px){.fr{grid-template-columns:auto auto auto;justify-content:start}
+.fr .fn{grid-column:1/-1}.fr.near{grid-template-columns:1fr}
+.mr{grid-template-columns:minmax(0,1fr) 70px 34px}
+.pr{grid-template-columns:1fr auto}.pr b{grid-column:1/-1}}
+
+.cases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media(max-width:900px){.cases{grid-template-columns:1fr}}
+.case{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:24px;
+display:flex;flex-direction:column}
+.case .kick{color:var(--am)}
+.case h3{font-size:18.5px;line-height:1.35;margin:10px 0 10px;text-wrap:balance}
+html[lang="fa"] .case h3{line-height:1.65}
+.case p{font-size:14.5px;line-height:1.72;color:var(--tx);margin:0 0 6px}
+html[lang="fa"] .case p{line-height:2}
+.tl{margin-top:auto}
+.tk{position:relative;height:30px;margin:34px 0 30px}
+.tk::before{content:'';position:absolute;inset-inline:0;top:14px;height:2px;background:#1e2838;
+border-radius:2px}
+.nd{position:absolute;top:9px;width:12px;height:12px;margin-inline-start:-6px;border-radius:50%;
+background:#3987e5;border:2px solid var(--sf);display:block}
+.mk{position:absolute;top:0;bottom:0;width:2px;margin-inline-start:-1px}
+.mk.fl{background:var(--tl)}.mk.ls{background:#d9703f}
+.mk em{position:absolute;white-space:nowrap;font-size:11.5px;font-weight:600;font-style:normal}
+.mk.fl em{bottom:calc(100% + 4px);inset-inline-start:-1px;color:var(--tl)}
+.mk.ls em{top:calc(100% + 4px);inset-inline-end:-1px;color:#e08452}
+.ax{display:flex;justify-content:space-between;gap:12px;font-size:11.5px;color:var(--txm)}
+
+.cw{margin-top:14px;font-size:13.5px;color:var(--txb);background:rgba(0,224,176,.06);
+border:1px solid rgba(0,224,176,.3);border-radius:9px;padding:10px 12px;line-height:1.6}
+html[lang="fa"] .cw{line-height:1.9}
+
+.gate{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--bd);
+border-radius:16px;overflow:hidden;background:var(--sf)}
+.gs{padding:26px 24px;border-inline-end:1px solid var(--bd)}
+.gs:last-child{border-inline-end:0;
+background:linear-gradient(160deg,rgba(0,224,176,.10),transparent 60%),var(--sf)}
+.gv{height:40px;display:flex;align-items:center}
+.gd{display:flex;gap:8px}.gd.sep{gap:22px}
+.gd i{width:18px;height:18px;border-radius:50%;background:rgba(57,135,229,.25);
+border:1.5px solid #5b9bff;display:block}
+.s3 .gd i{background:rgba(0,224,176,.2);border-color:var(--tl);box-shadow:0 0 12px rgba(0,224,176,.45)}
+.gn{font-size:15px;color:var(--tx);margin:12px 0 14px}
+.gn b{font-size:30px;font-weight:300;color:var(--txb);font-family:'IBM Plex Mono',monospace;
+margin-inline-end:6px;vertical-align:-3px}
+.ga{height:1px;background:var(--bd2);margin-bottom:14px}
+.go{font-size:15px;color:var(--txb);line-height:1.55}
+html[lang="fa"] .go{line-height:1.9}
+.s3 .go{color:var(--tl)}
+@media(max-width:860px){.gate{grid-template-columns:1fr}
+.gs{border-inline-end:0;border-bottom:1px solid var(--bd)}.gs:last-child{border-bottom:0}}
+.tcards{margin-top:22px;border-top:1px solid var(--bd)}
+.tc{display:grid;grid-template-columns:minmax(0,280px) minmax(0,1fr);gap:28px;align-items:baseline;
+padding:18px 4px;border-bottom:1px solid var(--bd)}
+.tc h3{font-size:15px;line-height:1.4;display:flex;gap:10px;align-items:baseline}
+.tc h3::before{content:'✓';color:var(--tl);font-weight:700}
+.tc p{font-size:14.5px;line-height:1.7;color:var(--tx);margin:0;max-width:66ch}
+html[lang="fa"] .tc p{line-height:1.95}
+@media(max-width:760px){.tc{grid-template-columns:1fr;gap:6px}}
+
+@media(prefers-reduced-motion:reduce){
+.vn,.finding,.hw-count{animation:none}
+.cd i{animation:none;background:var(--tl)}
+.hw-lines path{animation:none;stroke-dashoffset:0}
+.wave b,.ph-top .rd,.ui-bar .live::before{animation:none!important}}
 </style></head><body>
 <nav><div class="wrap">
 <a class="brand" href="/"><b>ZHARFEX</b><i>ژرفکس</i></a>
@@ -206,72 +448,111 @@ html[lang="fa"] .pi p{line-height:1.95}
 <a class="lang" href="/fa/" hreflang="fa">فارسی</a>
 <a class="navcta" href="#access">Get access</a>
 </div></nav>
-<section class="hero">
-<canvas id="hg"></canvas>
-<div class="wrap">
-<div class="kick rv on">Voice-first organizational intelligence · Persian first</div>
-<h1 class="h-xl">People talk.<br><em>You see what they missed.</em></h1>
-<p class="lead">A minute of voice at the end of the day becomes a wiki that belongs to the person who recorded it. When enough people find their own wiki worth keeping and choose to share part of it, the organization finally gets an honest picture of itself.</p>
-<div class="btns">
-<a class="btn" href="/demo/">Watch it work</a>
-<a class="btn ghost" href="/build/">Build your own company</a>
-</div>
-<div class="beat"><span class="chip"><b>7</b> people recording</span><span class="chip"><b>35</b> entities compiled</span><span class="chip"><b>3</b> independent reports on one shortage</span><span class="chip"><b>0</b> forms filled in</span></div>
-</div></section>
-
-<section class="sec first" style="border-top:1px solid var(--bd)">
-<div class="wrap"><div class="arg rv">
-<div class="n">01</div>
-<div><div class="kick" style="margin-bottom:9px">A deal that stalled</div>
-<h2 class="h-m">A 50-tonne annual contract lost to a question nobody answered.</h2></div>
-<div><div class="lead" style="font-size:16px">Sales needed one thing to close it: confirmation the warehouse had the space. The warehouse manager was buried in a packaging crisis that week and never got to it. Nine days later the client signed with someone else. Both facts were recorded — in two different people's voice notes, and nowhere else.</div>
-<div class="shown">Zharfex would have shown: “Isfahan contract waiting on a capacity answer · 9 days · nobody assigned”.</div></div>
-</div><div class="arg rv">
-<div class="n">02</div>
-<div><div class="kick" style="margin-bottom:9px">A penalty paid</div>
-<h2 class="h-m">The late-delivery penalty two people could have prevented.</h2></div>
-<div><div class="lead" style="font-size:16px">Finance knew that contract carried a penalty clause. The warehouse knew the shipment was eleven days late. Neither knew the other knew, because there was no meeting where both were in the room. The invoice arrived before anyone connected them.</div>
-<div class="shown">Zharfex would have shown: “Shiraz shipment · 11 days late · penalty clause flagged by Finance · 3 departments involved”.</div></div>
-</div><div class="arg rv">
-<div class="n">03</div>
-<div><div class="kick" style="margin-bottom:9px">A fix that never held</div>
-<h2 class="h-m">The same machine fault, reset every week for five weeks.</h2></div>
-<div><div class="lead" style="font-size:16px">Each shift found the line out of tolerance, reset it, and carried on. Every instance looked handled. Nobody logged it, so nobody saw it was the fifth time — and the rejects that quality control kept reporting were never connected to it.</div>
-<div class="shown">Zharfex would have shown: “Line two · recurring 5 weeks · never resolved · raised by Production, Quality and Engineering”.</div></div>
-</div><div class="arg rv">
-<div class="n">04</div>
-<div><div class="kick" style="margin-bottom:9px">One person, everything</div>
-<h2 class="h-m">Five things waiting on one manager, and no one could see the pile.</h2></div>
-<div><div class="lead" style="font-size:16px">He was the only person who could sign off warehouse capacity, and simultaneously the person handling the packaging crisis, the new hire's first week, and two client escalations. Each person who needed him saw only their own request. Nobody saw all five.</div>
-<div class="shown">Zharfex would have shown: “5 requests queued behind one role · heaviest in Warehouse”.</div></div>
-</div></div></section>
-
-<section class="sec"><div class="wrap">
-<div class="kick rv">What you get</div>
-<h2 class="h-l rv" style="margin:14px 0 30px;max-width:24ch">One minute of talking a day. Four things back.</h2>
-<div class="gets"><div class="gi rv" style="transition-delay:0ms">
-<div class="gn">1</div><h3>Your own week, as it actually went</h3><p>What you worked on, who you leaned on, what took the time — against what you said on Monday you'd do. Private to you.</p></div><div class="gi rv" style="transition-delay:110ms">
-<div class="gn">2</div><h3>Promises nobody wrote down</h3><p>Every commitment made on a call or in a corridor, with no recorded resolution and how many days it has been open. These exist in no ticket system.</p></div><div class="gi rv" style="transition-delay:220ms">
-<div class="gn">3</div><h3>Problems three people raised, not one</h3><p>Issues several people described independently, so you act on what is corroborated instead of whoever complained loudest.</p></div><div class="gi rv" style="transition-delay:330ms">
-<div class="gn">4</div><h3>An honest map of what it cannot see</h3><p>Which departments it can hear and which it cannot, so you know how complete the picture is before you act on it.</p></div></div>
-</div></section>
-
-<section class="sec"><div class="wrap">
-<div class="kick rv">How it stays honest</div>
-<div class="princs"><div class="pi rv" style="transition-delay:0ms">
-<h4>Nobody reads your notes</h4><p>Your wiki is yours — private by default, shared one page at a time, and you can take it back. Leadership never sees a raw note.</p></div><div class="pi rv" style="transition-delay:110ms">
-<h4>No score, ever</h4><p>There is no productivity number, no rating, no league table. The moment a tool grades people, they stop speaking honestly to it.</p></div><div class="pi rv" style="transition-delay:220ms">
-<h4>Three independent voices, or it stays quiet</h4><p>Three reports only count as three if those people had not already talked to each other. That calculation is arithmetic, not opinion.</p></div></div>
-</div></section>
-
-<section class="sec"><div class="wrap">
-<div class="kick rv">What it costs to try</div>
-<h2 class="h-l rv" style="margin:14px 0 16px;max-width:26ch">One person. One week. Nobody's permission.</h2>
-<p class="lead rv" style="max-width:62ch">No rollout, no training day, no IT project. One person talks to their phone for a minute at the end of each day and reads their own week on Friday. If it isn't worth their time, nothing else happened. The organizational picture only appears later, if enough people decide their own wiki is worth keeping.</p>
-<div class="btns rv" style="margin-top:26px">
-<a class="btn" href="/demo/">Watch it work</a>
+<section class="hero"><div class="glow"></div>
+<div class="wrap"><div class="hc">
+<div class="kick">Voice-first organizational intelligence · Persian first</div>
+<h1>People talk.<br><em>You see what they missed.</em></h1>
+<p class="lead">Each person's minute of voice becomes their private wiki. When three who never compared notes describe the same problem, you see it before it costs you.</p>
+<div class="btns"><a class="btn" href="/demo/">Watch it work →</a>
 <a class="btn ghost" href="/build/">Build your own company</a></div>
-</div></section>
+<div class="ht"><span>No scores on people</span><span>Nothing single-source</span><span>Runs on your servers</span></div>
+</div></div>
+<div class="hww"><div class="hw ui" data-viz role="img" aria-label="Shiraz shipment blocked">
+<div class="ui-bar"><i></i><i></i><i></i><span class="t">zharfex · week 42</span><span class="live">Listening</span></div>
+<div class="hw-body">
+<div class="hw-notes"><div class="vn" style="--i:0">
+<span class="av">W</span>
+<div class="nb"><div class="nh"><b>Warehouse</b><span>Day 3</span><div class="wave" aria-hidden="true"><b style="height:10px;--d:0ms"></b><b style="height:12px;--d:37ms"></b><b style="height:12px;--d:74ms"></b><b style="height:6px;--d:111ms"></b><b style="height:14px;--d:148ms"></b><b style="height:9px;--d:185ms"></b><b style="height:20px;--d:222ms"></b><b style="height:7px;--d:259ms"></b><b style="height:4px;--d:296ms"></b><b style="height:14px;--d:333ms"></b><b style="height:15px;--d:370ms"></b><b style="height:20px;--d:407ms"></b><b style="height:5px;--d:444ms"></b><b style="height:6px;--d:481ms"></b><b style="height:8px;--d:518ms"></b><b style="height:6px;--d:555ms"></b></div></div>
+<p>Shiraz order still isn&#x27;t packed — we&#x27;re short on wrap.</p></div></div><div class="vn dup" style="--i:1">
+<span class="av">P</span>
+<div class="nb"><div class="nh"><b>Procurement</b><span>Day 4</span><div class="wave" aria-hidden="true"><b style="height:10px;--d:0ms"></b><b style="height:19px;--d:37ms"></b><b style="height:19px;--d:74ms"></b><b style="height:12px;--d:111ms"></b><b style="height:18px;--d:148ms"></b><b style="height:15px;--d:185ms"></b><b style="height:15px;--d:222ms"></b><b style="height:10px;--d:259ms"></b><b style="height:6px;--d:296ms"></b><b style="height:8px;--d:333ms"></b><b style="height:6px;--d:370ms"></b><b style="height:15px;--d:407ms"></b><b style="height:13px;--d:444ms"></b><b style="height:14px;--d:481ms"></b><b style="height:11px;--d:518ms"></b><b style="height:5px;--d:555ms"></b></div></div>
+<p>Warehouse asked about wrap. Reorder lands next week.</p><span class="tag am">already talked to Warehouse · counted once</span></div></div><div class="vn" style="--i:2">
+<span class="av">D</span>
+<div class="nb"><div class="nh"><b>Delivery</b><span>Day 5</span><div class="wave" aria-hidden="true"><b style="height:18px;--d:0ms"></b><b style="height:18px;--d:37ms"></b><b style="height:9px;--d:74ms"></b><b style="height:17px;--d:111ms"></b><b style="height:14px;--d:148ms"></b><b style="height:20px;--d:185ms"></b><b style="height:10px;--d:222ms"></b><b style="height:4px;--d:259ms"></b><b style="height:16px;--d:296ms"></b><b style="height:20px;--d:333ms"></b><b style="height:14px;--d:370ms"></b><b style="height:20px;--d:407ms"></b><b style="height:20px;--d:444ms"></b><b style="height:4px;--d:481ms"></b><b style="height:5px;--d:518ms"></b><b style="height:20px;--d:555ms"></b></div></div>
+<p>Two Shiraz runs left half-loaded again.</p></div></div><div class="vn" style="--i:3">
+<span class="av">F</span>
+<div class="nb"><div class="nh"><b>Finance</b><span>Day 6</span><div class="wave" aria-hidden="true"><b style="height:17px;--d:0ms"></b><b style="height:8px;--d:37ms"></b><b style="height:16px;--d:74ms"></b><b style="height:6px;--d:111ms"></b><b style="height:18px;--d:148ms"></b><b style="height:17px;--d:185ms"></b><b style="height:13px;--d:222ms"></b><b style="height:7px;--d:259ms"></b><b style="height:9px;--d:296ms"></b><b style="height:14px;--d:333ms"></b><b style="height:5px;--d:370ms"></b><b style="height:15px;--d:407ms"></b><b style="height:19px;--d:444ms"></b><b style="height:11px;--d:481ms"></b><b style="height:8px;--d:518ms"></b><b style="height:11px;--d:555ms"></b></div></div>
+<p>The Shiraz delay may trigger the penalty clause.</p></div></div></div>
+<svg class="hw-lines" aria-hidden="true"></svg>
+<div class="hw-out">
+<div class="hw-count"><span class="cd"><i></i><i class="x"></i><i></i><i></i></span>
+<b><span class="num">3 / 3</span></b><span>independent reports</span><span class="cx">+1 counted once</span></div>
+<div class="finding">
+<span class="tag tl">✓ Corroborated</span>
+<div class="ft">Shiraz shipment blocked</div>
+<div class="fm"><span>3 departments</span><span>9 days open</span><span>nobody assigned</span></div>
+<div class="ff">Leadership sees the claim. Not anyone&#x27;s words.</div>
+</div></div>
+</div></div></div>
+</section><section class="sec"><div class="wrap"><div class="sh rv"><div class="kick">How it works</div><h2>One minute in. An honest picture out.</h2><p>Nobody fills in a form and nobody is graded. The picture is a by-product of people keeping their own record.</p></div><div class="steps"><div class="step rv" style="transition-delay:0ms"><div class="sv"><div class="ph" data-viz role="img" aria-label="Speak">
+<div class="ph-top"><span class="rd"></span>Recording<span class="tm"><span class="num">0:48</span></span></div>
+<div class="wave big" aria-hidden="true"><b style="height:16px;--d:0ms"></b><b style="height:13px;--d:37ms"></b><b style="height:19px;--d:74ms"></b><b style="height:5px;--d:111ms"></b><b style="height:14px;--d:148ms"></b><b style="height:8px;--d:185ms"></b><b style="height:16px;--d:222ms"></b><b style="height:8px;--d:259ms"></b><b style="height:5px;--d:296ms"></b><b style="height:6px;--d:333ms"></b><b style="height:4px;--d:370ms"></b><b style="height:9px;--d:407ms"></b><b style="height:7px;--d:444ms"></b><b style="height:7px;--d:481ms"></b><b style="height:8px;--d:518ms"></b><b style="height:16px;--d:555ms"></b><b style="height:9px;--d:592ms"></b><b style="height:9px;--d:629ms"></b><b style="height:7px;--d:666ms"></b><b style="height:8px;--d:703ms"></b><b style="height:8px;--d:740ms"></b><b style="height:8px;--d:777ms"></b><b style="height:16px;--d:814ms"></b><b style="height:16px;--d:851ms"></b><b style="height:20px;--d:888ms"></b><b style="height:6px;--d:925ms"></b><b style="height:12px;--d:962ms"></b><b style="height:13px;--d:999ms"></b><b style="height:18px;--d:1036ms"></b><b style="height:7px;--d:1073ms"></b></div>
+<p class="pfa" lang="fa" dir="rtl">امروز باز سفارش شیراز بسته‌بندی نشد. از تدارکات پرسیدم، هنوز جوابی نیامده.</p><p class="gl">“Shiraz order didn&#x27;t get packed again today. Asked procurement — still nothing.”</p>
+<div class="ph-btn" aria-hidden="true"><span></span></div>
+</div></div>
+<div class="sn">01</div><h3>Speak</h3><p>A minute at the end of the day, in Persian, on your phone.</p></div><div class="step rv" style="transition-delay:110ms"><div class="sv"><div class="wk ui" data-viz role="img" aria-label="It writes your wiki">
+<div class="wk-h"><b>Reza · week 42</b><span class="tag bl">🔒 Private</span></div>
+<div class="wr"><span>Worked on</span><b>Shiraz shipment · packaging</b></div><div class="wr"><span>Waiting on</span><b>Procurement · 5 days</b></div><div class="wr"><span>Promised</span><b>Capacity answer to Sales · Thu</b></div></div></div>
+<div class="sn">02</div><h3>It writes your wiki</h3><p>What you worked on, who you waited on, what you promised. Private to you.</p></div><div class="step rv" style="transition-delay:220ms"><div class="sv"><div class="cv ui" data-viz role="img" aria-label="Patterns surface">
+<div class="cv-row">
+<span class="pp"></span><span class="pair"><span class="pp"></span><span class="pp"></span></span>
+<span class="pp"></span><span class="eq">=</span><span class="tag tl">✓ 3 independent</span>
+</div>
+<div class="cv-l"><span class="d1"></span>4 people raised it</div>
+<div class="cv-l"><span class="d2"></span>2 had already talked — counted once</div>
+</div></div>
+<div class="sn">03</div><h3>Patterns surface</h3><p>Only when three people who hadn't coordinated say the same thing.</p></div></div></div></section><section class="sec"><div class="wrap"><div class="sh rv"><div class="kick">What leadership sees</div><h2>Not a survey. What several people independently noticed.</h2><p>Every line is arithmetic over notes people chose to keep, and every line says how sure it is.</p></div>
+<div class="ldw rv"><div class="glow"></div><div class="db ui" data-viz role="img" aria-label="zharfex · leadership view">
+<div class="ui-bar"><i></i><i></i><i></i><span class="t">zharfex · leadership view</span></div>
+<div class="db-g">
+<div class="pn fd"><div class="pt">Corroborated this week</div><div class="fr"><span class="fn">Shiraz shipment blocked</span>
+<span class="tag tl"><span class="num">3</span> indep.</span><span class="fx">4 depts</span><span class="fx">9 days</span></div><div class="fr"><span class="fn">Line two drifting out of tolerance</span>
+<span class="tag tl"><span class="num">4</span> indep.</span><span class="fx">3 depts</span><span class="fx">5 weeks</span></div><div class="fr"><span class="fn">Isfahan contract waiting on capacity</span>
+<span class="tag tl"><span class="num">3</span> indep.</span><span class="fx">3 depts</span><span class="fx">9 days</span></div><div class="fr near"><span class="fn">Weekend understaffing</span><span class="tag am">2 of 3 — watching, not shown</span></div></div>
+<div class="pn"><div class="pt">Declared vs. lived</div><div class="mr lo"><div class="ml"><b>Export batch</b><span>Priority 1</span></div>
+<div class="mt"><i style="width:16%"></i></div><span class="mv"><span class="num">8%</span></span></div><div class="mr hi"><div class="ml"><b>Shiraz recovery</b><span>Never declared</span></div>
+<div class="mt"><i style="width:82%"></i></div><span class="mv"><span class="num">41%</span></span></div><div class="mr lo"><div class="ml"><b>ERP rollout</b><span>Priority 2</span></div>
+<div class="mt"><i style="width:6%"></i></div><span class="mv"><span class="num">3%</span></span></div><p class="cap">Share of attention in this week&#x27;s notes</p></div>
+<div class="pn"><div class="pt">What we can hear</div><div class="cg"><span class="ct on"><i></i>Warehouse</span><span class="ct on"><i></i>Delivery</span><span class="ct on"><i></i>Finance</span><span class="ct on"><i></i>Sales</span><span class="ct off"><i></i>Procurement</span><span class="ct on"><i></i>Quality</span></div><p class="gap">Procurement: nobody recording, and 4 open issues mention it.</p></div>
+<div class="pn"><div class="pt">Promises with no follow-up</div><div class="pr"><b>Capacity answer to Sales</b><span>said Thu</span><span class="tag am">6 days over</span></div><div class="pr"><b>Paper-wrap reorder</b><span>said Mon</span><span class="tag am">open 4 days</span></div></div>
+</div>
+<div class="db-f">No row ranks a person. There is no score anywhere on this screen.</div>
+</div></div></div></section><section class="sec"><div class="wrap"><div class="sh rv"><div class="kick">What it would have caught</div><h2>Four losses that were already in someone's voice notes.</h2></div><div class="cases"><div class="case rv"><div class="kick">A deal that stalled</div><h3>A 50-tonne annual contract lost to a question nobody answered.</h3><p>Sales needed one thing to close it: confirmation the warehouse had the space. The warehouse manager was buried in a packaging crisis that week and never got to it. Nine days later the client signed with someone else. Both facts were recorded — in two different people's voice notes, and nowhere else.</p><div class="tl" data-viz role="img" aria-label="Flagged day 3">
+<div class="tk"><i class="nd" style="inset-inline-start:4.0%"></i><i class="nd" style="inset-inline-start:14.2%"></i><i class="nd" style="inset-inline-start:24.4%"></i>
+<span class="mk fl" style="inset-inline-start:24.4%"><em>Flagged · day <span class="num">3</span></em></span>
+<span class="mk ls" style="inset-inline-start:85.8%"><em>day <span class="num">9</span> · Client signs elsewhere</em></span>
+</div>
+<div class="ax"><span>day <span class="num">1</span></span></div>
+</div>
+<div class="cw">Zharfex would have shown: “Isfahan contract waiting on a capacity answer · 9 days · nobody assigned”.</div></div><div class="case rv"><div class="kick">A penalty paid</div><h3>The late-delivery penalty two people could have prevented.</h3><p>Finance knew that contract carried a penalty clause. The warehouse knew the shipment was eleven days late. Neither knew the other knew, because there was no meeting where both were in the room. The invoice arrived before anyone connected them.</p><div class="tl" data-viz role="img" aria-label="Flagged day 6">
+<div class="tk"><i class="nd" style="inset-inline-start:12.4%"></i><i class="nd" style="inset-inline-start:29.1%"></i><i class="nd" style="inset-inline-start:45.8%"></i>
+<span class="mk fl" style="inset-inline-start:45.8%"><em>Flagged · day <span class="num">6</span></em></span>
+<span class="mk ls" style="inset-inline-start:87.6%"><em>day <span class="num">11</span> · Penalty invoiced</em></span>
+</div>
+<div class="ax"><span>day <span class="num">1</span></span></div>
+</div>
+<div class="cw">Zharfex would have shown: “Shiraz shipment · 11 days late · penalty clause flagged by Finance · 3 departments involved”.</div></div><div class="case rv"><div class="kick">A fix that never held</div><h3>The same machine fault, reset every week for five weeks.</h3><p>Each shift found the line out of tolerance, reset it, and carried on. Every instance looked handled. Nobody logged it, so nobody saw it was the fifth time — and the rejects that quality control kept reporting were never connected to it.</p><div class="tl" data-viz role="img" aria-label="Flagged week 2">
+<div class="tk"><i class="nd" style="inset-inline-start:4.0%"></i><i class="nd" style="inset-inline-start:27.0%"></i><i class="nd" style="inset-inline-start:33.9%"></i><i class="nd" style="inset-inline-start:50.0%"></i><i class="nd" style="inset-inline-start:56.9%"></i><i class="nd" style="inset-inline-start:73.0%"></i><i class="nd" style="inset-inline-start:96.0%"></i>
+<span class="mk fl" style="inset-inline-start:27.0%"><em>Flagged · week <span class="num">2</span></em></span>
+<span class="mk ls" style="inset-inline-start:96.0%"><em>week <span class="num">5</span> · Five weeks of rejects</em></span>
+</div>
+<div class="ax"><span>week <span class="num">1</span></span></div>
+</div>
+<div class="cw">Zharfex would have shown: “Line two · recurring 5 weeks · never resolved · raised by Production, Quality and Engineering”.</div></div><div class="case rv"><div class="kick">One person, everything</div><h3>Five things waiting on one manager, and no one could see the pile.</h3><p>He was the only person who could sign off warehouse capacity, and simultaneously the person handling the packaging crisis, the new hire's first week, and two client escalations. Each person who needed him saw only their own request. Nobody saw all five.</p><div class="tl" data-viz role="img" aria-label="Flagged day 3">
+<div class="tk"><i class="nd" style="inset-inline-start:4.0%"></i><i class="nd" style="inset-inline-start:15.5%"></i><i class="nd" style="inset-inline-start:20.1%"></i><i class="nd" style="inset-inline-start:27.0%"></i><i class="nd" style="inset-inline-start:38.5%"></i>
+<span class="mk fl" style="inset-inline-start:27.0%"><em>Flagged · day <span class="num">3</span></em></span>
+<span class="mk ls" style="inset-inline-start:84.5%"><em>day <span class="num">8</span> · Two escalations</em></span>
+</div>
+<div class="ax"><span>day <span class="num">1</span></span></div>
+</div>
+<div class="cw">Zharfex would have shown: “5 requests queued behind one role · heaviest in Warehouse”.</div></div></div></div></section><section class="sec"><div class="wrap"><div class="sh rv"><div class="kick">Why people tell it the truth</div><h2>It only works if nobody is watched. So nobody is.</h2></div><div class="rv"><div class="gate" data-viz role="img" aria-label="Stays in their private wiki · Goes back to the people involved · Leadership sees the claim — never the words, never the names"><div class="gs s1"><div class="gv"><span class="gd"><i></i></span></div>
+<div class="gn"><b>1</b> person says it</div><div class="ga" aria-hidden="true"></div>
+<div class="go">Stays in their private wiki</div></div><div class="gs s2"><div class="gv"><span class="gd"><i></i><i></i></span></div>
+<div class="gn"><b>2</b> people say it</div><div class="ga" aria-hidden="true"></div>
+<div class="go">Goes back to the people involved</div></div><div class="gs s3"><div class="gv"><span class="gd sep"><i></i><i></i><i></i></span></div>
+<div class="gn"><b>3</b> who hadn&#x27;t talked</div><div class="ga" aria-hidden="true"></div>
+<div class="go">Leadership sees the claim — never the words, never the names</div></div></div></div>
+<div class="tcards"><div class="tc rv"><h3>No score, ever</h3><p>No productivity number, no rating, no league table. A test fails the build if any output is shaped like one.</p></div><div class="tc rv"><h3>Your notes are yours</h3><p>Private by default, shared a page at a time, revocable. Leadership never sees a raw note.</p></div><div class="tc rv"><h3>Built for your servers</h3><p>Designed to run on your own infrastructure with open-weight models.</p></div></div></div></section>
 <section class="sec" id="access"><div class="wrap"
  style="text-align:center">
 <h2 class="h-l rv">Start with your own voice.</h2>
@@ -318,44 +599,31 @@ fetch(f.action,{method:'POST',body:new FormData(f),
  m.className='msg bad';m.innerHTML="That didn't send. Write to <a href=\"mailto:hoseyn.yousefi@gmail.com\">hoseyn.yousefi@gmail.com</a> instead and I'll see it."});
 });})();
 
-var G={"nodes": [{"id": "p:مهدی", "c": "#4d8eff", "r": 10}, {"id": "p:سارا", "c": "#ec4899", "r": 10}, {"id": "p:داوود", "c": "#eab308", "r": 10}, {"id": "p:رضا", "c": "#9b7aff", "r": 10}, {"id": "p:نازنین", "c": "#2ec78a", "r": 10}, {"id": "p:امیر", "c": "#f97316", "r": 10}, {"id": "e:مشتری شیراز", "c": "#f0a030", "r": 4.5}, {"id": "e:محموله", "c": "#9b7aff", "r": 4.5}, {"id": "e:بسته بندی", "c": "#2ec78a", "r": 7.5}, {"id": "e:تدارکات", "c": "#2ec78a", "r": 4.5}, {"id": "e:پنجشنبه", "c": "#4d5c78", "r": 4.5}, {"id": "e:کیان", "c": "#4d8eff", "r": 4.5}, {"id": "e:هفته دیگه", "c": "#4d5c78", "r": 4.5}, {"id": "e:دسترسی سرور", "c": "#2ec78a", "r": 4.5}, {"id": "e:ویکی", "c": "#2ec78a", "r": 4.5}, {"id": "e:بودجه q3", "c": "#eab308", "r": 4.5}, {"id": "e:مهاجرت سرورها", "c": "#9b7aff", "r": 4.5}, {"id": "e:تا جمعه", "c": "#4d5c78", "r": 4.5}, {"id": "e:بودجه بازاریابی", "c": "#eab308", "r": 4.5}, {"id": "e:محموله شیراز", "c": "#00d4a8", "r": 4.5}, {"id": "e:بسته بندی حبابدار", "c": "#2ec78a", "r": 4.5}, {"id": "e:کاغذ مچاله", "c": "#2ec78a", "r": 4.5}, {"id": "e:هفته بعد", "c": "#4d5c78", "r": 4.5}, {"id": "e:مشتری اصفهان", "c": "#f0a030", "r": 4.5}, {"id": "e:ماهی 50 تن", "c": "#eab308", "r": 4.5}, {"id": "e:ظرفیت انبار", "c": "#2ec78a", "r": 4.5}, {"id": "e:جلسه فردا ساعت 10", "c": "#4d5c78", "r": 4.5}, {"id": "e:شیراز", "c": "#00d4a8", "r": 4.5}, {"id": "e:مهاجرت سرور", "c": "#9b7aff", "r": 4.5}, {"id": "e:80 درصد", "c": "#eab308", "r": 4.5}, {"id": "e:دیتابیس قدیمی", "c": "#2ec78a", "r": 4.5}, {"id": "e:بودجه اضافی", "c": "#2ec78a", "r": 4.5}, {"id": "e:سرور فعلی", "c": "#2ec78a", "r": 4.5}, {"id": "e:یکشنبه", "c": "#4d5c78", "r": 4.5}], "edges": [{"a": "p:مهدی", "b": "e:مشتری شیراز"}, {"a": "p:مهدی", "b": "e:محموله"}, {"a": "p:مهدی", "b": "e:بسته بندی"}, {"a": "p:مهدی", "b": "p:رضا"}, {"a": "p:مهدی", "b": "e:تدارکات"}, {"a": "p:مهدی", "b": "e:پنجشنبه"}, {"a": "p:سارا", "b": "e:کیان"}, {"a": "p:سارا", "b": "e:هفته دیگه"}, {"a": "p:سارا", "b": "e:دسترسی سرور"}, {"a": "p:سارا", "b": "e:ویکی"}, {"a": "p:سارا", "b": "p:امیر"}, {"a": "p:داوود", "b": "e:بودجه q3"}, {"a": "p:داوود", "b": "e:مهاجرت سرورها"}, {"a": "p:داوود", "b": "e:تا جمعه"}, {"a": "p:داوود", "b": "e:بودجه بازاریابی"}, {"a": "p:داوود", "b": "e:محموله شیراز"}, {"a": "p:داوود", "b": "e:بسته بندی"}, {"a": "p:رضا", "b": "e:بسته بندی حبابدار"}, {"a": "p:رضا", "b": "p:مهدی"}, {"a": "p:رضا", "b": "e:کاغذ مچاله"}, {"a": "p:رضا", "b": "e:هفته بعد"}, {"a": "p:نازنین", "b": "e:مشتری اصفهان"}, {"a": "p:نازنین", "b": "e:ماهی 50 تن"}, {"a": "p:نازنین", "b": "e:ظرفیت انبار"}, {"a": "p:نازنین", "b": "p:مهدی"}, {"a": "p:نازنین", "b": "e:جلسه فردا ساعت 10"}, {"a": "p:نازنین", "b": "e:بسته بندی"}, {"a": "p:نازنین", "b": "e:شیراز"}, {"a": "p:امیر", "b": "e:مهاجرت سرور"}, {"a": "p:امیر", "b": "e:80 درصد"}, {"a": "p:امیر", "b": "e:دیتابیس قدیمی"}, {"a": "p:امیر", "b": "p:داوود"}, {"a": "p:امیر", "b": "e:بودجه اضافی"}, {"a": "p:امیر", "b": "e:سرور فعلی"}, {"a": "p:امیر", "b": "e:یکشنبه"}]};
 (function(){
- var c=document.getElementById('hg');if(!c)return;
- var x=c.getContext('2d'),W=0,H=0,D=1,
- N=G.nodes.map(function(n,i){return{id:n.id,c:n.c,r:n.r,
-  px:0,py:0,vx:0,vy:0}}),
- IX={};N.forEach(function(n,i){IX[n.id]=i});
- var E=G.edges.filter(function(e){return IX[e.a]!=null&&IX[e.b]!=null});
- function size(){D=devicePixelRatio||1;var r=c.getBoundingClientRect();
-  W=r.width;H=r.height;c.width=W*D;c.height=H*D;x.setTransform(D,0,0,D,0,0);
-  N.forEach(function(n,i){if(!n.px){var a=i/N.length*6.2832;
-   n.px=W/2+Math.cos(a)*Math.min(W,H)*.34;
-   n.py=H/2+Math.sin(a)*Math.min(W,H)*.34}})}
- addEventListener('resize',size);size();
- function step(){
-  for(var i=0;i<N.length;i++){var a=N[i];
-   for(var j=i+1;j<N.length;j++){var b=N[j];
-    var dx=b.px-a.px,dy=b.py-a.py,d2=dx*dx+dy*dy||1,d=Math.sqrt(d2),
-    f=1500/d2,ux=dx/d,uy=dy/d;
-    a.vx-=ux*f;a.vy-=uy*f;b.vx+=ux*f;b.vy+=uy*f}}
-  E.forEach(function(e){var a=N[IX[e.a]],b=N[IX[e.b]];
-   var dx=b.px-a.px,dy=b.py-a.py,d=Math.sqrt(dx*dx+dy*dy)||1,
-   f=(d-96)*.010,ux=dx/d,uy=dy/d;
-   a.vx+=ux*f;a.vy+=uy*f;b.vx-=ux*f;b.vy-=uy*f});
-  N.forEach(function(n){n.vx+=(W/2-n.px)*.0014;n.vy+=(H/2-n.py)*.0014;
-   n.vx*=.9;n.vy*=.9;n.px+=n.vx;n.py+=n.vy;
-   n.px=Math.max(6,Math.min(W-6,n.px));n.py=Math.max(6,Math.min(H-6,n.py))})}
- function draw(){x.clearRect(0,0,W,H);
-  x.lineWidth=.9;x.strokeStyle='rgba(120,145,185,.22)';
-  E.forEach(function(e){var a=N[IX[e.a]],b=N[IX[e.b]];
-   x.beginPath();x.moveTo(a.px,a.py);x.lineTo(b.px,b.py);x.stroke()});
-  N.forEach(function(n){x.beginPath();x.arc(n.px,n.py,n.r,0,6.2832);
-   x.fillStyle=n.c;x.globalAlpha=.82;x.fill();x.globalAlpha=1})}
- var frames=0;
- function loop(){step();draw();
-  if(++frames<900)requestAnimationFrame(loop)}   /* settle, then stop */
- if(!matchMedia('(prefers-reduced-motion: reduce)').matches)loop();
- else{for(var k=0;k<260;k++)step();draw()}
+ var w=document.querySelector('.hw');if(!w)return;
+ var body=w.querySelector('.hw-body'),svg=w.querySelector('.hw-lines'),
+     f=w.querySelector('.finding'),notes=w.querySelectorAll('.vn'),drawn=false;
+ /* offsets, not getBoundingClientRect: the cards are mid-animation (scaled,
+    translated) when this runs, and offsets ignore transforms */
+ function pos(el){var x=0,y=0;while(el&&el!==body){x+=el.offsetLeft;y+=el.offsetTop;
+  el=el.offsetParent}return{x:x,y:y}}
+ function draw(){
+  if(getComputedStyle(svg).display==='none')return;
+  var rtl=document.documentElement.dir==='rtl',fp=pos(f),out='';
+  notes.forEach(function(n,i){
+   var p=pos(n),x1=rtl?p.x:p.x+n.offsetWidth,y1=p.y+n.offsetHeight/2,
+       x2=rtl?fp.x+f.offsetWidth:fp.x,y2=fp.y+f.offsetHeight/2+(i-1.5)*14,m=(x1+x2)/2;
+   var k=n.classList.contains('dup')?' class="x"':'';
+   out+='<path'+k+' pathLength="1" style="animation-delay:'+(i*.7+.7)+'s" d="M'+x1+','+y1+
+     ' C'+m+','+y1+' '+m+','+y2+' '+x2+','+y2+'"/><circle'+k+' r="2.5" cx="'+x1+'" cy="'+y1+
+     '"/>'});
+  svg.innerHTML=out;
+  /* redraws after resize must not replay the animation */
+  if(drawn)svg.querySelectorAll('path').forEach(function(p){p.style.animation='none';
+   p.style.strokeDashoffset='0'});
+  drawn=true}
+ (document.fonts?document.fonts.ready:Promise.resolve()).then(draw);
+ addEventListener('resize',draw);
 })();
 </script>
 </body></html>
